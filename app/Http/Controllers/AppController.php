@@ -10,6 +10,6 @@ class AppController extends Controller
         $optionValues = [];
         $optionValues['csrfToken'] = csrf_token();
         $optionValues = json_encode($optionValues);
-        return view('welcome', compact('optionValues'));
+        return view('home', compact('optionValues'));
     }
 }

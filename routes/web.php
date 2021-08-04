@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\AppController;
-use App\Http\Controllers\ScraperController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,5 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/scrape', [ScraperController::class, 'index'])->name('scrape');
-Route::get('/{any?}', [AppController::class, 'index']);
+Auth::routes();
+
+Route::group(['middleware' => ['auth']], function ($router) {
+    $router->get('/{any?}', [AppController::class, 'index']);
+});
