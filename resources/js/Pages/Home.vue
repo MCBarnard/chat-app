@@ -6,7 +6,10 @@
 
 <script>
 export default {
-    name: "Home"
+    name: "Home",
+    async mounted() {
+        console.log("mounted")
+    }
 }
 </script>
 
