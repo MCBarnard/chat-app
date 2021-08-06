@@ -21,5 +21,5 @@ Route::group(['middleware' => ['auth']], function ($router) {
     $router->group(['prefix' => 'messages'], function () use ($router) {
         $router->post('/new', [MessageController::class, 'create']);
     });
-    $router->get('/{any?}', [AppController::class, 'index']);
+    $router->get('/{any?}', [AppController::class, 'index'])->where('any', '^((?!js|css|fonts|images|vendors~js)[\/\w\.-]*)');
 });
