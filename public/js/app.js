@@ -1949,14 +1949,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var _modules_account__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/account */ "./resources/js/Store/modules/account.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _modules_Account__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/Account */ "./resources/js/Store/modules/Account.js");
+/* harmony import */ var _modules_ConstantSettings__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/ConstantSettings */ "./resources/js/Store/modules/ConstantSettings.js");
 
 
 
-vue__WEBPACK_IMPORTED_MODULE_1__.default.use(vuex__WEBPACK_IMPORTED_MODULE_2__.default);
-var store = new vuex__WEBPACK_IMPORTED_MODULE_2__.default.Store({
+
+vue__WEBPACK_IMPORTED_MODULE_2__.default.use(vuex__WEBPACK_IMPORTED_MODULE_3__.default);
+var store = new vuex__WEBPACK_IMPORTED_MODULE_3__.default.Store({
   state: {
     options: window.options
   },
@@ -1975,16 +1977,17 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_2__.default.Store({
     // }
   },
   modules: {
-    account: _modules_account__WEBPACK_IMPORTED_MODULE_0__.default
+    account: _modules_Account__WEBPACK_IMPORTED_MODULE_0__.default,
+    constantSettings: _modules_ConstantSettings__WEBPACK_IMPORTED_MODULE_1__.default
   }
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (store);
 
 /***/ }),
 
-/***/ "./resources/js/Store/modules/account.js":
+/***/ "./resources/js/Store/modules/Account.js":
 /*!***********************************************!*\
-  !*** ./resources/js/Store/modules/account.js ***!
+  !*** ./resources/js/Store/modules/Account.js ***!
   \***********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -2016,6 +2019,33 @@ var account = {
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (account);
+
+/***/ }),
+
+/***/ "./resources/js/Store/modules/ConstantSettings.js":
+/*!********************************************************!*\
+  !*** ./resources/js/Store/modules/ConstantSettings.js ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+var constantSettings = {
+  state: {
+    settings: {
+      messageTimeToAnimateIn: 1000
+    }
+  },
+  getters: {
+    getMessageAnimationTime: function getMessageAnimationTime(state) {
+      return state.settings.messageTimeToAnimateIn;
+    }
+  }
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (constantSettings);
 
 /***/ }),
 

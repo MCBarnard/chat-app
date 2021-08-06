@@ -1,7 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-import account from "./modules/account";
+import account from "./modules/Account";
+import constantSettings from "./modules/ConstantSettings";
 
 Vue.use(Vuex);
 
@@ -24,7 +25,8 @@ const store = new Vuex.Store({
         // }
     },
     modules: {
-        account
+        account,
+        constantSettings
     }
 });
 
