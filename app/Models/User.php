@@ -41,27 +41,6 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'threads' => 'array'
     ];
-
-    /**
-     * Accessor for the Threads JSON object.
-     *
-     * @return mixed
-     * @var array
-     */
-    public function getThreadsAttribute($value)
-    {
-        return json_decode($value, true);
-    }
-
-    /**
-     * Set the Threads as JSON object.
-     *
-     * @return false|string
-     * @var array
-     */
-    public function setThreadsAttribute($value)
-    {
-        return json_encode($value, true);
-    }
 }

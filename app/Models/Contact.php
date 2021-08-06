@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Thread extends Model
+class Contact extends Model
 {
     use HasFactory, SoftDeletes;
 
@@ -16,7 +16,8 @@ class Thread extends Model
      * @var array
      */
     protected $fillable = [
-        'participants',
+        'owner_id',
+        'users',
     ];
 
     /**
@@ -25,6 +26,6 @@ class Thread extends Model
      * @var array
      */
     protected $casts = [
-        'participants' => 'array'
+        'users' => 'array'
     ];
 }

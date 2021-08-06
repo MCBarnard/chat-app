@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Message;
+use App\Models\Contact;
 use Illuminate\Http\Request;
 
-class MessageController extends Controller
+class ContactController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,15 +22,9 @@ class MessageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create()
     {
-        // Validate request
-
-        // Find or create Thread
-
-        // create message
-
-        // save message and thread
+        //
     }
 
     /**
@@ -47,10 +41,10 @@ class MessageController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Message  $message
+     * @param  \App\Models\Contact  $contact
      * @return \Illuminate\Http\Response
      */
-    public function show(Message $message)
+    public function show(Contact $contact)
     {
         //
     }
@@ -58,10 +52,10 @@ class MessageController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Message  $message
+     * @param  \App\Models\Contact  $contact
      * @return \Illuminate\Http\Response
      */
-    public function edit(Message $message)
+    public function edit(Contact $contact)
     {
         //
     }
@@ -70,10 +64,10 @@ class MessageController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Message  $message
+     * @param  \App\Models\Contact  $contact
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Message $message)
+    public function update(Request $request, Contact $contact)
     {
         //
     }
@@ -81,10 +75,10 @@ class MessageController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Message  $message
+     * @param  \App\Models\Contact  $contact
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Message $message)
+    public function destroy(Contact $contact)
     {
         //
     }
