@@ -17,6 +17,7 @@ class CreateContactsTable extends Migration
             $table->id();
             $table->foreignId('owner_id')->constrained('users');
             $table->json('users')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

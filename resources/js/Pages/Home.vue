@@ -8,7 +8,13 @@
 export default {
     name: "Home",
     async mounted() {
-        console.log("mounted")
+        const data = {
+            message: "blah blah message",
+            recipient: 1
+        };
+        axios.post("/messages/new", data).then(response => {
+           console.log(response);
+        });
     }
 }
 </script>

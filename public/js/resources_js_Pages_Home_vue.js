@@ -40,13 +40,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   name: "Home",
   mounted: function mounted() {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+      var data;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              console.log("mounted");
+              data = {
+                message: "blah blah message",
+                recipient: 1
+              };
+              axios.post("/messages/new", data).then(function (response) {
+                console.log(response);
+              });
 
-            case 1:
+            case 2:
             case "end":
               return _context.stop();
           }

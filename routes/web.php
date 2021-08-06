@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AppController;
+use App\Http\Controllers\MessageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,5 +18,8 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::group(['middleware' => ['auth']], function ($router) {
+    $router->group(['prefix' => 'messages'], function () use ($router) {
+        $router->post('/new', [MessageController::class, 'create']);
+    });
     $router->get('/{any?}', [AppController::class, 'index']);
 });

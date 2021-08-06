@@ -17,6 +17,7 @@ class CreateKeysTable extends Migration
             $table->id();
             $table->foreignId('thread_id')->constrained('threads');
             $table->string('key');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

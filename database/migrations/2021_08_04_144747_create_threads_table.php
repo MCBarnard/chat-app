@@ -16,6 +16,7 @@ class CreateThreadsTable extends Migration
         Schema::create('threads', function (Blueprint $table) {
             $table->id();
             $table->json('participants');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
