@@ -2,22 +2,34 @@ const routes = [
     {
         path: '',
         component: () => import('../Pages/DashboardPage.vue'),
-        name: 'home'
+        name: 'home',
+        meta: {
+            title:'Home'
+        }
     },
     {
         path: '/thread/:threadId',
         component: () => import('../Pages/ChatPage.vue'),
-        name: 'chat-page'
+        name: 'chat-page',
+        meta: {
+            title:'Chat'
+        }
     },
     {
         path: '/about',
         component: () => import('../Pages/About.vue'),
-        name: 'about'
+        name: 'about',
+        meta: {
+            title:'About'
+        }
     },
     {
         path: '/logout',
         component: () => import('../Pages/About.vue'),
-        name: 'logout'
+        name: 'logout',
+        meta: {
+            title:'Logout'
+        }
     }
 ];
 

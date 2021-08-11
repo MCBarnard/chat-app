@@ -300,6 +300,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   data: function data() {
     return {
       colors: [],
+      prohibitedColors: ["#23232bfc", "#9f0000", "#141419", "#909196", "#313131", "rgb(35, 35, 43)", "rgb(159, 0, 0)", "rgb(20, 20, 25)", "rgb(144, 145, 150)", "rgb(49, 49, 49)"],
       messages: [{
         id: Math.floor(Math.random() * 10000),
         message: "Hello there",
@@ -489,8 +490,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       while (typeof col === "undefined") {
         var hex = "rgb(" + Math.floor(Math.random() * 255) + ", 100, 50)";
 
-        if (hex !== "#9f0000" || hex !== "#141419" || hex !== "#909196" || hex !== "#313131") {
+        if (!this.prohibitedColors.includes(hex)) {
           col = hex;
+          console.log(col);
         }
       }
 
@@ -556,6 +558,12 @@ var globalMixin = {
     scrollToBottom: function scrollToBottom() {
       var inner = document.querySelector('.homePage__content-wrapper__right');
       inner.scrollTop = inner.scrollHeight;
+    },
+    logout: function logout() {
+      axios.get("/logout").then(function () {
+        console.log("logging-out");
+      });
+      window.location = "/login";
     }
   }
 };

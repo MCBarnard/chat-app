@@ -6,5 +6,11 @@ export const globalMixin = {
             const inner = document.querySelector('.homePage__content-wrapper__right');
             inner.scrollTop = inner.scrollHeight;
         },
+        logout() {
+            axios.get("/logout").then(() => {
+                console.log("logging-out")
+            });
+            window.location = "/login";
+        }
     }
 };

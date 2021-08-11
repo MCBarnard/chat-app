@@ -1939,6 +1939,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Navbar"
 });
@@ -1964,6 +1987,23 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__.default({
   mode: 'history',
   routes: _routes__WEBPACK_IMPORTED_MODULE_0__.default
 });
+
+try {
+  router.beforeEach(function (to, from, next) {
+    var pathTitle = typeof to.meta.title === "undefined" ? "Chat App" : to.meta.title;
+    document.title = "".concat(pathTitle, " - ").concat("ChatApp");
+
+    if (to.name === "logout") {
+      axios.get("/logout").then(function () {})["catch"](function () {});
+      window.location = "/login";
+    } else {
+      next();
+    }
+  });
+} catch (error) {
+  console.log(error.response);
+}
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (router);
 
 /***/ }),
@@ -1984,25 +2024,37 @@ var routes = [{
   component: function component() {
     return __webpack_require__.e(/*! import() */ "resources_js_Pages_DashboardPage_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../Pages/DashboardPage.vue */ "./resources/js/Pages/DashboardPage.vue"));
   },
-  name: 'home'
+  name: 'home',
+  meta: {
+    title: 'Home'
+  }
 }, {
   path: '/thread/:threadId',
   component: function component() {
     return __webpack_require__.e(/*! import() */ "resources_js_Pages_ChatPage_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../Pages/ChatPage.vue */ "./resources/js/Pages/ChatPage.vue"));
   },
-  name: 'chat-page'
+  name: 'chat-page',
+  meta: {
+    title: 'Chat'
+  }
 }, {
   path: '/about',
   component: function component() {
     return __webpack_require__.e(/*! import() */ "resources_js_Pages_About_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../Pages/About.vue */ "./resources/js/Pages/About.vue"));
   },
-  name: 'about'
+  name: 'about',
+  meta: {
+    title: 'About'
+  }
 }, {
   path: '/logout',
   component: function component() {
     return __webpack_require__.e(/*! import() */ "resources_js_Pages_About_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../Pages/About.vue */ "./resources/js/Pages/About.vue"));
   },
-  name: 'logout'
+  name: 'logout',
+  meta: {
+    title: 'Logout'
+  }
 }];
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (routes);
 
@@ -6681,7 +6733,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".side-nav[data-v-4a80dbca] {\n  width: 100px;\n  height: 100%;\n  background: #141419;\n  color: #909196;\n}\n.side-nav ul[data-v-4a80dbca] {\n  padding: 0;\n  margin: 0;\n  list-style-type: none;\n  -webkit-margin-before: unset;\n          margin-block-start: unset;\n  -webkit-margin-after: unset;\n          margin-block-end: unset;\n  -webkit-margin-start: unset;\n          margin-inline-start: unset;\n  -webkit-margin-end: unset;\n          margin-inline-end: unset;\n  -webkit-padding-start: unset;\n          padding-inline-start: unset;\n  position: relative;\n  height: 100%;\n}\n.side-nav ul li[data-v-4a80dbca] {\n  position: relative;\n  z-index: 2;\n  transition: all 0.8s ease;\n}\n.side-nav ul li a[data-v-4a80dbca] {\n  transition: all 0.8s ease;\n}\n.side-nav ul li .hidden-text[data-v-4a80dbca] {\n  position: absolute;\n  top: 0;\n  right: 0;\n  width: 250px;\n  height: 100%;\n  background: #1b4b72;\n  z-index: 1;\n  transition: all 0.5s ease;\n}\n.side-nav ul li:hover .hidden-text[data-v-4a80dbca] {\n  right: -250px;\n}\n.side-nav ul .logout-item[data-v-4a80dbca] {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n}\n.side-nav ul .router-link-exact-active svg[data-v-4a80dbca] {\n  fill: #ffffff;\n}\n.side-nav__main-logo[data-v-4a80dbca] {\n  display: flex;\n  padding-bottom: 50px;\n}\n.side-nav__main-logo svg[data-v-4a80dbca] {\n  margin: 8px auto;\n  display: block;\n}\n.side-nav__menu-item[data-v-4a80dbca] {\n  display: flex;\n  z-index: 2;\n}\n.side-nav__menu-item svg[data-v-4a80dbca] {\n  margin: 8px auto;\n  display: block;\n  max-height: 25px;\n  max-width: 25px;\n  fill: #a1a1a1;\n}\n.side-nav__menu-item__img-container[data-v-4a80dbca] {\n  width: 100%;\n  height: 100%;\n  z-index: 2;\n  background: #141419;\n  padding: 20px 0;\n}\n.side-nav__menu-item:hover svg[data-v-4a80dbca] {\n  fill: #c0c0c0;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".side-nav[data-v-4a80dbca] {\n  width: 100px;\n  height: 100%;\n  color: #909196;\n}\n.side-nav ul[data-v-4a80dbca] {\n  background: #141419;\n  padding: 0;\n  margin: 0;\n  list-style-type: none;\n  -webkit-margin-before: unset;\n          margin-block-start: unset;\n  -webkit-margin-after: unset;\n          margin-block-end: unset;\n  -webkit-margin-start: unset;\n          margin-inline-start: unset;\n  -webkit-margin-end: unset;\n          margin-inline-end: unset;\n  -webkit-padding-start: unset;\n          padding-inline-start: unset;\n  position: relative;\n  height: 100%;\n}\n.side-nav ul li[data-v-4a80dbca] {\n  position: relative;\n  transition: all 0.8s ease;\n}\n.side-nav ul li a[data-v-4a80dbca] {\n  transition: all 0.8s ease;\n}\n.side-nav ul li .hidden-text[data-v-4a80dbca] {\n  position: absolute;\n  top: 0;\n  right: 0;\n  width: 250px;\n  height: 100%;\n  background: #23232bfc;\n  z-index: 1;\n  transition: all 0.5s ease;\n  padding: 12px;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n}\n.side-nav ul li .hidden-text p[data-v-4a80dbca] {\n  margin: 0;\n}\n.side-nav ul li .hidden-text p .main[data-v-4a80dbca] {\n  color: #ffffff;\n  font-size: 16px;\n  display: block;\n}\n.side-nav ul li .hidden-text p .subtext[data-v-4a80dbca] {\n  color: rgba(255, 255, 255, 0.79);\n  font-size: 12px;\n  display: block;\n}\n.side-nav ul li:hover .hidden-text[data-v-4a80dbca] {\n  right: -250px;\n}\n.side-nav ul .logout-item[data-v-4a80dbca] {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n}\n.side-nav ul .logout-item .hidden-text[data-v-4a80dbca] {\n  top: unset;\n  bottom: 0;\n}\n.side-nav ul .router-link-exact-active svg[data-v-4a80dbca] {\n  fill: #ffffff;\n}\n.side-nav__main-logo[data-v-4a80dbca] {\n  display: flex;\n  padding-bottom: 50px;\n}\n.side-nav__main-logo svg[data-v-4a80dbca] {\n  margin: 8px auto;\n  display: block;\n}\n.side-nav__menu-item[data-v-4a80dbca] {\n  display: flex;\n}\n.side-nav__menu-item svg[data-v-4a80dbca] {\n  margin: 8px auto;\n  display: block;\n  max-height: 25px;\n  max-width: 25px;\n  fill: #a1a1a1;\n}\n.side-nav__menu-item__img-container[data-v-4a80dbca] {\n  width: 100%;\n  height: 100%;\n  z-index: 2;\n  background: #141419;\n  padding: 20px 0;\n}\n.side-nav__menu-item:hover svg[data-v-4a80dbca] {\n  fill: #c0c0c0;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -38332,6 +38384,16 @@ var render = function() {
                     })
                   ]
                 )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "hidden-text" }, [
+                _c("p", [
+                  _c("span", { staticClass: "main" }, [_vm._v("Messages")]),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "subtext" }, [
+                    _vm._v("Communicate securely with your contacts")
+                  ])
+                ])
               ])
             ]
           )
@@ -38349,26 +38411,40 @@ var render = function() {
               attrs: { to: { name: "about" } }
             },
             [
-              _c(
-                "svg",
-                {
-                  attrs: {
-                    xmlns: "http://www.w3.org/2000/svg",
-                    viewBox: "0 0 16 16",
-                    width: "50",
-                    height: "50"
-                  }
-                },
-                [
-                  _c("path", {
+              _c("div", { staticClass: "side-nav__menu-item__img-container" }, [
+                _c(
+                  "svg",
+                  {
                     attrs: {
-                      "fill-rule": "evenodd",
-                      d:
-                        "M5.5 3.5a2 2 0 100 4 2 2 0 000-4zM2 5.5a3.5 3.5 0 115.898 2.549 5.507 5.507 0 013.034 4.084.75.75 0 11-1.482.235 4.001 4.001 0 00-7.9 0 .75.75 0 01-1.482-.236A5.507 5.507 0 013.102 8.05 3.49 3.49 0 012 5.5zM11 4a.75.75 0 100 1.5 1.5 1.5 0 01.666 2.844.75.75 0 00-.416.672v.352a.75.75 0 00.574.73c1.2.289 2.162 1.2 2.522 2.372a.75.75 0 101.434-.44 5.01 5.01 0 00-2.56-3.012A3 3 0 0011 4z"
+                      xmlns: "http://www.w3.org/2000/svg",
+                      viewBox: "0 0 16 16",
+                      width: "50",
+                      height: "50"
                     }
-                  })
-                ]
-              )
+                  },
+                  [
+                    _c("path", {
+                      attrs: {
+                        "fill-rule": "evenodd",
+                        d:
+                          "M5.5 3.5a2 2 0 100 4 2 2 0 000-4zM2 5.5a3.5 3.5 0 115.898 2.549 5.507 5.507 0 013.034 4.084.75.75 0 11-1.482.235 4.001 4.001 0 00-7.9 0 .75.75 0 01-1.482-.236A5.507 5.507 0 013.102 8.05 3.49 3.49 0 012 5.5zM11 4a.75.75 0 100 1.5 1.5 1.5 0 01.666 2.844.75.75 0 00-.416.672v.352a.75.75 0 00.574.73c1.2.289 2.162 1.2 2.522 2.372a.75.75 0 101.434-.44 5.01 5.01 0 00-2.56-3.012A3 3 0 0011 4z"
+                      }
+                    })
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "hidden-text" }, [
+                _c("p", [
+                  _c("span", { staticClass: "main" }, [
+                    _vm._v("Profile / Contacts (TBD)")
+                  ]),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "subtext" }, [
+                    _vm._v("Edit your profile contents")
+                  ])
+                ])
+              ])
             ]
           )
         ],
@@ -38406,6 +38482,16 @@ var render = function() {
                     })
                   ]
                 )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "hidden-text" }, [
+                _c("p", [
+                  _c("span", { staticClass: "main" }, [_vm._v("Settings")]),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "subtext" }, [
+                    _vm._v("Set your user preferences")
+                  ])
+                ])
               ])
             ]
           )
@@ -38448,7 +38534,13 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "hidden-text" }, [
-                _c("p", [_vm._v("Logout")])
+                _c("p", [
+                  _c("span", { staticClass: "main" }, [_vm._v("Logout")]),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "subtext" }, [
+                    _vm._v("Terminate your current session")
+                  ])
+                ])
               ])
             ]
           )
