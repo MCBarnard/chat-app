@@ -21,26 +21,23 @@ export default {
 </script>
 
 <style scoped lang="scss">
+body {
+    scroll-behavior: smooth;
+}
 .homePage {
     display: block;
     position: relative;
     width: 100%;
     height: 100vh;
-    background: #16bdbd;
 
     &__content-wrapper {
         display: flex;
         justify-content: space-between;
         height: 100vh;
 
-        &__left {
-            max-width: 250px;
-            width: 100%;
-            background: red;
-        }
-
         &__right {
             width: 100%;
+            overflow: auto;
         }
     }
 }

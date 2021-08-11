@@ -1,11 +1,13 @@
 const constantSettings = {
     state: {
         settings: {
-            messageTimeToAnimateIn: 1000
+            scrambleTimeToAnimateIn: 10,
+            timeBetweenTimeouts: 100
         }
     },
     getters: {
-        getMessageAnimationTime: state => state.settings.messageTimeToAnimateIn,
+        getScrambleAnimationTime: state => state.settings.scrambleTimeToAnimateIn,
+        getMessageTimeOutTime: state => state.settings.timeBetweenTimeouts,
     }
 };
 
