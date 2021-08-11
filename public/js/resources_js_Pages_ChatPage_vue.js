@@ -564,6 +564,12 @@ var globalMixin = {
         console.log("logging-out");
       });
       window.location = "/login";
+    },
+    newUnreadMessage: function newUnreadMessage() {
+      this.$store.dispatch("ACT_NEW_UNREAD_MESSAGE", true);
+    },
+    noNewUnreadMessage: function noNewUnreadMessage() {
+      this.$store.dispatch("ACT_NEW_UNREAD_MESSAGE", false);
     }
   }
 };

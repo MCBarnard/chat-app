@@ -1963,7 +1963,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "Navbar"
+  name: "Navbar",
+  computed: {
+    hasUnreadMessage: function hasUnreadMessage() {
+      return this.$store.getters.getNewUnreadMessage;
+    }
+  }
 });
 
 /***/ }),
@@ -2071,16 +2076,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _modules_Account__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/Account */ "./resources/js/Store/modules/Account.js");
-/* harmony import */ var _modules_ConstantSettings__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/ConstantSettings */ "./resources/js/Store/modules/ConstantSettings.js");
+/* harmony import */ var _modules_Message__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/Message */ "./resources/js/Store/modules/Message.js");
+/* harmony import */ var _modules_ConstantSettings__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/ConstantSettings */ "./resources/js/Store/modules/ConstantSettings.js");
 
 
 
 
-vue__WEBPACK_IMPORTED_MODULE_2__.default.use(vuex__WEBPACK_IMPORTED_MODULE_3__.default);
-var store = new vuex__WEBPACK_IMPORTED_MODULE_3__.default.Store({
+
+vue__WEBPACK_IMPORTED_MODULE_3__.default.use(vuex__WEBPACK_IMPORTED_MODULE_4__.default);
+var store = new vuex__WEBPACK_IMPORTED_MODULE_4__.default.Store({
   state: {
     options: window.options
   },
@@ -2100,7 +2107,8 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_3__.default.Store({
   },
   modules: {
     account: _modules_Account__WEBPACK_IMPORTED_MODULE_0__.default,
-    constantSettings: _modules_ConstantSettings__WEBPACK_IMPORTED_MODULE_1__.default
+    constantSettings: _modules_ConstantSettings__WEBPACK_IMPORTED_MODULE_2__.default,
+    message: _modules_Message__WEBPACK_IMPORTED_MODULE_1__.default
   }
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (store);
@@ -2172,6 +2180,43 @@ var constantSettings = {
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (constantSettings);
+
+/***/ }),
+
+/***/ "./resources/js/Store/modules/Message.js":
+/*!***********************************************!*\
+  !*** ./resources/js/Store/modules/Message.js ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+var message = {
+  state: {
+    messages: {
+      newUnreadMessage: false
+    }
+  },
+  getters: {
+    getNewUnreadMessage: function getNewUnreadMessage(state) {
+      return state.messages.newUnreadMessage;
+    }
+  },
+  mutations: {
+    SET_NEW_UNREAD_MESSAGE: function SET_NEW_UNREAD_MESSAGE(state, payload) {
+      state.messages.newUnreadMessage = payload;
+    }
+  },
+  actions: {
+    ACT_NEW_UNREAD_MESSAGE: function ACT_NEW_UNREAD_MESSAGE(state, payload) {
+      state.commit("SET_NEW_UNREAD_MESSAGE", payload);
+    }
+  }
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (message);
 
 /***/ }),
 
@@ -6733,7 +6778,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".side-nav[data-v-4a80dbca] {\n  width: 100px;\n  height: 100%;\n  color: #909196;\n}\n.side-nav ul[data-v-4a80dbca] {\n  background: #141419;\n  padding: 0;\n  margin: 0;\n  list-style-type: none;\n  -webkit-margin-before: unset;\n          margin-block-start: unset;\n  -webkit-margin-after: unset;\n          margin-block-end: unset;\n  -webkit-margin-start: unset;\n          margin-inline-start: unset;\n  -webkit-margin-end: unset;\n          margin-inline-end: unset;\n  -webkit-padding-start: unset;\n          padding-inline-start: unset;\n  position: relative;\n  height: 100%;\n}\n.side-nav ul li[data-v-4a80dbca] {\n  position: relative;\n  transition: all 0.8s ease;\n}\n.side-nav ul li a[data-v-4a80dbca] {\n  transition: all 0.8s ease;\n}\n.side-nav ul li .hidden-text[data-v-4a80dbca] {\n  position: absolute;\n  top: 0;\n  right: 0;\n  width: 250px;\n  height: 100%;\n  background: #23232bfc;\n  z-index: 1;\n  transition: all 0.5s ease;\n  padding: 12px;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n}\n.side-nav ul li .hidden-text p[data-v-4a80dbca] {\n  margin: 0;\n}\n.side-nav ul li .hidden-text p .main[data-v-4a80dbca] {\n  color: #ffffff;\n  font-size: 16px;\n  display: block;\n}\n.side-nav ul li .hidden-text p .subtext[data-v-4a80dbca] {\n  color: rgba(255, 255, 255, 0.79);\n  font-size: 12px;\n  display: block;\n}\n.side-nav ul li:hover .hidden-text[data-v-4a80dbca] {\n  right: -250px;\n}\n.side-nav ul .logout-item[data-v-4a80dbca] {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n}\n.side-nav ul .logout-item .hidden-text[data-v-4a80dbca] {\n  top: unset;\n  bottom: 0;\n}\n.side-nav ul .router-link-exact-active svg[data-v-4a80dbca] {\n  fill: #ffffff;\n}\n.side-nav__main-logo[data-v-4a80dbca] {\n  display: flex;\n  padding-bottom: 50px;\n}\n.side-nav__main-logo svg[data-v-4a80dbca] {\n  margin: 8px auto;\n  display: block;\n}\n.side-nav__menu-item[data-v-4a80dbca] {\n  display: flex;\n}\n.side-nav__menu-item svg[data-v-4a80dbca] {\n  margin: 8px auto;\n  display: block;\n  max-height: 25px;\n  max-width: 25px;\n  fill: #a1a1a1;\n}\n.side-nav__menu-item__img-container[data-v-4a80dbca] {\n  width: 100%;\n  height: 100%;\n  z-index: 2;\n  background: #141419;\n  padding: 20px 0;\n}\n.side-nav__menu-item:hover svg[data-v-4a80dbca] {\n  fill: #c0c0c0;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".side-nav[data-v-4a80dbca] {\n  width: 100px;\n  height: 100%;\n  color: #909196;\n}\n.side-nav ul[data-v-4a80dbca] {\n  background: #141419;\n  padding: 0;\n  margin: 0;\n  list-style-type: none;\n  -webkit-margin-before: unset;\n          margin-block-start: unset;\n  -webkit-margin-after: unset;\n          margin-block-end: unset;\n  -webkit-margin-start: unset;\n          margin-inline-start: unset;\n  -webkit-margin-end: unset;\n          margin-inline-end: unset;\n  -webkit-padding-start: unset;\n          padding-inline-start: unset;\n  position: relative;\n  height: 100%;\n}\n.side-nav ul li[data-v-4a80dbca] {\n  position: relative;\n  transition: all 0.8s ease;\n}\n.side-nav ul li .update-pin[data-v-4a80dbca] {\n  position: absolute;\n  top: 20px;\n  right: 27px;\n  height: 10px;\n  width: 10px;\n  border-radius: 50%;\n  background: #b51f1f;\n  -webkit-animation: push-data-v-4a80dbca 0.3s linear 1;\n          animation: push-data-v-4a80dbca 0.3s linear 1;\n}\n@-webkit-keyframes push-data-v-4a80dbca {\n0% {\n    transform: scale(0.5);\n}\n50% {\n    transform: scale(1);\n}\n75% {\n    transform: scale(1.5);\n}\n100% {\n    transform: scale(1);\n}\n}\n@keyframes push-data-v-4a80dbca {\n0% {\n    transform: scale(0.5);\n}\n50% {\n    transform: scale(1);\n}\n75% {\n    transform: scale(1.5);\n}\n100% {\n    transform: scale(1);\n}\n}\n.side-nav ul li a[data-v-4a80dbca] {\n  transition: all 0.8s ease;\n}\n.side-nav ul li .hidden-text[data-v-4a80dbca] {\n  position: absolute;\n  top: 0;\n  right: 0;\n  width: 250px;\n  height: 100%;\n  background: #23232bfc;\n  z-index: 1;\n  transition: all 0.5s ease;\n  padding: 12px;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n}\n.side-nav ul li .hidden-text p[data-v-4a80dbca] {\n  margin: 0;\n}\n.side-nav ul li .hidden-text p .main[data-v-4a80dbca] {\n  color: #ffffff;\n  font-size: 16px;\n  display: block;\n}\n.side-nav ul li .hidden-text p .subtext[data-v-4a80dbca] {\n  color: rgba(255, 255, 255, 0.79);\n  font-size: 12px;\n  display: block;\n}\n.side-nav ul li:hover .hidden-text[data-v-4a80dbca] {\n  right: -250px;\n}\n.side-nav ul .logout-item[data-v-4a80dbca] {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n}\n.side-nav ul .logout-item .hidden-text[data-v-4a80dbca] {\n  top: unset;\n  bottom: 0;\n}\n.side-nav ul .router-link-exact-active .side-nav__menu-item__img-container[data-v-4a80dbca] {\n  background: #23232bfc;\n}\n.side-nav ul .router-link-exact-active svg[data-v-4a80dbca] {\n  fill: #ffffff;\n}\n.side-nav__main-logo[data-v-4a80dbca] {\n  display: flex;\n}\n.side-nav__main-logo img[data-v-4a80dbca] {\n  display: block;\n  max-width: 75px;\n  margin: 20px auto 100px;\n}\n.side-nav__main-logo a[data-v-4a80dbca] {\n  width: 100%;\n}\n.side-nav__menu-item[data-v-4a80dbca] {\n  display: flex;\n}\n.side-nav__menu-item svg[data-v-4a80dbca] {\n  margin: 8px auto;\n  display: block;\n  max-height: 25px;\n  max-width: 25px;\n  fill: #a1a1a1;\n}\n.side-nav__menu-item__img-container[data-v-4a80dbca] {\n  width: 100%;\n  height: 100%;\n  z-index: 2;\n  background: #141419;\n  padding: 20px 0;\n  position: relative;\n}\n.side-nav__menu-item:hover svg[data-v-4a80dbca] {\n  fill: #ffffff;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -38330,28 +38375,28 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("nav", { staticClass: "side-nav" }, [
     _c("ul", [
-      _c("li", { staticClass: "side-nav__main-logo" }, [
-        _c(
-          "svg",
-          {
-            attrs: {
-              xmlns: "http://www.w3.org/2000/svg",
-              viewBox: "0 0 16 16",
-              width: "50",
-              height: "50"
-            }
-          },
-          [
-            _c("path", {
-              attrs: {
-                "fill-rule": "evenodd",
-                d:
-                  "M11.5 7a4.499 4.499 0 11-8.998 0A4.499 4.499 0 0111.5 7zm-.82 4.74a6 6 0 111.06-1.06l3.04 3.04a.75.75 0 11-1.06 1.06l-3.04-3.04z"
-              }
-            })
-          ]
-        )
-      ]),
+      _c(
+        "li",
+        { staticClass: "side-nav__main-logo" },
+        [
+          _c(
+            "router-link",
+            {
+              staticClass: "side-nav__menu-item",
+              attrs: { to: { name: "home" } }
+            },
+            [
+              _c("img", {
+                attrs: {
+                  src: "/images/env.png",
+                  alt: "Logo of an encrypted envelope"
+                }
+              })
+            ]
+          )
+        ],
+        1
+      ),
       _vm._v(" "),
       _c(
         "li",
@@ -38383,7 +38428,11 @@ var render = function() {
                       }
                     })
                   ]
-                )
+                ),
+                _vm._v(" "),
+                _vm.hasUnreadMessage
+                  ? _c("div", { staticClass: "update-pin" })
+                  : _vm._e()
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "hidden-text" }, [

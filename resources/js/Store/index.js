@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 
 import account from "./modules/Account";
+import message from "./modules/Message";
 import constantSettings from "./modules/ConstantSettings";
 
 Vue.use(Vuex);
@@ -26,7 +27,8 @@ const store = new Vuex.Store({
     },
     modules: {
         account,
-        constantSettings
+        constantSettings,
+        message
     }
 });
 

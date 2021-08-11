@@ -3,10 +3,9 @@
         <ul>
             <!--      Logo      -->
             <li class="side-nav__main-logo">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="50" height="50">
-                    <path fill-rule="evenodd"
-                          d="M11.5 7a4.499 4.499 0 11-8.998 0A4.499 4.499 0 0111.5 7zm-.82 4.74a6 6 0 111.06-1.06l3.04 3.04a.75.75 0 11-1.06 1.06l-3.04-3.04z"></path>
-                </svg>
+                <router-link class="side-nav__menu-item" :to="{ name: 'home' }">
+                <img src="/images/env.png" alt="Logo of an encrypted envelope">
+                </router-link>
             </li>
             <!--      Chats      -->
             <li>
@@ -16,6 +15,7 @@
                             <path fill-rule="evenodd"
                                   d="M2.75 2.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 01.75.75v2.19l2.72-2.72a.75.75 0 01.53-.22h4.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25H2.75zM1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0113.25 12H9.06l-2.573 2.573A1.457 1.457 0 014 13.543V12H2.75A1.75 1.75 0 011 10.25v-7.5z"></path>
                         </svg>
+                        <div class="update-pin" v-if="hasUnreadMessage"></div>
                     </div>
                     <div class="hidden-text">
                         <p>
@@ -82,7 +82,12 @@
 
 <script>
 export default {
-    name: "Navbar"
+    name: "Navbar",
+    computed: {
+        hasUnreadMessage() {
+            return this.$store.getters.getNewUnreadMessage;
+        }
+    }
 }
 </script>
 
@@ -108,6 +113,23 @@ export default {
         li {
             position: relative;
             transition: all 0.8s ease;
+
+            .update-pin {
+                position: absolute;
+                top: 20px;
+                right: 27px;
+                height: 10px;
+                width: 10px;
+                border-radius: 50%;
+                background: #b51f1f;
+                animation: push 0.3s linear 1;
+            }
+            @keyframes push{
+                0%   {transform: scale(0.5);}
+                50%  {transform: scale(1);}
+                75%  {transform: scale(1.5);}
+                100%  {transform: scale(1);}
+            }
 
             a {
                 transition: all 0.8s ease;
@@ -162,6 +184,9 @@ export default {
         }
 
         .router-link-exact-active {
+            .side-nav__menu-item__img-container {
+                background: #23232bfc;
+            }
             svg {
                 fill: #ffffff;
             }
@@ -171,12 +196,15 @@ export default {
     &__main-logo {
         display: flex;
 
-        svg {
-            margin: 8px auto;
+        img {
             display: block;
+            max-width: 75px;
+            margin: 20px auto 100px;
         }
 
-        padding-bottom: 50px;
+        a {
+            width: 100%;
+        }
     }
 
     &__menu-item {
@@ -196,11 +224,12 @@ export default {
             z-index: 2;
             background: #141419;
             padding: 20px 0;
+            position: relative;
         }
 
         &:hover {
             svg {
-                fill: #c0c0c0;
+                fill: #ffffff;
             }
         }
     }

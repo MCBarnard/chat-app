@@ -11,6 +11,12 @@ export const globalMixin = {
                 console.log("logging-out")
             });
             window.location = "/login";
-        }
+        },
+        newUnreadMessage() {
+            this.$store.dispatch("ACT_NEW_UNREAD_MESSAGE", true);
+        },
+        noNewUnreadMessage() {
+            this.$store.dispatch("ACT_NEW_UNREAD_MESSAGE", false);
+        },
     }
 };
