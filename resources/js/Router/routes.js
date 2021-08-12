@@ -8,11 +8,19 @@ const routes = [
         }
     },
     {
-        path: '/thread/:threadId',
+        path: '/threads',
+        component: () => import('../Pages/ChatPage.vue'),
+        name: 'chat-landing',
+        meta: {
+            title:'Chat Page'
+        }
+    },
+    {
+        path: '/threads/:threadId',
         component: () => import('../Pages/ChatPage.vue'),
         name: 'chat-page',
         meta: {
-            title:'Chat'
+            title:'Chat Thread'
         }
     },
     {
@@ -29,6 +37,14 @@ const routes = [
         name: 'logout',
         meta: {
             title:'Logout'
+        }
+    },
+    {
+        path: '*',
+        component: () => import('../Pages/ErrorPages/PageNotFoundPage'),
+        name: 'PageNotFoundPage',
+        meta: {
+            title:'Page not Found'
         }
     }
 ];

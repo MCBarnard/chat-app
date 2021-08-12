@@ -64,15 +64,20 @@ class TextScramble {
 export default {
     name: "TextScramble",
     mounted() {
-        const el = document.querySelector(`#${this.$props.id}`);
-        const fx = new TextScramble(el, this.$store.getters.getScrambleAnimationTime, this.signalScroll);
-        fx.setText(this.$props.phrase).then(() => {
-            this.signalScroll();
-        });
+        this.scramble();
     },
     methods: {
         signalScroll() {
             this.$emit('unscrambled')
+        },
+        scramble() {
+            const el = document.querySelector(`#${this.$props.id}`);
+            el.innerText = "";
+            const fx = new TextScramble(el, this.$store.getters.getScrambleAnimationTime, this.signalScroll);
+            fx.setText(this.$props.phrase).then(() => {
+                this.signalScroll();
+                this.$emit("finished");
+            });
         }
     },
     props: {

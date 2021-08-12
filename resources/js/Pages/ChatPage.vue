@@ -1,38 +1,83 @@
 <template>
-<div class="chatPage">
-    <message-block v-for="(message, index) in messages" :key="index"
-        :message-id="message.id"
-        :message="message.message"
-        :user="message.username"
-        :chat-color="message.owner === true ? ownerColor : recipientColor"
-        :owner="message.owner"
-    />
-</div>
+    <section class="chat-page-section">
+        <div class="chat-page-section__left">
+            <form action="#" @submit.prevent="searchForContact">
+                <input type="text" class="searchbar-input" v-model="searchInput" placeholder="Search">
+                <button type="submit">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16">
+                        <path fill-rule="evenodd"
+                              d="M11.5 7a4.499 4.499 0 11-8.998 0A4.499 4.499 0 0111.5 7zm-.82 4.74a6 6 0 111.06-1.06l3.04 3.04a.75.75 0 11-1.06 1.06l-3.04-3.04z"></path>
+                    </svg>
+                </button>
+            </form>
+            <contact-pill v-for="(thread, index) in threads"
+                          :key="index"
+                          :has-notification="thread.hasNotification"
+                          :thread-id="thread.threadId"
+                          :last-message="thread.lastMessage"
+                          :name="thread.name"
+                          @threadSelected="threadSelected($event)" />
+        </div>
+        <div v-if="showThread && loaded" class="chat-page-section__right">
+            <div class="chat-page-section__right__messages">
+                <div class="chatPage">
+                    <message-block v-for="(message, index) in messages" :key="index"
+                                   :message-id="message.id"
+                                   :message="message.message"
+                                   :user="message.username"
+                                   :owner="message.owner"
+                    />
+                </div>
+            </div>
+            <form action="#" @submit.prevent="submitNewMessage">
+                <input type="text" v-model="newMessage">
+                <button>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                        <path fill-rule="evenodd"
+                              d="M1.513 1.96a1.374 1.374 0 011.499-.21l19.335 9.215a1.146 1.146 0 010 2.07L3.012 22.25a1.374 1.374 0 01-1.947-1.46L2.49 12 1.065 3.21a1.374 1.374 0 01.448-1.25zm2.375 10.79l-1.304 8.042L21.031 12 2.584 3.208l1.304 8.042h7.362a.75.75 0 010 1.5H3.888z"></path>
+                    </svg>
+                </button>
+            </form>
+        </div>
+        <div v-else-if="showThread && !loaded" class="chat-page-section__right">
+<!--            Add some cool loader here...-->
+            <message-loader />
+<!--                        <div class="loading-container">-->
+<!--                            <div class="loading-container__wrapper">-->
+<!--                                <lottie-component speed="2" json-url="https://assets10.lottiefiles.com/packages/lf20_me1uv4m6.json"/>-->
+<!--                            </div>-->
+<!--                        </div>-->
+        </div>
+        <div v-else-if="!showThread" class="chat-page-section__right">
+            Implement cool design that speaks to users here!
+        </div>
+    </section>
 </template>
 
 <script>
 import MessageBlock from "../Components/MessageBlock";
+import LottieComponent from "../Components/LottieComponent";
 import {globalMixin} from "../Mixins/GlobalMixin";
+import SpinningRedLoader from "../Components/SpinningRedLoader";
+import ContactPill from "../Components/ContactPill";
+import MessageLoader from "../Components/MessageLoader";
 
 export default {
     name: "ChatPage",
-    components: {MessageBlock},
+    components: {
+        MessageBlock,
+        LottieComponent,
+        SpinningRedLoader,
+        ContactPill,
+        MessageLoader
+    },
     mixins: [globalMixin],
     data() {
         return {
-            colors: [],
-            prohibitedColors: [
-                "#23232bfc",
-                "#9f0000",
-                "#141419",
-                "#909196",
-                "#313131",
-                "rgb(35, 35, 43)",
-                "rgb(159, 0, 0)",
-                "rgb(20, 20, 25)",
-                "rgb(144, 145, 150)",
-                "rgb(49, 49, 49)"
-            ],
+            loaded: false,
+            newMessage: "",
+            searchInput: "",
+            threads: [],
             messages: [
                 {
                     id: Math.floor(Math.random() * 10000),
@@ -45,177 +90,70 @@ export default {
                     message: "Hi...",
                     username: "Fred",
                     owner: false
-                },
-                // {
-                //     id: Math.floor(Math.random() * 10000),
-                //     message: "How do you do..?",
-                //     username: "User1",
-                //     owner: true
-                // },
-                // {
-                //     id: Math.floor(Math.random() * 10000),
-                //     message: "I be marvelous, how about you..?",
-                //     username: "Fred",
-                //     owner: false
-                // },
-                // {
-                //     id: Math.floor(Math.random() * 10000),
-                //     message: "I wanted to get in touch with you about our peculiar situation. it seems to have gotten a bit out of hand and we now need you to step in and take charge.",
-                //     username: "User1",
-                //     owner: true
-                // },
-                // {
-                //     id: Math.floor(Math.random() * 10000),
-                //     message: "What seems to be the problem? I suspected that we solved the issue years ago?",
-                //     username: "Fred",
-                //     owner: false
-                // },
-                // {
-                //     id: Math.floor(Math.random() * 10000),
-                //     message: "After the rise of the dark one, the alliance has withered. We have been left to face the demons our ancestors left and I am afraid until the chosen has been found... We do not stand a chance. Please, they need our protection, we cannot expect the wives and children to defend our town against these menacing beings.",
-                //     username: "User1",
-                //     owner: true
-                // },
-                // {
-                //     id: Math.floor(Math.random() * 10000),
-                //     message: "However, dire the situation seems, there will always be one who rises to the occasion. Our people have been doing this for centuries and they will continue to do so for centuries more. Have faith and you will see. You might find your chosen after all.",
-                //     username: "Fred",
-                //     owner: false
-                // },
-                // {
-                //     id: Math.floor(Math.random() * 10000),
-                //     message: "Is it trust in our people you have or trust in yourself you lack? Whichever it may be, there are only a handful of men left, 2 of which can still channel their aura into the elements but they both lack any formal training. If you do not heed these words, you will not have a home to return to.",
-                //     username: "User1",
-                //     owner: true
-                // },
-                // {
-                //     id: Math.floor(Math.random() * 10000),
-                //     message: "I be marvelous, how about you..?",
-                //     username: "Fred",
-                //     owner: false
-                // },
-                // {
-                //     id: Math.floor(Math.random() * 10000),
-                //     message: "I wanted to get in touch with you about our peculiar situation. it seems to have gotten a bit out of hand and we now need you to step in and take charge.",
-                //     username: "User1",
-                //     owner: true
-                // },
-                // {
-                //     id: Math.floor(Math.random() * 10000),
-                //     message: "What seems to be the problem? I suspected that we solved the issue years ago?",
-                //     username: "Fred",
-                //     owner: false
-                // },
-                // {
-                //     id: Math.floor(Math.random() * 10000),
-                //     message: "After the rise of the dark one, the alliance has withered. We have been left to face the demons our ancestors left and I am afraid until the chosen has been found... We do not stand a chance. Please, they need our protection, we cannot expect the wives and children to defend our town against these menacing beings.",
-                //     username: "User1",
-                //     owner: true
-                // },
-                // {
-                //     id: Math.floor(Math.random() * 10000),
-                //     message: "However, dire the situation seems, there will always be one who rises to the occasion. Our people have been doing this for centuries and they will continue to do so for centuries more. Have faith and you will see. You might find your chosen after all.",
-                //     username: "Fred",
-                //     owner: false
-                // },
-                // {
-                //     id: Math.floor(Math.random() * 10000),
-                //     message: "Is it trust in our people you have or trust in yourself you lack? Whichever it may be, there are only a handful of men left, 2 of which can still channel their aura into the elements but they both lack any formal training. If you do not heed these words, you will not have a home to return to.",
-                //     username: "User1",
-                //     owner: true
-                // }
+                }
             ]
         };
     },
     computed: {
-        recipientColor() {
-            return this.colors.length !== 0 ? this.colors[0] : "#ffffff";
-        },
-        ownerColor() {
-            return this.colors.length !== 0 ? this.colors[1] : "#ffffff";
+        showThread() {
+            return typeof this.$route.params.threadId !== "undefined";
         }
     },
     async mounted() {
-        this.populateUserColors();
-        setTimeout(() => {
-            this.pushNewMessage({
-                id: Math.floor(Math.random() * 10000),
-                message: "How do you do..?",
-                username: "User1",
-                owner: true
-            });
-        }, 2000);
-        setTimeout(() => {
-            this.pushNewMessage({
-                id: Math.floor(Math.random() * 10000),
-                message: "I be marvelous, how about you..?",
-                username: "Fred",
-                owner: false
-            });
-        }, 4000);
-        setTimeout(() => {
-            this.pushNewMessage({
-                id: Math.floor(Math.random() * 10000),
-                message: "I wanted to get in touch with you about our peculiar situation. it seems to have gotten a bit out of hand and we now need you to step in and take charge.",
-                username: "User1",
-                owner: true
-            });
-        }, 6000);
-        setTimeout(() => {
-            this.pushNewMessage({
-                id: Math.floor(Math.random() * 10000),
-                message: "What seems to be the problem? I suspected that we solved the issue years ago?",
-                username: "Fred",
-                owner: false
-            });
-        }, 8000);
-        setTimeout(() => {
-            this.pushNewMessage({
-                id: Math.floor(Math.random() * 10000),
-                message: "After the rise of the dark one, the alliance has withered. We have been left to face the demons our ancestors left and I am afraid until the chosen has been found... We do not stand a chance. Please, they need our protection, we cannot expect the wives and children to defend our town against these menacing beings.",
-                username: "User1",
-                owner: true
-            });
-        }, 10000);
-        setTimeout(() => {
-            this.pushNewMessage({
-                id: Math.floor(Math.random() * 10000),
-                message: "However, dire the situation seems, there will always be one who rises to the occasion. Our people have been doing this for centuries and they will continue to do so for centuries more. Have faith and you will see. You might find your chosen after all.",
-                username: "Fred",
-                owner: false
-            });
-        }, 12000);
-        setTimeout(() => {
-            this.pushNewMessage({
-                id: Math.floor(Math.random() * 10000),
-                message: "Is it trust in our people you have or trust in yourself you lack? Whichever it may be, there are only a handful of men left, 2 of which can still channel their aura into the elements but they both lack any formal training. If you do not heed these words, you will not have a home to return to.",
-                username: "User1",
-                owner: true
-            });
-        }, 14000);
-        setTimeout(() => {
-            this.pushNewMessage({
-                id: Math.floor(Math.random() * 10000),
-                message: "Is it trust in our people you have or trust in yourself you lack? Whichever it may be, there are only a handful of men left, 2 of which can still channel their aura into the elements but they both lack any formal training. If you do not heed these words, you will not have a home to return to.",
-                username: "Fred",
-                owner: false
-            });
-        }, 16000);
+        await this.fetchThreads();
+        if (this.showThread) {
+            await this.fetchThreadMessages(this.$route.params.threadId);
+        }
     },
     methods: {
-        randomColor() {
-            let col
-            while (typeof col === "undefined") {
-                const hex = "rgb(" + Math.floor(Math.random() * 255) + ", 100, 50)";
-                if (!this.prohibitedColors.includes(hex)) {
-                    col = hex;
-                    console.log(col)
-                }
-            }
-            return col;
+        async fetchThreads() {
+            setTimeout(() => {
+                this.threads = [
+                    {
+                        name: "Test",
+                        lastMessage: "blah dlah kla salaaaah",
+                        threadId: 1,
+                        hasNotification: true
+                    },
+                    {
+                        name: "User",
+                        lastMessage: "blah dlah kla salaaaahblah dlah kla salaaaahblah dlah kla salaaaahblah dlah kla salaaaahblah dlah kla salaaaahblah dlah kla salaaaah",
+                        threadId: 2
+                    },
+                    {
+                        name: "Jerald McBoing boing boing boing boing",
+                        lastMessage: "blah dlah kla salaaaah",
+                        threadId: 3,
+                        hasNotification: true
+                    },
+                ];
+            }, 500);
         },
-        populateUserColors() {
-            this.colors = [this.randomColor(), this.randomColor()];
+        threadSelected(id) {
+            if (this.$route.name === 'chat-page' && this.$route.params.threadId !== id) {
+                this.$router.push({ name: 'chat-page', params: { threadId: id } });
+                this.fetchThreadMessages(id);
+            }
+        },
+        searchForContact() {
+            console.log(this.searchInput);
+        },
+        async fetchThreadMessages(id) {
+            this.loaded = false;
+            setTimeout(() => {
+                console.log(id)
+                this.loaded = true;
+            }, 2500);
+        },
+        submitNewMessage() {
+            const message = {
+                id: Math.floor(Math.random() * 5000),
+                message: this.newMessage,
+                username: this.$store.getters.getUserAccount.username,
+                owner: true
+            }
+            this.pushNewMessage(message);
+            this.newMessage = "";
         },
         pushNewMessage(item) {
             this.messages.push({
@@ -242,13 +180,15 @@ export default {
 
 <style scoped lang="scss">
 @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@200&display=swap');
+
 .chatPage {
     font-family: 'Inconsolata', monospace;
-    background: #212121;
+    background: #f1f1f1;
     min-height: 100%;
     width: 100%;
     color: #fafafa;
 }
+
 .container {
     height: 100%;
     width: 100%;
@@ -258,13 +198,105 @@ export default {
     max-width: 500px;
     flex-wrap: wrap;
 }
+
 .text {
     font-weight: 100;
     font-size: 28px;
     color: #fafafa;
 }
-</style>
 
-<style scoped>
+.chat-page-section {
+    display: flex;
+    height: 100vh;
 
+    &__left {
+        width: 100%;
+        max-width: 250px;
+        background: #23232bfc;
+
+        form {
+            display: flex;
+            padding: 20px 7px;
+            margin-bottom: 2rem;
+
+            input {
+                width: 100%;
+                padding: 5px;
+                border-radius: 11px 0 0 11px;
+                background: #d6d6d6;
+                color: #a1a1a1;
+                outline: none!important;
+
+                &:focus, &:active {
+                    color: #000000;
+                }
+            }
+
+            button {
+                background: #d6d6d6;
+                border-radius: 0 11px 11px 0;
+                padding: 10px;
+                outline: none!important;
+                cursor: pointer;
+                svg {
+                    fill: #a1a1a1;
+                }
+            }
+        }
+    }
+
+    &__right {
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+
+        &__messages {
+            width: 100%;
+            height: calc(100% - 30px);
+            overflow: auto;
+            position: relative;
+        }
+
+        .chatPage {
+            min-height: 100%;
+        }
+
+        form {
+            display: flex;
+            position: sticky;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+
+            input {
+                width: 100%;
+                outline: none !important;
+            }
+
+            button {
+                background: #ffffff;
+                border: 2px solid #f1f1f1;
+                outline: none !important;
+
+                svg {
+
+                }
+            }
+        }
+
+        .loading-container {
+            background: #f1f1f1;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+
+            &__wrapper {
+                margin: auto;
+                width: 400px;
+                height: 400px;
+            }
+        }
+    }
+}
 </style>

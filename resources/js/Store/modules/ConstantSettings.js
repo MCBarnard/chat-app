@@ -1,7 +1,7 @@
 const constantSettings = {
     state: {
         settings: {
-            scrambleTimeToAnimateIn: 10,
+            scrambleTimeToAnimateIn: 50,
             timeBetweenTimeouts: 100
         }
     },

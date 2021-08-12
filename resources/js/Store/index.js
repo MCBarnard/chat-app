@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 
 import account from "./modules/Account";
-import message from "./modules/Message";
+import notifications from "./modules/Notifications";
 import constantSettings from "./modules/ConstantSettings";
 
 Vue.use(Vuex);
@@ -28,7 +28,7 @@ const store = new Vuex.Store({
     modules: {
         account,
         constantSettings,
-        message
+        notifications
     }
 });
 
