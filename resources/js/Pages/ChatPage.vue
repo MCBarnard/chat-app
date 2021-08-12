@@ -19,6 +19,9 @@
                           @threadSelected="threadSelected($event)" />
         </div>
         <div v-if="showThread && loaded" class="chat-page-section__right">
+            <div class="active-thread-user">
+                John Doe
+            </div>
             <div class="chat-page-section__right__messages">
                 <div class="chatPage">
                     <message-block v-for="(message, index) in messages" :key="index"
@@ -130,7 +133,7 @@ export default {
             }, 500);
         },
         threadSelected(id) {
-            if (this.$route.name === 'chat-page' && this.$route.params.threadId !== id) {
+            if (this.$route.params.threadId !== id) {
                 this.$router.push({ name: 'chat-page', params: { threadId: id } });
                 this.fetchThreadMessages(id);
             }
@@ -141,7 +144,6 @@ export default {
         async fetchThreadMessages(id) {
             this.loaded = false;
             setTimeout(() => {
-                console.log(id)
                 this.loaded = true;
             }, 2500);
         },
@@ -250,6 +252,15 @@ export default {
         overflow: hidden;
         position: relative;
 
+        .active-thread-user {
+            display: flex;
+            justify-content: flex-end;
+            padding: 10px;
+            box-shadow: 0 0 20px -12px #000000;
+            z-index: 2;
+            position: relative;
+        }
+
         &__messages {
             width: 100%;
             height: calc(100% - 30px);
@@ -259,6 +270,8 @@ export default {
 
         .chatPage {
             min-height: 100%;
+            position: relative;
+            z-index: 1;
         }
 
         form {

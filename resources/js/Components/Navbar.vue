@@ -9,7 +9,7 @@
             </li>
             <!--      Chats      -->
             <li>
-                <router-link class="side-nav__menu-item" :to="{ name: 'chat-landing' }">
+                <router-link class="side-nav__menu-item" :class="[{'router-link-exact-active': $route.name === 'chat-page'}]" :to="{ name: 'chat-landing' }">
                     <div class="side-nav__menu-item__img-container">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="50" height="50">
                             <path fill-rule="evenodd"
@@ -112,7 +112,7 @@ export default {
         hasSettingsNotification() {
             return this.$store.getters.getNewSettingsNotification;
         }
-    }
+    },
 }
 </script>
 

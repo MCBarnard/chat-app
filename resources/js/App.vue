@@ -38,7 +38,7 @@ export default {
         });
     },
     mounted() {
-        // this.testNotificationAnimations();
+        this.testNotificationAnimations();
     },
     methods: {
         testNotificationAnimations() {

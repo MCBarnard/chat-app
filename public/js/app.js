@@ -1925,7 +1925,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }, _callee);
     }))();
   },
-  mounted: function mounted() {// this.testNotificationAnimations();
+  mounted: function mounted() {
+    this.testNotificationAnimations();
   },
   methods: {
     testNotificationAnimations: function testNotificationAnimations() {
@@ -39419,6 +39420,9 @@ var render = function() {
             "router-link",
             {
               staticClass: "side-nav__menu-item",
+              class: [
+                { "router-link-exact-active": _vm.$route.name === "chat-page" }
+              ],
               attrs: { to: { name: "chat-landing" } }
             },
             [
