@@ -1,5 +1,5 @@
 <template>
-<div @click="threadSelected" class="contact-pill">
+<div :id="`contact-pill-${$props.threadId}`" @click="threadSelected" class="contact-pill" :class="[{'active-pill': $props.active}]">
     <h4>{{ truncatedName }}</h4>
     <p>{{ messagePreview }}</p>
     <div class="notification blue" v-if="$props.hasNotification"></div>
@@ -48,6 +48,10 @@ export default {
         hasNotification: {
             type: Boolean,
             default: false
+        },
+        active: {
+            type: Boolean,
+            default: false
         }
     }
 }
@@ -93,6 +97,14 @@ export default {
         -moz-user-select: none; /* Firefox */
         -ms-user-select: none; /* IE10+/Edge */
         user-select: none; /* Standard */
+    }
+}
+.active-pill {
+    background: #0a76be;
+    cursor: default;
+
+    &:hover {
+        background: #0a76be;
     }
 }
 .notification {

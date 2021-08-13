@@ -62,6 +62,10 @@ __webpack_require__.r(__webpack_exports__);
     hasNotification: {
       type: Boolean,
       "default": false
+    },
+    active: {
+      type: Boolean,
+      "default": false
     }
   }
 });
@@ -513,6 +517,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 
 
@@ -534,6 +539,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       loaded: false,
       newMessage: "",
       searchInput: "",
+      activeChatName: "",
       threads: [],
       messages: [{
         id: Math.floor(Math.random() * 10000),
@@ -562,18 +568,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           switch (_context.prev = _context.next) {
             case 0:
               _context.next = 2;
-              return _this.fetchThreads();
+              return _this.fetchThreads(parseInt(_this.$route.params.threadId)).then(function (response) {
+                return response;
+              });
 
             case 2:
+              _this.threads = _context.sent;
+
               if (!_this.showThread) {
-                _context.next = 5;
+                _context.next = 7;
                 break;
               }
 
-              _context.next = 5;
+              _this.setActiveThread(parseInt(_this.$route.params.threadId));
+
+              _context.next = 7;
               return _this.fetchThreadMessages(_this.$route.params.threadId);
 
-            case 5:
+            case 7:
             case "end":
               return _context.stop();
           }
@@ -582,42 +594,71 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }))();
   },
   methods: {
-    fetchThreads: function fetchThreads() {
+    setActiveThread: function setActiveThread(id) {
       var _this2 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+      this.threads.forEach(function (item) {
+        if (item.threadId === id) {
+          _this2.activeChatName = item.name;
+          item.active = true;
+        } else {
+          item.active = false;
+        }
+      });
+    },
+    fetchThreads: function fetchThreads() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
-                setTimeout(function () {
-                  _this2.threads = [{
-                    name: "Test",
-                    lastMessage: "blah dlah kla salaaaah",
-                    threadId: 1,
-                    hasNotification: true
-                  }, {
-                    name: "User",
-                    lastMessage: "blah dlah kla salaaaahblah dlah kla salaaaahblah dlah kla salaaaahblah dlah kla salaaaahblah dlah kla salaaaahblah dlah kla salaaaah",
-                    threadId: 2
-                  }, {
-                    name: "Jerald McBoing boing boing boing boing",
-                    lastMessage: "blah dlah kla salaaaah",
-                    threadId: 3,
-                    hasNotification: true
-                  }];
-                }, 500);
+                return _context3.abrupt("return", new Promise(function (resolve) {
+                  var data;
+                  setTimeout( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+                      while (1) {
+                        switch (_context2.prev = _context2.next) {
+                          case 0:
+                            data = [{
+                              name: "Test",
+                              lastMessage: "blah dlah kla salaaaah",
+                              threadId: 1,
+                              hasNotification: true,
+                              active: false
+                            }, {
+                              name: "User",
+                              lastMessage: "blah dlah kla salaaaahblah dlah kla salaaaahblah dlah kla salaaaahblah dlah kla salaaaahblah dlah kla salaaaahblah dlah kla salaaaah",
+                              threadId: 2,
+                              active: false
+                            }, {
+                              name: "Jerald McBoing boing boing boing boing",
+                              lastMessage: "blah dlah kla salaaaah",
+                              threadId: 3,
+                              hasNotification: true,
+                              active: false
+                            }];
+                            resolve(data);
+
+                          case 2:
+                          case "end":
+                            return _context2.stop();
+                        }
+                      }
+                    }, _callee2);
+                  })), 500);
+                }));
 
               case 1:
               case "end":
-                return _context2.stop();
+                return _context3.stop();
             }
           }
-        }, _callee2);
+        }, _callee3);
       }))();
     },
     threadSelected: function threadSelected(id) {
-      if (this.$route.params.threadId !== id) {
+      if (parseInt(this.$route.params.threadId) !== id) {
+        this.setActiveThread(id);
         this.$router.push({
           name: 'chat-page',
           params: {
@@ -633,10 +674,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     fetchThreadMessages: function fetchThreadMessages(id) {
       var _this3 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
                 _this3.loaded = false;
                 setTimeout(function () {
@@ -645,10 +686,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 2:
               case "end":
-                return _context3.stop();
+                return _context4.stop();
             }
           }
-        }, _callee3);
+        }, _callee4);
       }))();
     },
     submitNewMessage: function submitNewMessage() {
@@ -670,17 +711,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     postMessageThrough: function postMessageThrough() {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
         var data;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 data = {
                   message: "blah blah message",
                   recipient: 1
                 };
-                _context4.next = 3;
+                _context5.next = 3;
                 return axios.post("/messages/new", data).then(function (response) {
                   if (response.status === 201) {
                     console.log(response.data);
@@ -689,10 +730,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 3:
               case "end":
-                return _context4.stop();
+                return _context5.stop();
             }
           }
-        }, _callee4);
+        }, _callee5);
       }))();
     }
   }
@@ -716,7 +757,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".contact-pill[data-v-50833bfe] {\n  background: #2c3e4f;\n  width: 100%;\n  max-width: 250px;\n  padding: 10px;\n  cursor: pointer;\n  z-index: 0;\n  transition: all 0.4s ease;\n  position: relative;\n}\n.contact-pill[data-v-50833bfe]:hover {\n  background: #4e83b4;\n  z-index: 1;\n  position: relative;\n}\n.contact-pill + .contact-pill[data-v-50833bfe] {\n  margin-top: 1px;\n}\n.contact-pill h4[data-v-50833bfe] {\n  margin: 0;\n  font-size: 16px;\n  color: #dbdbdb;\n  font-weight: 400;\n  -webkit-user-select: none;\n  /* Safari */\n  -moz-user-select: none;\n  /* Firefox */\n  -ms-user-select: none;\n  /* IE10+/Edge */\n  user-select: none;\n  /* Standard */\n}\n.contact-pill p[data-v-50833bfe] {\n  font-size: 12px;\n  margin: 0;\n  color: #b6b6b6;\n  -webkit-user-select: none;\n  /* Safari */\n  -moz-user-select: none;\n  /* Firefox */\n  -ms-user-select: none;\n  /* IE10+/Edge */\n  user-select: none;\n  /* Standard */\n}\n.notification[data-v-50833bfe] {\n  position: absolute;\n  top: 8px;\n  right: 10px;\n  height: 10px;\n  width: 10px;\n  border-radius: 50%;\n  -webkit-animation: push-data-v-50833bfe 0.8s linear infinite;\n          animation: push-data-v-50833bfe 0.8s linear infinite;\n}\n.notification.blue[data-v-50833bfe] {\n  background: #1fa3b5;\n}\n@-webkit-keyframes push-data-v-50833bfe {\n0% {\n    transform: scale(0.9);\n}\n30% {\n    transform: scale(1);\n}\n60% {\n    transform: scale(1.1);\n}\n90% {\n    transform: scale(1);\n}\n100% {\n    transform: scale(0.9);\n}\n}\n@keyframes push-data-v-50833bfe {\n0% {\n    transform: scale(0.9);\n}\n30% {\n    transform: scale(1);\n}\n60% {\n    transform: scale(1.1);\n}\n90% {\n    transform: scale(1);\n}\n100% {\n    transform: scale(0.9);\n}\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".contact-pill[data-v-50833bfe] {\n  background: #2c3e4f;\n  width: 100%;\n  max-width: 250px;\n  padding: 10px;\n  cursor: pointer;\n  z-index: 0;\n  transition: all 0.4s ease;\n  position: relative;\n}\n.contact-pill[data-v-50833bfe]:hover {\n  background: #4e83b4;\n  z-index: 1;\n  position: relative;\n}\n.contact-pill + .contact-pill[data-v-50833bfe] {\n  margin-top: 1px;\n}\n.contact-pill h4[data-v-50833bfe] {\n  margin: 0;\n  font-size: 16px;\n  color: #dbdbdb;\n  font-weight: 400;\n  -webkit-user-select: none;\n  /* Safari */\n  -moz-user-select: none;\n  /* Firefox */\n  -ms-user-select: none;\n  /* IE10+/Edge */\n  user-select: none;\n  /* Standard */\n}\n.contact-pill p[data-v-50833bfe] {\n  font-size: 12px;\n  margin: 0;\n  color: #b6b6b6;\n  -webkit-user-select: none;\n  /* Safari */\n  -moz-user-select: none;\n  /* Firefox */\n  -ms-user-select: none;\n  /* IE10+/Edge */\n  user-select: none;\n  /* Standard */\n}\n.active-pill[data-v-50833bfe] {\n  background: #0a76be;\n  cursor: default;\n}\n.active-pill[data-v-50833bfe]:hover {\n  background: #0a76be;\n}\n.notification[data-v-50833bfe] {\n  position: absolute;\n  top: 8px;\n  right: 10px;\n  height: 10px;\n  width: 10px;\n  border-radius: 50%;\n  -webkit-animation: push-data-v-50833bfe 0.8s linear infinite;\n          animation: push-data-v-50833bfe 0.8s linear infinite;\n}\n.notification.blue[data-v-50833bfe] {\n  background: #1fa3b5;\n}\n@-webkit-keyframes push-data-v-50833bfe {\n0% {\n    transform: scale(0.9);\n}\n30% {\n    transform: scale(1);\n}\n60% {\n    transform: scale(1.1);\n}\n90% {\n    transform: scale(1);\n}\n100% {\n    transform: scale(0.9);\n}\n}\n@keyframes push-data-v-50833bfe {\n0% {\n    transform: scale(0.9);\n}\n30% {\n    transform: scale(1);\n}\n60% {\n    transform: scale(1.1);\n}\n90% {\n    transform: scale(1);\n}\n100% {\n    transform: scale(0.9);\n}\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -809,7 +850,7 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 ___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Inconsolata:wght@200&display=swap);"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".chatPage[data-v-765e6930] {\n  font-family: \"Inconsolata\", monospace;\n  background: #f1f1f1;\n  min-height: 100%;\n  width: 100%;\n  color: #fafafa;\n}\n.container[data-v-765e6930] {\n  height: 100%;\n  width: 100%;\n  justify-content: center;\n  align-items: center;\n  display: flex;\n  max-width: 500px;\n  flex-wrap: wrap;\n}\n.text[data-v-765e6930] {\n  font-weight: 100;\n  font-size: 28px;\n  color: #fafafa;\n}\n.chat-page-section[data-v-765e6930] {\n  display: flex;\n  height: 100vh;\n}\n.chat-page-section__left[data-v-765e6930] {\n  width: 100%;\n  max-width: 250px;\n  background: #23232bfc;\n}\n.chat-page-section__left form[data-v-765e6930] {\n  display: flex;\n  padding: 20px 7px;\n  margin-bottom: 2rem;\n}\n.chat-page-section__left form input[data-v-765e6930] {\n  width: 100%;\n  padding: 5px;\n  border-radius: 11px 0 0 11px;\n  background: #d6d6d6;\n  color: #a1a1a1;\n  outline: none !important;\n}\n.chat-page-section__left form input[data-v-765e6930]:focus, .chat-page-section__left form input[data-v-765e6930]:active {\n  color: #000000;\n}\n.chat-page-section__left form button[data-v-765e6930] {\n  background: #d6d6d6;\n  border-radius: 0 11px 11px 0;\n  padding: 10px;\n  outline: none !important;\n  cursor: pointer;\n}\n.chat-page-section__left form button svg[data-v-765e6930] {\n  fill: #a1a1a1;\n}\n.chat-page-section__right[data-v-765e6930] {\n  width: 100%;\n  overflow: hidden;\n  position: relative;\n}\n.chat-page-section__right .active-thread-user[data-v-765e6930] {\n  display: flex;\n  justify-content: flex-end;\n  padding: 10px;\n  box-shadow: 0 0 20px -12px #000000;\n  z-index: 2;\n  position: relative;\n}\n.chat-page-section__right__messages[data-v-765e6930] {\n  width: 100%;\n  height: calc(100% - 30px);\n  overflow: auto;\n  position: relative;\n}\n.chat-page-section__right .chatPage[data-v-765e6930] {\n  min-height: 100%;\n  position: relative;\n  z-index: 1;\n}\n.chat-page-section__right form[data-v-765e6930] {\n  display: flex;\n  position: sticky;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n}\n.chat-page-section__right form input[data-v-765e6930] {\n  width: 100%;\n  outline: none !important;\n}\n.chat-page-section__right form button[data-v-765e6930] {\n  background: #ffffff;\n  border: 2px solid #f1f1f1;\n  outline: none !important;\n}\n.chat-page-section__right .loading-container[data-v-765e6930] {\n  background: #f1f1f1;\n  height: 100vh;\n  display: flex;\n  justify-content: center;\n  flex-direction: column;\n}\n.chat-page-section__right .loading-container__wrapper[data-v-765e6930] {\n  margin: auto;\n  width: 400px;\n  height: 400px;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".chatPage[data-v-765e6930] {\n  font-family: \"Inconsolata\", monospace;\n  background: #f1f1f1;\n  min-height: 100%;\n  width: 100%;\n  color: #fafafa;\n}\n.container[data-v-765e6930] {\n  height: 100%;\n  width: 100%;\n  justify-content: center;\n  align-items: center;\n  display: flex;\n  max-width: 500px;\n  flex-wrap: wrap;\n}\n.text[data-v-765e6930] {\n  font-weight: 100;\n  font-size: 28px;\n  color: #fafafa;\n}\n.chat-page-section[data-v-765e6930] {\n  display: flex;\n  height: 100vh;\n}\n.chat-page-section__left[data-v-765e6930] {\n  width: 100%;\n  max-width: 250px;\n  background: #23232bfc;\n}\n.chat-page-section__left form[data-v-765e6930] {\n  display: flex;\n  padding: 20px 7px;\n  margin-bottom: 2rem;\n}\n.chat-page-section__left form input[data-v-765e6930] {\n  width: 100%;\n  padding: 5px;\n  border-radius: 11px 0 0 11px;\n  background: #d6d6d6;\n  color: #a1a1a1;\n  outline: none !important;\n}\n.chat-page-section__left form input[data-v-765e6930]:focus, .chat-page-section__left form input[data-v-765e6930]:active {\n  color: #000000;\n}\n.chat-page-section__left form button[data-v-765e6930] {\n  background: #d6d6d6;\n  border-radius: 0 11px 11px 0;\n  padding: 10px;\n  outline: none !important;\n  cursor: pointer;\n}\n.chat-page-section__left form button svg[data-v-765e6930] {\n  fill: #a1a1a1;\n}\n.chat-page-section__right[data-v-765e6930] {\n  width: 100%;\n  overflow: hidden;\n  position: relative;\n}\n.chat-page-section__right .active-thread-user[data-v-765e6930] {\n  display: flex;\n  justify-content: flex-end;\n  padding: 10px;\n  box-shadow: 0 0 20px -12px #000000;\n  z-index: 2;\n  position: relative;\n}\n.chat-page-section__right__messages[data-v-765e6930] {\n  width: 100%;\n  height: calc(100% - 30px);\n  overflow: auto;\n  position: relative;\n}\n.chat-page-section__right .chatPage[data-v-765e6930] {\n  min-height: 100%;\n  position: relative;\n  z-index: 1;\n}\n.chat-page-section__right form[data-v-765e6930] {\n  display: flex;\n  position: sticky;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  box-shadow: 0 0 20px -12px #000000;\n  z-index: 2;\n}\n.chat-page-section__right form input[data-v-765e6930] {\n  width: 100%;\n  outline: none !important;\n}\n.chat-page-section__right form button[data-v-765e6930] {\n  background: #ffffff;\n  border: 2px solid #f1f1f1;\n  outline: none !important;\n}\n.chat-page-section__right .loading-container[data-v-765e6930] {\n  background: #f1f1f1;\n  height: 100vh;\n  display: flex;\n  justify-content: center;\n  flex-direction: column;\n}\n.chat-page-section__right .loading-container__wrapper[data-v-765e6930] {\n  margin: auto;\n  width: 400px;\n  height: 400px;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -1531,7 +1572,12 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "contact-pill", on: { click: _vm.threadSelected } },
+    {
+      staticClass: "contact-pill",
+      class: [{ "active-pill": _vm.$props.active }],
+      attrs: { id: "contact-pill-" + _vm.$props.threadId },
+      on: { click: _vm.threadSelected }
+    },
     [
       _c("h4", [_vm._v(_vm._s(_vm.truncatedName))]),
       _vm._v(" "),
@@ -1827,7 +1873,8 @@ var render = function() {
               "has-notification": thread.hasNotification,
               "thread-id": thread.threadId,
               "last-message": thread.lastMessage,
-              name: thread.name
+              name: thread.name,
+              active: thread.active
             },
             on: {
               threadSelected: function($event) {
@@ -1843,7 +1890,11 @@ var render = function() {
     _vm.showThread && _vm.loaded
       ? _c("div", { staticClass: "chat-page-section__right" }, [
           _c("div", { staticClass: "active-thread-user" }, [
-            _vm._v("\n                John Doe\n            ")
+            _vm._v(
+              "\n                " +
+                _vm._s(_vm.activeChatName) +
+                "\n            "
+            )
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "chat-page-section__right__messages" }, [

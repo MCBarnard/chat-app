@@ -16,11 +16,12 @@
                           :thread-id="thread.threadId"
                           :last-message="thread.lastMessage"
                           :name="thread.name"
+                          :active="thread.active"
                           @threadSelected="threadSelected($event)" />
         </div>
         <div v-if="showThread && loaded" class="chat-page-section__right">
             <div class="active-thread-user">
-                John Doe
+                {{ activeChatName }}
             </div>
             <div class="chat-page-section__right__messages">
                 <div class="chatPage">
@@ -80,6 +81,7 @@ export default {
             loaded: false,
             newMessage: "",
             searchInput: "",
+            activeChatName: "",
             threads: [],
             messages: [
                 {
@@ -103,37 +105,57 @@ export default {
         }
     },
     async mounted() {
-        await this.fetchThreads();
+        this.threads = await this.fetchThreads(parseInt(this.$route.params.threadId)).then((response) => response);
         if (this.showThread) {
+            this.setActiveThread(parseInt(this.$route.params.threadId));
             await this.fetchThreadMessages(this.$route.params.threadId);
         }
     },
     methods: {
+        setActiveThread(id) {
+            this.threads.forEach(item => {
+                if (item.threadId === id) {
+                    this.activeChatName = item.name;
+                    item.active = true;
+                } else {
+                    item.active = false;
+                }
+            });
+        },
         async fetchThreads() {
-            setTimeout(() => {
-                this.threads = [
-                    {
-                        name: "Test",
-                        lastMessage: "blah dlah kla salaaaah",
-                        threadId: 1,
-                        hasNotification: true
-                    },
-                    {
-                        name: "User",
-                        lastMessage: "blah dlah kla salaaaahblah dlah kla salaaaahblah dlah kla salaaaahblah dlah kla salaaaahblah dlah kla salaaaahblah dlah kla salaaaah",
-                        threadId: 2
-                    },
-                    {
-                        name: "Jerald McBoing boing boing boing boing",
-                        lastMessage: "blah dlah kla salaaaah",
-                        threadId: 3,
-                        hasNotification: true
-                    },
-                ];
-            }, 500);
+            return new Promise(resolve => {
+                let data;
+                setTimeout(async () => {
+                        data = [
+                            {
+                                name: "Test",
+                                lastMessage: "blah dlah kla salaaaah",
+                                threadId: 1,
+                                hasNotification: true,
+                                active: false
+                            },
+                            {
+                                name: "User",
+                                lastMessage: "blah dlah kla salaaaahblah dlah kla salaaaahblah dlah kla salaaaahblah dlah kla salaaaahblah dlah kla salaaaahblah dlah kla salaaaah",
+                                threadId: 2,
+                                active: false
+                            },
+                            {
+                                name: "Jerald McBoing boing boing boing boing",
+                                lastMessage: "blah dlah kla salaaaah",
+                                threadId: 3,
+                                hasNotification: true,
+                                active: false
+                            },
+                        ];
+                        resolve(data);
+                    }, 500);
+            });
+
         },
         threadSelected(id) {
-            if (this.$route.params.threadId !== id) {
+            if (parseInt(this.$route.params.threadId) !== id) {
+                this.setActiveThread(id)
                 this.$router.push({ name: 'chat-page', params: { threadId: id } });
                 this.fetchThreadMessages(id);
             }
@@ -280,6 +302,8 @@ export default {
             bottom: 0;
             left: 0;
             width: 100%;
+            box-shadow: 0 0 20px -12px #000000;
+            z-index: 2;
 
             input {
                 width: 100%;
