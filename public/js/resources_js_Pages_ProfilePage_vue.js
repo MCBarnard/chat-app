@@ -17,8 +17,41 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "ProfilePage"
+  name: "ProfilePage",
+  data: function data() {
+    return {
+      profileData: {
+        picture: ""
+      }
+    };
+  },
+  methods: {
+    submitProfile: function submitProfile() {
+      // let formData = new FormData();
+      // console.log(this.profileData.picture)
+      // formData.append('image_file', this.profileData.picture);
+      // console.log(formData);
+      var formData = new FormData();
+      formData.append('image_file', this.profileData.picture);
+      formData.append('image_name', "random_image");
+      axios.post("profile-data/update", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      }).then(function (response) {
+        console.log(response);
+      })["catch"](function (error) {
+        console.error(error.response.data);
+      });
+    },
+    profilePictureSelected: function profilePictureSelected() {
+      this.profileData.picture = this.$refs.profile_image.files[0];
+    }
+  }
 });
 
 /***/ }),
@@ -107,7 +140,29 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [_vm._v("\n    Profile Page\n")])
+  return _c("div", [
+    _c(
+      "form",
+      {
+        attrs: { action: "#" },
+        on: {
+          submit: function($event) {
+            $event.preventDefault()
+            return _vm.submitProfile.apply(null, arguments)
+          }
+        }
+      },
+      [
+        _c("input", {
+          ref: "profile_image",
+          attrs: { type: "file", placeholder: "Submit an Image" },
+          on: { change: _vm.profilePictureSelected }
+        }),
+        _vm._v(" "),
+        _c("button", { attrs: { type: "submit" } }, [_vm._v("Submit")])
+      ]
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true

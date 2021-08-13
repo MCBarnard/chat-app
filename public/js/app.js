@@ -2089,6 +2089,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Navbar",
   computed: {
@@ -2121,6 +2123,13 @@ __webpack_require__.r(__webpack_exports__);
 
 var globalMixin = {
   methods: {
+    pictureOrDefaultPicture: function pictureOrDefaultPicture(imageSlot) {
+      if (typeof imageSlot !== "undefined" && imageSlot !== null && imageSlot !== "") {
+        return imageSlot;
+      }
+
+      return this.$store.getters.getDefaultProfilePicture;
+    },
     scrollToBottom: function scrollToBottom() {
       var inner = document.querySelector('.chat-page-section__right__messages');
       inner.scrollTop = inner.scrollHeight;
@@ -2262,7 +2271,7 @@ var routes = [{
 }, {
   path: '/logout',
   component: function component() {
-    return Promise.resolve().then(function webpackMissingModule() { var e = new Error("Cannot find module '../Pages/About.vue'"); e.code = 'MODULE_NOT_FOUND'; throw e; });
+    return __webpack_require__.e(/*! import() */ "resources_js_Pages_Home_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../Pages/Home.vue */ "./resources/js/Pages/Home.vue"));
   },
   name: 'logout',
   meta: {
@@ -2412,7 +2421,9 @@ var constantSettings = {
   state: {
     settings: {
       scrambleTimeToAnimateIn: 50,
-      timeBetweenTimeouts: 100
+      timeBetweenTimeouts: 100,
+      profileImageStorageUrl: "/profile-images/",
+      profileImageDefault: "default_user.png"
     }
   },
   getters: {
@@ -2421,6 +2432,12 @@ var constantSettings = {
     },
     getMessageTimeOutTime: function getMessageTimeOutTime(state) {
       return state.settings.timeBetweenTimeouts;
+    },
+    getImageStorageUrl: function getImageStorageUrl(state) {
+      return state.settings.profileImageStorageUrl;
+    },
+    getDefaultProfilePicture: function getDefaultProfilePicture(state) {
+      return state.settings.profileImageDefault;
     }
   }
 };
@@ -39502,9 +39519,9 @@ var render = function() {
                   {
                     attrs: {
                       xmlns: "http://www.w3.org/2000/svg",
-                      viewBox: "0 0 24 24",
-                      width: "24",
-                      height: "24"
+                      viewBox: "0 0 16 16",
+                      width: "50",
+                      height: "50"
                     }
                   },
                   [
@@ -39512,7 +39529,7 @@ var render = function() {
                       attrs: {
                         "fill-rule": "evenodd",
                         d:
-                          "M19.25 1a.75.75 0 01.75.75V4h2.25a.75.75 0 010 1.5H20v2.25a.75.75 0 01-1.5 0V5.5h-2.25a.75.75 0 010-1.5h2.25V1.75a.75.75 0 01.75-.75zM9 6a3.5 3.5 0 100 7 3.5 3.5 0 000-7zM4 9.5a5 5 0 117.916 4.062 7.973 7.973 0 015.018 7.166.75.75 0 11-1.499.044 6.469 6.469 0 00-12.932 0 .75.75 0 01-1.499-.044 7.973 7.973 0 015.059-7.181A4.993 4.993 0 014 9.5z"
+                          "M5.5 3.5a2 2 0 100 4 2 2 0 000-4zM2 5.5a3.5 3.5 0 115.898 2.549 5.507 5.507 0 013.034 4.084.75.75 0 11-1.482.235 4.001 4.001 0 00-7.9 0 .75.75 0 01-1.482-.236A5.507 5.507 0 013.102 8.05 3.49 3.49 0 012 5.5zM11 4a.75.75 0 100 1.5 1.5 1.5 0 01.666 2.844.75.75 0 00-.416.672v.352a.75.75 0 00.574.73c1.2.289 2.162 1.2 2.522 2.372a.75.75 0 101.434-.44 5.01 5.01 0 00-2.56-3.012A3 3 0 0011 4z"
                       }
                     })
                   ]
@@ -39554,7 +39571,7 @@ var render = function() {
                   {
                     attrs: {
                       xmlns: "http://www.w3.org/2000/svg",
-                      viewBox: "0 0 16 16",
+                      viewBox: "0 0 24 24",
                       width: "50",
                       height: "50"
                     }
@@ -39564,7 +39581,7 @@ var render = function() {
                       attrs: {
                         "fill-rule": "evenodd",
                         d:
-                          "M5.5 3.5a2 2 0 100 4 2 2 0 000-4zM2 5.5a3.5 3.5 0 115.898 2.549 5.507 5.507 0 013.034 4.084.75.75 0 11-1.482.235 4.001 4.001 0 00-7.9 0 .75.75 0 01-1.482-.236A5.507 5.507 0 013.102 8.05 3.49 3.49 0 012 5.5zM11 4a.75.75 0 100 1.5 1.5 1.5 0 01.666 2.844.75.75 0 00-.416.672v.352a.75.75 0 00.574.73c1.2.289 2.162 1.2 2.522 2.372a.75.75 0 101.434-.44 5.01 5.01 0 00-2.56-3.012A3 3 0 0011 4z"
+                          "M12 2.5a5.5 5.5 0 00-3.096 10.047 9.005 9.005 0 00-5.9 8.18.75.75 0 001.5.045 7.5 7.5 0 0114.993 0 .75.75 0 101.499-.044 9.005 9.005 0 00-5.9-8.181A5.5 5.5 0 0012 2.5zM8 8a4 4 0 118 0 4 4 0 01-8 0z"
                       }
                     })
                   ]
@@ -56385,7 +56402,7 @@ var index = {
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_js_Pages_DashboardPage_vue":1,"resources_js_Pages_ChatPage_vue":1,"resources_js_Pages_ContactsPage_vue":1,"resources_js_Pages_ProfilePage_vue":1,"resources_js_Pages_SettingsPage_vue":1,"resources_js_Pages_ErrorPages_PageNotFoundPage_vue":1}[chunkId]) return "js/" + chunkId + ".js";
+/******/ 			if ({"resources_js_Pages_DashboardPage_vue":1,"resources_js_Pages_ChatPage_vue":1,"resources_js_Pages_ContactsPage_vue":1,"resources_js_Pages_ProfilePage_vue":1,"resources_js_Pages_SettingsPage_vue":1,"resources_js_Pages_Home_vue":1,"resources_js_Pages_ErrorPages_PageNotFoundPage_vue":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};

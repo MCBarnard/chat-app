@@ -4,12 +4,14 @@
             <!--      Logo      -->
             <li class="side-nav__main-logo">
                 <router-link class="side-nav__menu-item" :to="{ name: 'home' }">
-                <img src="/images/env.png" alt="Logo of an encrypted envelope">
+                    <img src="/images/env.png" alt="Logo of an encrypted envelope">
                 </router-link>
             </li>
             <!--      Chats      -->
             <li>
-                <router-link class="side-nav__menu-item" :class="[{'router-link-exact-active': $route.name === 'chat-page'}]" :to="{ name: 'chat-landing' }">
+                <router-link class="side-nav__menu-item"
+                             :class="[{'router-link-exact-active': $route.name === 'chat-page'}]"
+                             :to="{ name: 'chat-landing' }">
                     <div class="side-nav__menu-item__img-container">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="50" height="50">
                             <path fill-rule="evenodd"
@@ -29,9 +31,9 @@
             <li>
                 <router-link class="side-nav__menu-item" :to="{ name: 'contacts' }">
                     <div class="side-nav__menu-item__img-container">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="50" height="50">
                             <path fill-rule="evenodd"
-                                  d="M19.25 1a.75.75 0 01.75.75V4h2.25a.75.75 0 010 1.5H20v2.25a.75.75 0 01-1.5 0V5.5h-2.25a.75.75 0 010-1.5h2.25V1.75a.75.75 0 01.75-.75zM9 6a3.5 3.5 0 100 7 3.5 3.5 0 000-7zM4 9.5a5 5 0 117.916 4.062 7.973 7.973 0 015.018 7.166.75.75 0 11-1.499.044 6.469 6.469 0 00-12.932 0 .75.75 0 01-1.499-.044 7.973 7.973 0 015.059-7.181A4.993 4.993 0 014 9.5z"></path>
+                                  d="M5.5 3.5a2 2 0 100 4 2 2 0 000-4zM2 5.5a3.5 3.5 0 115.898 2.549 5.507 5.507 0 013.034 4.084.75.75 0 11-1.482.235 4.001 4.001 0 00-7.9 0 .75.75 0 01-1.482-.236A5.507 5.507 0 013.102 8.05 3.49 3.49 0 012 5.5zM11 4a.75.75 0 100 1.5 1.5 1.5 0 01.666 2.844.75.75 0 00-.416.672v.352a.75.75 0 00.574.73c1.2.289 2.162 1.2 2.522 2.372a.75.75 0 101.434-.44 5.01 5.01 0 00-2.56-3.012A3 3 0 0011 4z"></path>
                         </svg>
                         <div class="update-pin green" v-if="hasConnectionRequest"></div>
                     </div>
@@ -47,9 +49,9 @@
             <li>
                 <router-link class="side-nav__menu-item" :to="{ name: 'profile' }">
                     <div class="side-nav__menu-item__img-container">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="50" height="50">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="50" height="50">
                             <path fill-rule="evenodd"
-                                  d="M5.5 3.5a2 2 0 100 4 2 2 0 000-4zM2 5.5a3.5 3.5 0 115.898 2.549 5.507 5.507 0 013.034 4.084.75.75 0 11-1.482.235 4.001 4.001 0 00-7.9 0 .75.75 0 01-1.482-.236A5.507 5.507 0 013.102 8.05 3.49 3.49 0 012 5.5zM11 4a.75.75 0 100 1.5 1.5 1.5 0 01.666 2.844.75.75 0 00-.416.672v.352a.75.75 0 00.574.73c1.2.289 2.162 1.2 2.522 2.372a.75.75 0 101.434-.44 5.01 5.01 0 00-2.56-3.012A3 3 0 0011 4z"></path>
+                                  d="M12 2.5a5.5 5.5 0 00-3.096 10.047 9.005 9.005 0 00-5.9 8.18.75.75 0 001.5.045 7.5 7.5 0 0114.993 0 .75.75 0 101.499-.044 9.005 9.005 0 00-5.9-8.181A5.5 5.5 0 0012 2.5zM8 8a4 4 0 118 0 4 4 0 01-8 0z"></path>
                         </svg>
                     </div>
                     <div class="hidden-text">
@@ -160,11 +162,20 @@ export default {
                     background: #17b92a;
                 }
             }
-            @keyframes push{
-                0%   {transform: scale(0.5);}
-                50%  {transform: scale(1);}
-                75%  {transform: scale(1.5);}
-                100%  {transform: scale(1);}
+
+            @keyframes push {
+                0% {
+                    transform: scale(0.5);
+                }
+                50% {
+                    transform: scale(1);
+                }
+                75% {
+                    transform: scale(1.5);
+                }
+                100% {
+                    transform: scale(1);
+                }
             }
 
             a {
@@ -193,6 +204,7 @@ export default {
                         font-size: 16px;
                         display: block;
                     }
+
                     .subtext {
                         color: rgba(255, 255, 255, 0.79);
                         font-size: 12px;
@@ -214,6 +226,7 @@ export default {
             bottom: 0;
             left: 0;
             width: 100%;
+
             .hidden-text {
                 top: unset;
                 bottom: 0;
@@ -230,6 +243,7 @@ export default {
             .side-nav__menu-item__img-container {
                 background: #23232bfc;
             }
+
             svg {
                 fill: #ffffff;
             }

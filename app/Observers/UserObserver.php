@@ -21,6 +21,7 @@ class UserObserver
         do {
             $code = random_int(100000000, 999999999);
         } while (User::where("connection_id", "=", $code)->first());
+        $user->profile_picture = null;
         $user->connection_id = $code;
     }
 }

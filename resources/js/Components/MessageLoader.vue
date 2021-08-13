@@ -17,7 +17,7 @@ export default {
 .loader-container {
     height: 100%;
     align-items: center;
-    background: #f1f1f1;
+    background: #eff3ff;
     display: flex;
     justify-content: center;
     position: relative;

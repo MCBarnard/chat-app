@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->json('threads')->nullable();
             $table->string('connection_id')->unique();
+            $table->string('profile_picture')->nullable();
             $table->rememberToken();
             $table->softDeletes();
             $table->timestamps();

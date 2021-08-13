@@ -1,7 +1,8 @@
 <template>
     <div class="message-container" :class="[{'owner': $props.owner}]">
         <section class="message-section" :class="[{'owner': $props.owner}]">
-            {{ $props.message }}
+            <span>{{ $props.message }}</span>
+            <img :src="imageUrl" alt="">
         </section>
     </div>
 </template>
@@ -10,6 +11,11 @@
 
 export default {
     name: "MessageBlock",
+    computed: {
+        imageUrl () {
+            return this?.$store.getters.getImageStorageUrl + this.$props.pictureName
+        }
+    },
     props: {
         message: {
             type: String,
@@ -25,6 +31,10 @@ export default {
         },
         owner: {
             type: Boolean,
+            required: true
+        },
+        pictureName: {
+            type: String,
             required: true
         }
     }
@@ -44,17 +54,45 @@ export default {
     display: flex;
     justify-content: flex-start;
     flex-direction: column;
-    word-break: break-word;
-    max-width: 500px;
-    background: #2c3e4f;
-    color: #ffffff;
-    padding: 8px;
-    border-radius: 5px;
-    flex-wrap: wrap;
+    position: relative;
+
+    span {
+        display: flex;
+        margin-left: 30px;
+        word-break: break-word;
+        max-width: 500px;
+        background: #2c3e4f;
+        color: #ffffff;
+        padding: 12px;
+        border-radius: 5px;
+        flex-wrap: wrap;
+    }
+
+    img {
+        position: absolute;
+        left: 0;
+        bottom: -35px;
+        max-width: 50px;
+        max-height: 50px;
+        object-fit: contain;
+        border-radius: 50%;
+        border: 5px solid #eff3ff;
+    }
 }
 .message-section.owner {
     justify-content: flex-end;
-    background: #ffffff;
     color: #2c3e4f;
+
+    span {
+        margin-left: unset;
+        margin-right: 30px;
+        background: #ffffff;
+        color: #081840;
+    }
+
+    img {
+        left: unset;
+        right: 0;
+    }
 }
 </style>

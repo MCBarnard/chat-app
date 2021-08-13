@@ -49,7 +49,7 @@ const routes = [
     },
     {
         path: '/logout',
-        component: () => import('../Pages/About.vue'),
+        component: () => import('../Pages/Home.vue'),
         name: 'logout',
         meta: {
             title:'Logout'

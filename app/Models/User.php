@@ -22,7 +22,8 @@ class User extends Authenticatable
         'email',
         'password',
         'threads',
-        'connection_id'
+        'connection_id',
+        'profile_picture'
     ];
 
     /**

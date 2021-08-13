@@ -2,6 +2,12 @@
 
 export const globalMixin = {
     methods: {
+        pictureOrDefaultPicture(imageSlot) {
+            if (typeof imageSlot !== "undefined" && imageSlot !== null && imageSlot !== "") {
+                return imageSlot;
+            }
+            return this.$store.getters.getDefaultProfilePicture;
+        },
         scrollToBottom() {
             const inner = document.querySelector('.chat-page-section__right__messages');
             inner.scrollTop = inner.scrollHeight;

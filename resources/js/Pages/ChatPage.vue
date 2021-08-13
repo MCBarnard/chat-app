@@ -30,6 +30,7 @@
                                    :message="message.message"
                                    :user="message.username"
                                    :owner="message.owner"
+                                   :pictureName="pictureOrDefaultPicture(message.picture)"
                     />
                 </div>
             </div>
@@ -88,13 +89,15 @@ export default {
                     id: Math.floor(Math.random() * 10000),
                     message: "Hello there",
                     username: "User1",
-                    owner: true
+                    owner: true,
+                    picture: "1628852522TestmCUafiV4xB.jpg"
                 },
                 {
                     id: Math.floor(Math.random() * 10000),
                     message: "Hi...",
                     username: "Fred",
-                    owner: false
+                    owner: false,
+                    picture: ""
                 }
             ]
         };
@@ -207,7 +210,7 @@ export default {
 
 .chatPage {
     font-family: 'Inconsolata', monospace;
-    background: #f1f1f1;
+    background: #eff3ff;
     min-height: 100%;
     width: 100%;
     color: #fafafa;
@@ -247,7 +250,7 @@ export default {
                 width: 100%;
                 padding: 5px;
                 border-radius: 11px 0 0 11px;
-                background: #d6d6d6;
+                background: #eff3ff;
                 color: #a1a1a1;
                 outline: none!important;
 
@@ -257,7 +260,7 @@ export default {
             }
 
             button {
-                background: #d6d6d6;
+                background: #eff3ff;
                 border-radius: 0 11px 11px 0;
                 padding: 10px;
                 outline: none!important;
@@ -312,7 +315,7 @@ export default {
 
             button {
                 background: #ffffff;
-                border: 2px solid #f1f1f1;
+                border: 2px solid #eff3ff;
                 outline: none !important;
 
                 svg {
@@ -322,7 +325,7 @@ export default {
         }
 
         .loading-container {
-            background: #f1f1f1;
+            background: #eff3ff;
             height: 100vh;
             display: flex;
             justify-content: center;
