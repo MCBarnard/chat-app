@@ -2233,18 +2233,36 @@ var routes = [{
     title: 'Chat Thread'
   }
 }, {
-  path: '/about',
+  path: '/contacts',
   component: function component() {
-    return __webpack_require__.e(/*! import() */ "resources_js_Pages_About_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../Pages/About.vue */ "./resources/js/Pages/About.vue"));
+    return __webpack_require__.e(/*! import() */ "resources_js_Pages_ContactsPage_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../Pages/ContactsPage.vue */ "./resources/js/Pages/ContactsPage.vue"));
   },
-  name: 'about',
+  name: 'contacts',
   meta: {
-    title: 'About'
+    title: 'Contacts'
+  }
+}, {
+  path: '/profile',
+  component: function component() {
+    return __webpack_require__.e(/*! import() */ "resources_js_Pages_ProfilePage_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../Pages/ProfilePage.vue */ "./resources/js/Pages/ProfilePage.vue"));
+  },
+  name: 'profile',
+  meta: {
+    title: 'Your Profile'
+  }
+}, {
+  path: '/settings',
+  component: function component() {
+    return __webpack_require__.e(/*! import() */ "resources_js_Pages_SettingsPage_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../Pages/SettingsPage.vue */ "./resources/js/Pages/SettingsPage.vue"));
+  },
+  name: 'settings',
+  meta: {
+    title: 'App Settings'
   }
 }, {
   path: '/logout',
   component: function component() {
-    return __webpack_require__.e(/*! import() */ "resources_js_Pages_About_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../Pages/About.vue */ "./resources/js/Pages/About.vue"));
+    return Promise.resolve().then(function webpackMissingModule() { var e = new Error("Cannot find module '../Pages/About.vue'"); e.code = 'MODULE_NOT_FOUND'; throw e; });
   },
   name: 'logout',
   meta: {
@@ -39475,7 +39493,7 @@ var render = function() {
             "router-link",
             {
               staticClass: "side-nav__menu-item",
-              attrs: { to: { name: "about" } }
+              attrs: { to: { name: "contacts" } }
             },
             [
               _c("div", { staticClass: "side-nav__menu-item__img-container" }, [
@@ -39507,10 +39525,10 @@ var render = function() {
               _vm._v(" "),
               _c("div", { staticClass: "hidden-text" }, [
                 _c("p", [
-                  _c("span", { staticClass: "main" }, [_vm._v("Add Contacts")]),
+                  _c("span", { staticClass: "main" }, [_vm._v("Contacts")]),
                   _vm._v(" "),
                   _c("span", { staticClass: "subtext" }, [
-                    _vm._v("Get connected to more people")
+                    _vm._v("View or add more people")
                   ])
                 ])
               ])
@@ -39527,7 +39545,7 @@ var render = function() {
             "router-link",
             {
               staticClass: "side-nav__menu-item",
-              attrs: { to: { name: "about" } }
+              attrs: { to: { name: "profile" } }
             },
             [
               _c("div", { staticClass: "side-nav__menu-item__img-container" }, [
@@ -39575,7 +39593,7 @@ var render = function() {
             "router-link",
             {
               staticClass: "side-nav__menu-item",
-              attrs: { to: { name: "home" } }
+              attrs: { to: { name: "settings" } }
             },
             [
               _c("div", { staticClass: "side-nav__menu-item__img-container" }, [
@@ -56367,7 +56385,7 @@ var index = {
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_js_Pages_DashboardPage_vue":1,"resources_js_Pages_ChatPage_vue":1,"resources_js_Pages_About_vue":1,"resources_js_Pages_ErrorPages_PageNotFoundPage_vue":1}[chunkId]) return "js/" + chunkId + ".js";
+/******/ 			if ({"resources_js_Pages_DashboardPage_vue":1,"resources_js_Pages_ChatPage_vue":1,"resources_js_Pages_ContactsPage_vue":1,"resources_js_Pages_ProfilePage_vue":1,"resources_js_Pages_SettingsPage_vue":1,"resources_js_Pages_ErrorPages_PageNotFoundPage_vue":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};

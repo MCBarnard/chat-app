@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Models\User;
 use Exception;
+use Illuminate\Support\Facades\Log;
 
 class UserObserver
 {
@@ -20,7 +21,6 @@ class UserObserver
         do {
             $code = random_int(100000000, 999999999);
         } while (User::where("connection_id", "=", $code)->first());
-
         $user->connection_id = $code;
     }
 }

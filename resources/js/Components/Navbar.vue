@@ -25,9 +25,9 @@
                     </div>
                 </router-link>
             </li>
-            <!--      Contacts/Profile      -->
+            <!--      Contacts      -->
             <li>
-                <router-link class="side-nav__menu-item" :to="{ name: 'about' }">
+                <router-link class="side-nav__menu-item" :to="{ name: 'contacts' }">
                     <div class="side-nav__menu-item__img-container">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
                             <path fill-rule="evenodd"
@@ -37,15 +37,15 @@
                     </div>
                     <div class="hidden-text">
                         <p>
-                            <span class="main">Add Contacts</span>
-                            <span class="subtext">Get connected to more people</span>
+                            <span class="main">Contacts</span>
+                            <span class="subtext">View or add more people</span>
                         </p>
                     </div>
                 </router-link>
             </li>
             <!--      Profile      -->
             <li>
-                <router-link class="side-nav__menu-item" :to="{ name: 'about' }">
+                <router-link class="side-nav__menu-item" :to="{ name: 'profile' }">
                     <div class="side-nav__menu-item__img-container">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="50" height="50">
                             <path fill-rule="evenodd"
@@ -62,7 +62,7 @@
             </li>
             <!--      Settings      -->
             <li>
-                <router-link class="side-nav__menu-item" :to="{ name: 'home' }">
+                <router-link class="side-nav__menu-item" :to="{ name: 'settings' }">
                     <div class="side-nav__menu-item__img-container">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="50" height="50">
                             <path fill-rule="evenodd"

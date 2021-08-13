@@ -24,11 +24,27 @@ const routes = [
         }
     },
     {
-        path: '/about',
-        component: () => import('../Pages/About.vue'),
-        name: 'about',
+        path: '/contacts',
+        component: () => import('../Pages/ContactsPage.vue'),
+        name: 'contacts',
         meta: {
-            title:'About'
+            title:'Contacts'
+        }
+    },
+    {
+        path: '/profile',
+        component: () => import('../Pages/ProfilePage.vue'),
+        name: 'profile',
+        meta: {
+            title:'Your Profile'
+        }
+    },
+    {
+        path: '/settings',
+        component: () => import('../Pages/SettingsPage.vue'),
+        name: 'settings',
+        meta: {
+            title:'App Settings'
         }
     },
     {
