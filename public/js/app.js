@@ -2122,7 +2122,25 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var globalMixin = {
+  data: function data() {
+    return {
+      alert: {
+        show: "",
+        message: "",
+        variant: "",
+        dismissible: false
+      }
+    };
+  },
   methods: {
+    alert: function alert(show, message) {
+      var variant = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "info";
+      var dismissible = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
+      this.alert.show = show;
+      this.alert.message = message;
+      this.alert.variant = variant;
+      this.alert.dismissible = dismissible;
+    },
     pictureOrDefaultPicture: function pictureOrDefaultPicture(imageSlot) {
       if (typeof imageSlot !== "undefined" && imageSlot !== null && imageSlot !== "") {
         return imageSlot;

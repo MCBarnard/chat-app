@@ -1,7 +1,23 @@
 "use strict";
 
 export const globalMixin = {
+    data() {
+        return {
+            alert: {
+                show: "",
+                message: "",
+                variant: "",
+                dismissible: false
+            }
+        }
+    },
     methods: {
+        alert(show, message, variant = "info", dismissible = false) {
+            this.alert.show = show;
+            this.alert.message = message;
+            this.alert.variant = variant;
+            this.alert.dismissible = dismissible;
+        },
         pictureOrDefaultPicture(imageSlot) {
             if (typeof imageSlot !== "undefined" && imageSlot !== null && imageSlot !== "") {
                 return imageSlot;

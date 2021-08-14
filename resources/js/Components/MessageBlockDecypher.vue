@@ -58,6 +58,7 @@ export default {
     display: flex;
     justify-content: flex-start;
     padding: 8px;
+    color: #fff;
 }
 .message-container.owner {
     justify-content: flex-end;

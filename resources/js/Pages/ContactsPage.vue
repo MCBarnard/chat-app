@@ -11,6 +11,7 @@
             </button>
         </div>
     </div>
+    <alert-component v-if="alert.show" :heading="alert.heading" :body="alert.message" :variant="alert.variant" :dismissible="alert.dismissible"/>
     <div class="contact-cards">
         <div class="contact-cards__container">
             <contact-card v-for="(item, index) in contacts" :key="index"
@@ -25,8 +26,17 @@
         </div>
     </div>
     <div v-if="showAddNewContact" class="add-new-contact-page" :class="[{'smaller': stepOne}]">
-        <button @click="stepOne = true" class="back-button">
-            back
+        <button @click="resetStepOne" class="back-button" :class="[{'hidden-button': stepOne}]">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="50" height="50">
+                <path fill-rule="evenodd"
+                      d="M7.78 12.53a.75.75 0 01-1.06 0L2.47 8.28a.75.75 0 010-1.06l4.25-4.25a.75.75 0 011.06 1.06L4.81 7h7.44a.75.75 0 010 1.5H4.81l2.97 2.97a.75.75 0 010 1.06z"></path>
+            </svg>
+        </button>
+        <button :class="[{'hidden-button': !stepOne}]" @click="closeModal" class="close-button">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="50" height="50">
+                <path fill-rule="evenodd"
+                      d="M3.404 12.596a6.5 6.5 0 119.192-9.192 6.5 6.5 0 01-9.192 9.192zM2.344 2.343a8 8 0 1011.313 11.314A8 8 0 002.343 2.343zM6.03 4.97a.75.75 0 00-1.06 1.06L6.94 8 4.97 9.97a.75.75 0 101.06 1.06L8 9.06l1.97 1.97a.75.75 0 101.06-1.06L9.06 8l1.97-1.97a.75.75 0 10-1.06-1.06L8 6.94 6.03 4.97z"></path>
+            </svg>
         </button>
         <div class="card-body">
             <lottie-component
@@ -34,20 +44,21 @@
                 json-url="https://assets5.lottiefiles.com/packages/lf20_lKnuQT.json"
                 speed="0.5"
             />
-            <form action="#" @submit.prevent="makeConnectionRequest">
+            <form action="#" @submit.prevent="">
                 <div class="containing-section" :class="[{'next': !stepOne}]">
-                    <div class="first-section">
+                    <div class="first-section" :class="[{'hidden': !stepOne}]">
+                        <input type="text" placeholder="Enter a connection id" v-model="newConnection.connectionId">
                         <button class="submit-btn" @click="stepOne = false">
                             Next
                         </button>
                     </div>
-                    <div class="second-section">
+                    <div class="second-section"  :class="[{'hidden': stepOne}]">
                         <textarea placeholder="To start talking, send them an introduction message, it's just polite!"></textarea>
                         <div class="button-container">
-                            <button class="cancel-btn" @click="showAddNewContact = false">
+                            <button class="cancel-btn" @click="closeModal">
                                 Cancel
                             </button>
-                            <button class="submit-btn" type="submit">
+                            <button class="submit-btn" @click="makeConnectionRequest">
                                 Send Request
                             </button>
                         </div>
@@ -63,17 +74,19 @@
 import LottieComponent from "../Components/LottieComponent";
 import ContactCard from "../Components/ContactCard";
 import {globalMixin} from "../Mixins/GlobalMixin";
+import AlertComponent from "../Components/AlertComponent";
 
 export default {
     name: "ContactsPage",
     components: {
+        AlertComponent,
         ContactCard,
         LottieComponent
     },
     mixins: [globalMixin],
     data() {
         return {
-            showAddNewContact: true,
+            showAddNewContact: false,
             stepOne: true,
             newConnection: {
                 connectionId: "",
@@ -96,8 +109,18 @@ export default {
         };
     },
     methods: {
+        closeModal() {
+            this.showAddNewContact = false;
+            this.resetStepOne();
+            this.newConnection.connectionId = "";
+            this.newConnection.message = "";
+        },
+        resetStepOne() {
+            this.stepOne = true;
+        },
         makeConnectionRequest() {
-
+            this.closeModal();
+            console.log("sending!")
         },
         startThread (id) {
             console.log("Start thread with connection-id: ", id);
@@ -188,10 +211,50 @@ export default {
         left: 0;
         cursor: pointer;
         background: #ffffff00;
+        outline: none !important;
+        transition: all 0.3s ease;
+
+        svg {
+            fill: #d2d2d2;
+            width: 30px;
+            height: 30px;
+            transition: all 0.8s ease;
+        }
+
+        &:hover svg {
+            fill: #1f3c4b;
+        }
+    }
+
+    .close-button {
+        position: absolute;
+        top: 4px;
+        right: 0;
+        background: #ffffff;
+        outline: none !important;
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        svg {
+            fill: #d2d2d2;
+            width: 20px;
+            height: 20px;
+            transition: all 0.8s ease;
+        }
+
+        &:hover svg {
+            fill: red;
+        }
+    }
+
+    .hidden-button {
+        opacity: 0!important;
+        transition: none!important;
+        pointer-events: none!important;
     }
 
     &.smaller {
-        height: 240px;
+        height: 220px;
 
         .back-button {
             display: none;
@@ -233,9 +296,38 @@ export default {
 
                 .first-section {
                     width: 325px;
+                    display: flex;
+                    height: 34px;
+
+                    input {
+                        width: 100%;
+                        outline: none !important;
+                        border-left: 1px solid #d4d4d4;
+                        border-top: 1px solid #d4d4d4;
+                        border-bottom: 1px solid #d4d4d4;
+                        background: #eff3ff;
+                        color: #7c7c7c;
+                        border-radius: 5px 0 0 5px;
+                        padding: 5px;
+
+                        &:focus, &:active {
+                            color: #000000;
+                        }
+                    }
+                    button {
+                        margin: 0;
+                        border-radius: 0 5px 5px 0;
+                        transition: all 0.3s ease;
+                    }
                 }
                 .second-section {
                     width: 325px;
+                }
+
+                .hidden {
+                    opacity: 0!important;
+                    transition: none!important;
+                    pointer-events: none!important;
                 }
             }
         }

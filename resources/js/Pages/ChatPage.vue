@@ -54,7 +54,7 @@
 <!--                        </div>-->
         </div>
         <div v-else-if="!showThread" class="chat-page-section__right">
-            Implement cool design that speaks to users here!
+            <chat-info-page />
         </div>
     </section>
 </template>
@@ -66,10 +66,14 @@ import {globalMixin} from "../Mixins/GlobalMixin";
 import SpinningRedLoader from "../Components/SpinningRedLoader";
 import ContactPill from "../Components/ContactPill";
 import MessageLoader from "../Components/MessageLoader";
+import MessageBlockDecypher from "../Components/MessageBlockDecypher";
+import ChatInfoPage from "./ChatInfo";
 
 export default {
     name: "ChatPage",
     components: {
+        ChatInfoPage,
+        MessageBlockDecypher,
         MessageBlock,
         LottieComponent,
         SpinningRedLoader,
