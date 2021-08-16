@@ -433,11 +433,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
 
 
 
@@ -795,7 +790,7 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 ___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Inconsolata:wght@200&display=swap);"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".chatPage[data-v-765e6930] {\n  font-family: \"Inconsolata\", monospace;\n  background: #eff3ff;\n  min-height: 100%;\n  width: 100%;\n  color: #fafafa;\n}\n.container[data-v-765e6930] {\n  height: 100%;\n  width: 100%;\n  justify-content: center;\n  align-items: center;\n  display: flex;\n  max-width: 500px;\n  flex-wrap: wrap;\n}\n.text[data-v-765e6930] {\n  font-weight: 100;\n  font-size: 28px;\n  color: #fafafa;\n}\n.chat-page-section[data-v-765e6930] {\n  display: flex;\n  height: 100vh;\n}\n.chat-page-section__left[data-v-765e6930] {\n  width: 100%;\n  max-width: 250px;\n  background: #23232bfc;\n}\n.chat-page-section__left form[data-v-765e6930] {\n  display: flex;\n  padding: 20px 7px;\n  margin-bottom: 2rem;\n}\n.chat-page-section__left form input[data-v-765e6930] {\n  width: 100%;\n  padding: 5px;\n  border-radius: 11px 0 0 11px;\n  background: #eff3ff;\n  color: #a1a1a1;\n  outline: none !important;\n}\n.chat-page-section__left form input[data-v-765e6930]:focus, .chat-page-section__left form input[data-v-765e6930]:active {\n  color: #000000;\n}\n.chat-page-section__left form button[data-v-765e6930] {\n  background: #eff3ff;\n  border-radius: 0 11px 11px 0;\n  padding: 10px;\n  outline: none !important;\n  cursor: pointer;\n}\n.chat-page-section__left form button svg[data-v-765e6930] {\n  fill: #a1a1a1;\n}\n.chat-page-section__right[data-v-765e6930] {\n  width: 100%;\n  overflow: hidden;\n  position: relative;\n}\n.chat-page-section__right .active-thread-user[data-v-765e6930] {\n  display: flex;\n  justify-content: flex-end;\n  padding: 10px;\n  box-shadow: 0 0 20px -12px #000000;\n  z-index: 2;\n  position: relative;\n}\n.chat-page-section__right__messages[data-v-765e6930] {\n  width: 100%;\n  height: calc(100% - 30px);\n  overflow: auto;\n  position: relative;\n}\n.chat-page-section__right .chatPage[data-v-765e6930] {\n  min-height: 100%;\n  position: relative;\n  z-index: 1;\n}\n.chat-page-section__right form[data-v-765e6930] {\n  display: flex;\n  position: sticky;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  box-shadow: 0 0 20px -12px #000000;\n  z-index: 2;\n}\n.chat-page-section__right form input[data-v-765e6930] {\n  width: 100%;\n  outline: none !important;\n}\n.chat-page-section__right form button[data-v-765e6930] {\n  background: #ffffff;\n  border: 2px solid #eff3ff;\n  outline: none !important;\n}\n.chat-page-section__right .loading-container[data-v-765e6930] {\n  background: #eff3ff;\n  height: 100vh;\n  display: flex;\n  justify-content: center;\n  flex-direction: column;\n}\n.chat-page-section__right .loading-container__wrapper[data-v-765e6930] {\n  margin: auto;\n  width: 400px;\n  height: 400px;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".chatPage[data-v-765e6930] {\n  font-family: \"Inconsolata\", monospace;\n  background: #eff3ff;\n  min-height: 100%;\n  width: 100%;\n  color: #fafafa;\n}\n.container[data-v-765e6930] {\n  height: 100%;\n  width: 100%;\n  justify-content: center;\n  align-items: center;\n  display: flex;\n  max-width: 500px;\n  flex-wrap: wrap;\n}\n.text[data-v-765e6930] {\n  font-weight: 100;\n  font-size: 28px;\n  color: #fafafa;\n}\n.chat-page-section[data-v-765e6930] {\n  display: flex;\n  height: 100vh;\n}\n.chat-page-section__left[data-v-765e6930] {\n  width: 100%;\n  max-width: 250px;\n  background: #23232bfc;\n}\n.chat-page-section__left form[data-v-765e6930] {\n  display: flex;\n  padding: 20px 7px;\n  margin-bottom: 2rem;\n}\n.chat-page-section__left form input[data-v-765e6930] {\n  width: 100%;\n  padding: 5px;\n  border-radius: 11px 0 0 11px;\n  background: #eff3ff;\n  color: #a1a1a1;\n  outline: none !important;\n}\n.chat-page-section__left form input[data-v-765e6930]:focus, .chat-page-section__left form input[data-v-765e6930]:active {\n  color: #000000;\n}\n.chat-page-section__left form button[data-v-765e6930] {\n  background: #eff3ff;\n  border-radius: 0 11px 11px 0;\n  padding: 10px;\n  outline: none !important;\n  cursor: pointer;\n}\n.chat-page-section__left form button svg[data-v-765e6930] {\n  fill: #a1a1a1;\n}\n.chat-page-section__right[data-v-765e6930] {\n  width: 100%;\n  overflow: hidden;\n  position: relative;\n}\n.chat-page-section__right .active-thread-user[data-v-765e6930] {\n  display: flex;\n  justify-content: flex-end;\n  padding: 10px;\n  box-shadow: 0 0 20px -12px #000000;\n  z-index: 2;\n  position: relative;\n}\n.chat-page-section__right__messages[data-v-765e6930] {\n  width: 100%;\n  height: calc(100% - 30px);\n  overflow: auto;\n  position: relative;\n}\n.chat-page-section__right .chatPage[data-v-765e6930] {\n  min-height: 100%;\n  position: relative;\n  z-index: 1;\n}\n.chat-page-section__right form[data-v-765e6930] {\n  display: flex;\n  position: sticky;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  box-shadow: 0 0 20px -12px #000000;\n  z-index: 2;\n}\n.chat-page-section__right form input[data-v-765e6930] {\n  width: 100%;\n  padding: 5px;\n  border-radius: 11px 0 0 11px;\n  background: #f1f1f1;\n  color: #a1a1a1;\n  outline: none !important;\n  transition: all 0.3s ease;\n  border-right: 1px solid #dedede;\n}\n.chat-page-section__right form input[data-v-765e6930]:focus, .chat-page-section__right form input[data-v-765e6930]:active {\n  color: #000000;\n  background: #ffffff;\n}\n.chat-page-section__right form input[data-v-765e6930]:focus +, .chat-page-section__right form input[data-v-765e6930]:active + {\n  background: #ffffff;\n}\n.chat-page-section__right form button[data-v-765e6930] {\n  background: #f1f1f1;\n  border: 2px solid #f1f1f1;\n  outline: none !important;\n  padding: 5px 10px;\n  transition: all 0.3s ease;\n}\n.chat-page-section__right form button svg[data-v-765e6930] {\n  transform: rotate(-45deg);\n  max-width: 20px;\n}\n.chat-page-section__right form input:focus + button[data-v-765e6930], .chat-page-section__right form input:active + button[data-v-765e6930] {\n  background: #ffffff;\n  border: 2px solid #ffffff;\n}\n.chat-page-section__right .loading-container[data-v-765e6930] {\n  background: #eff3ff;\n  height: 100vh;\n  display: flex;\n  justify-content: center;\n  flex-direction: column;\n}\n.chat-page-section__right .loading-container__wrapper[data-v-765e6930] {\n  margin: auto;\n  width: 400px;\n  height: 400px;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -2066,11 +2061,7 @@ var render = function() {
     _vm.showThread && _vm.loaded
       ? _c("div", { staticClass: "chat-page-section__right" }, [
           _c("div", { staticClass: "active-thread-user" }, [
-            _vm._v(
-              "\n                " +
-                _vm._s(_vm.activeChatName) +
-                "\n            "
-            )
+            _vm._v("\n            " + _vm._s(_vm.activeChatName) + "\n        ")
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "chat-page-section__right__messages" }, [
@@ -2114,7 +2105,10 @@ var render = function() {
                     expression: "newMessage"
                   }
                 ],
-                attrs: { type: "text" },
+                attrs: {
+                  type: "text",
+                  placeholder: "Enter your message here..."
+                },
                 domProps: { value: _vm.newMessage },
                 on: {
                   input: function($event) {

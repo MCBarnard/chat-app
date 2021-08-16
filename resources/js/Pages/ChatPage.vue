@@ -35,7 +35,7 @@
                 </div>
             </div>
             <form action="#" @submit.prevent="submitNewMessage">
-                <input type="text" v-model="newMessage">
+                <input type="text" v-model="newMessage" placeholder="Enter your message here...">
                 <button>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
                         <path fill-rule="evenodd"
@@ -45,13 +45,8 @@
             </form>
         </div>
         <div v-else-if="showThread && !loaded" class="chat-page-section__right">
-<!--            Add some cool loader here...-->
+            <!--            Add some cool loader here...-->
             <message-loader />
-<!--                        <div class="loading-container">-->
-<!--                            <div class="loading-container__wrapper">-->
-<!--                                <lottie-component speed="2" json-url="https://assets10.lottiefiles.com/packages/lf20_me1uv4m6.json"/>-->
-<!--                            </div>-->
-<!--                        </div>-->
         </div>
         <div v-else-if="!showThread" class="chat-page-section__right">
             <chat-info-page />
@@ -310,17 +305,40 @@ export default {
 
             input {
                 width: 100%;
-                outline: none !important;
+                padding: 5px;
+                border-radius: 11px 0 0 11px;
+                background: #f1f1f1;
+                color: #a1a1a1;
+                outline: none!important;
+                transition: all 0.3s ease;
+                border-right: 1px solid #dedede;
+
+                &:focus, &:active {
+                    color: #000000;
+                    background: #ffffff;
+
+                    &+ {
+                        background: #ffffff;
+                    }
+                }
             }
 
             button {
-                background: #ffffff;
-                border: 2px solid #eff3ff;
+                background: #f1f1f1;
+                border: 2px solid #f1f1f1;
                 outline: none !important;
+                padding: 5px 10px;
+                transition: all 0.3s ease;
 
                 svg {
-
+                    transform: rotate(-45deg);
+                    max-width: 20px;
                 }
+            }
+
+            input:focus + button, input:active + button {
+                background: #ffffff;
+                border: 2px solid #ffffff;
             }
         }
 
