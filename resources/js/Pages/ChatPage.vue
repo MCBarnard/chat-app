@@ -63,20 +63,16 @@
 import MessageBlock from "../Components/MessageBlock";
 import LottieComponent from "../Components/LottieComponent";
 import {globalMixin} from "../Mixins/GlobalMixin";
-import SpinningRedLoader from "../Components/SpinningRedLoader";
 import ContactPill from "../Components/ContactPill";
 import MessageLoader from "../Components/MessageLoader";
-import MessageBlockDecypher from "../Components/MessageBlockDecypher";
 import ChatInfoPage from "./ChatInfo";
 
 export default {
     name: "ChatPage",
     components: {
         ChatInfoPage,
-        MessageBlockDecypher,
         MessageBlock,
         LottieComponent,
-        SpinningRedLoader,
         ContactPill,
         MessageLoader
     },

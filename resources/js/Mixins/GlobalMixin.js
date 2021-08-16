@@ -12,7 +12,7 @@ export const globalMixin = {
         }
     },
     methods: {
-        alert(show, message, variant = "info", dismissible = false) {
+        useAlert(show, message, variant = "info", dismissible = false) {
             this.alert.show = show;
             this.alert.message = message;
             this.alert.variant = variant;
