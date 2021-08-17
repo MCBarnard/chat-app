@@ -8,7 +8,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class ConnectionRequestController extends Controller
@@ -46,13 +48,19 @@ class ConnectionRequestController extends Controller
     {
         Log::info(__METHOD__ . " : BOF");
 
-        $request->validate([
-            'recipient' => 'required|integer'
-        ]);
+        $validator = Validator::make($request->only('connectionId'),
+             ['connectionId' => 'required|alphaNum|string|size:9']
+        );
+
+        if ($validator->fails())
+        {
+            return response("Your request does not meet our parameters!", ResponseAlias::HTTP_BAD_REQUEST);
+        }
 
         // ToDo:: Implement logged in user check
+        // $owner_id = Auth::user()->id;
         $owner_id = 1;
-        $recipient = User::find($request->input('recipient'));
+        $recipient = User::where('connection_id', $request->input('connectionId'))->first();
 
         // Check if recipient exists
         if (!$recipient) {
