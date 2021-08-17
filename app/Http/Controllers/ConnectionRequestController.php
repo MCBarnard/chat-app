@@ -21,7 +21,7 @@ class ConnectionRequestController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function index(): Response
     {
         Log::info(__METHOD__ . " : BOF");
         $pendingState = config('constantValues.defaultValues.states.pending');
@@ -99,7 +99,7 @@ class ConnectionRequestController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\ConnectionRequest  $connectionRequest
+     * @param ConnectionRequest $connectionRequest
      * @return Response
      */
     public function edit(ConnectionRequest $connectionRequest)
@@ -110,17 +110,16 @@ class ConnectionRequestController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ConnectionRequest  $connectionRequest
+     * @param $requestId
+     * @param Request $request
      * @return Response
      */
-    public function update($requestId, Request $request)
+    public function update($requestId, Request $request): Response
     {
         Log::info(__METHOD__ . " : BOF");
         $accepted = config('constantValues.defaultValues.states')['accepted'];
         $rejected = config('constantValues.defaultValues.states')['rejected'];
-        Log::debug(print_r($accepted, true));
-        Log::debug(print_r($rejected, true));
+
         $validate = Validator::make($request->only('state'), [
             'state' => [
                 'required',
@@ -145,9 +144,19 @@ class ConnectionRequestController extends Controller
         $cleanState = $request->input('state') == $accepted ? intval($accepted) : intval($rejected);
 
         // Update Request
-        Log::debug(print_r($connectionRequest, true));
         $connectionRequest->state = $cleanState;
-        $connectionRequest->save();
+
+        // If user has accepted the request, add them to their contacts
+        if ($cleanState == $accepted) {
+            $connectionObj = App::make(ConnectionRequests::class);
+            $response = $connectionObj->connectUsersAsContacts($connectionRequest->recipient, $connectionRequest->owner);
+
+            if (!$response) {
+                Log::info(__METHOD__ . " : EOF");
+                return response("Could not create contacts and could not save connection request as requested", ResponseAlias::HTTP_BAD_REQUEST);
+            }
+        }
+//        $connectionRequest->save();
 
         Log::info(__METHOD__ . " : EOF");
         return response($requestId, ResponseAlias::HTTP_OK);
@@ -156,7 +165,7 @@ class ConnectionRequestController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\ConnectionRequest  $connectionRequest
+     * @param ConnectionRequest $connectionRequest
      * @return Response
      */
     public function destroy(ConnectionRequest $connectionRequest)

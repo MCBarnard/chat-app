@@ -20,6 +20,11 @@ class ThreadController extends Controller
     {
         Log::info(__METHOD__ . " : BOF");
 
+        // Check if users are contacts
+
+        // create new thread for both users and update their threads field
+
+        // save message to thread
 //        Thread::create([
 //
 //                       ]);

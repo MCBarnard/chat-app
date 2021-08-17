@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Domain\Messages;
 use App\Models\Message;
 use App\Models\Thread;
+use App\Models\User;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
@@ -12,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class MessageController extends Controller
@@ -49,17 +51,36 @@ class MessageController extends Controller
     public function create(Request $request)
     {
         Log::info(__METHOD__ . " : BOF");
-
+        $recipientRequired = $request->input('new_thread') == "1" || $request->input('new_thread') == true;
         // Validate request
         $request->validate([
            'message' => 'required|string',
-           'recipient' => 'required|integer',
+           'recipient' => [
+               Rule::requiredIf($recipientRequired),
+               'integer'
+           ],
+           'new_thread' => 'required|boolean'
        ]);
+
+        // Check if contact exists in contact list
+        // ToDo: implement auth()->user->id
+        $user = User::find(1);
+
+        if(!$user) {
+            return response("You need to be logged in!", ResponseAlias::HTTP_UNAUTHORIZED);
+        }
+
+        $contacts = json_decode($user->contacts->users);
+
+        if (!in_array($request->input('recipient'), $contacts)) {
+            return response("You are not connected to the recipient of this message", ResponseAlias::HTTP_BAD_REQUEST);
+        }
 
         // format
         $messageObject = [
             'message' => $request->input('message'),
-            'recipient' => $request->input('recipient')
+            'recipient' => $request->input('recipient'),
+            'new_thread' => $request->input('new_thread')
         ];
 
         // Create message

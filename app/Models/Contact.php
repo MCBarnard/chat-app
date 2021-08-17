@@ -28,4 +28,8 @@ class Contact extends Model
     protected $casts = [
         'users' => 'array'
     ];
+
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
 }
