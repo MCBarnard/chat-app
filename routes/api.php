@@ -23,11 +23,21 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::group(['prefix'=>'testing'], function ($router) {
-    $router->get('messages', [MessageController::class, 'index']);
-    $router->get('messages/{thread?}', [MessageController::class, 'view'])->where('thread', '[0-9]*');
-    $router->post('messages/new', [MessageController::class, 'create']);
-    $router->get('threads/{thread?}', [ThreadController::class, 'index'])->where('thread', '[0-9]*');
-    $router->post('threads/new', [ThreadController::class, 'create']);
-    $router->get('connection-requests/', [ConnectionRequestController::class, 'index']);
-    $router->post('connection-requests/new', [ConnectionRequestController::class, 'create']);
+
+    $router->group(['prefix'=>'messages'], function ($router) {
+        $router->get('', [MessageController::class, 'index']);
+        $router->get('{thread?}', [MessageController::class, 'view'])->where('thread', '[0-9]*');
+        $router->post('new', [MessageController::class, 'create']);
+    });
+
+    $router->group(['prefix'=>'threads'], function ($router) {
+        $router->get('{thread?}', [ThreadController::class, 'index'])->where('thread', '[0-9]*');
+        $router->post('new', [ThreadController::class, 'create']);
+    });
+
+    $router->group(['prefix'=>'connection-requests'], function ($router) {
+        $router->get('', [ConnectionRequestController::class, 'index']);
+        $router->post('new', [ConnectionRequestController::class, 'create']);
+        $router->post('{requestId?}', [ConnectionRequestController::class, 'update'])->where('requestId', '[0-9]*');
+    });
 });

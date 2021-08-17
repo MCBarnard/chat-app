@@ -18,7 +18,8 @@ class ConnectionRequests
         return (bool)$exists;
     }
 
-    public function sanityCheck($recipient, $owner) {
+    public function sanityCheck($recipient, $owner): array
+    {
         Log::info(__METHOD__ . " : BOF");
         $error = false;
         $message = "";

@@ -66,7 +66,6 @@ class MessageController extends Controller
         $messagesDomain = app()->make(Messages::class);
         $response = $messagesDomain->createNewMessage($messageObject);
 
-        // save message and thread
         Log::info(__METHOD__ . " : EOF");
         return $response;
     }

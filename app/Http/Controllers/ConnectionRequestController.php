@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class ConnectionRequestController extends Controller
@@ -113,9 +114,43 @@ class ConnectionRequestController extends Controller
      * @param  \App\Models\ConnectionRequest  $connectionRequest
      * @return Response
      */
-    public function update(Request $request, ConnectionRequest $connectionRequest)
+    public function update($requestId, Request $request)
     {
-        //
+        Log::info(__METHOD__ . " : BOF");
+        $accepted = config('constantValues.defaultValues.states')['accepted'];
+        $rejected = config('constantValues.defaultValues.states')['rejected'];
+        Log::debug(print_r($accepted, true));
+        Log::debug(print_r($rejected, true));
+        $validate = Validator::make($request->only('state'), [
+            'state' => [
+                'required',
+                'string',
+                'size:1',
+                Rule::in([strval($accepted), strval($rejected)]),
+            ]
+        ]);
+
+        if ($validate->fails()) {
+            Log::info(__METHOD__ . " : EOF");
+            return response("Parameters Incorrectly specified", ResponseAlias::HTTP_BAD_REQUEST);
+        }
+        // Find Request
+        $connectionRequest = ConnectionRequest::find($requestId);
+
+        if (!$connectionRequest) {
+            Log::info(__METHOD__ . " : EOF");
+            return response("Request not found!", ResponseAlias::HTTP_NOT_FOUND);
+        }
+
+        $cleanState = $request->input('state') == $accepted ? intval($accepted) : intval($rejected);
+
+        // Update Request
+        Log::debug(print_r($connectionRequest, true));
+        $connectionRequest->state = $cleanState;
+        $connectionRequest->save();
+
+        Log::info(__METHOD__ . " : EOF");
+        return response($requestId, ResponseAlias::HTTP_OK);
     }
 
     /**
