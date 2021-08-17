@@ -2441,7 +2441,12 @@ var constantSettings = {
       scrambleTimeToAnimateIn: 50,
       timeBetweenTimeouts: 100,
       profileImageStorageUrl: "/profile-images/",
-      profileImageDefault: "default_user.png"
+      profileImageDefault: "default_user.png",
+      stateId: {
+        pending: 0,
+        accepted: 1,
+        rejected: 2
+      }
     }
   },
   getters: {
@@ -2456,6 +2461,9 @@ var constantSettings = {
     },
     getDefaultProfilePicture: function getDefaultProfilePicture(state) {
       return state.settings.profileImageDefault;
+    },
+    getStateIds: function getStateIds(state) {
+      return state.settings.stateId;
     }
   }
 };

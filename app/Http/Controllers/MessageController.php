@@ -23,7 +23,21 @@ class MessageController extends Controller
      */
     public function index()
     {
-        //
+        Log::info(__METHOD__ . " : BOF");
+        return response('Success', ResponseAlias::HTTP_OK);
+        Log::info(__METHOD__ . " : EOF");
+    }
+
+    /**
+     * Display a single item of the resource.
+     *
+     * @return Response
+     */
+    public function view($thread)
+    {
+        Log::info(__METHOD__ . " : BOF");
+        return response('Success', ResponseAlias::HTTP_OK);
+        Log::info(__METHOD__ . " : EOF");
     }
 
     /**

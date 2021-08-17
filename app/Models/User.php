@@ -23,7 +23,8 @@ class User extends Authenticatable
         'password',
         'threads',
         'connection_id',
-        'profile_picture'
+        'profile_picture',
+        'contacts_id'
     ];
 
     /**

@@ -10,8 +10,8 @@ use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 class ProfileController extends Controller
 {
     public function update(Request $request) {
-        Log::debug(__METHOD__ . " : BOF");
-        Log::debug(print_r($request->all(),true));
+        Log::info(__METHOD__ . " : BOF");
+
         if ($request->hasFile("image_file")) {
             $user = auth()->user();
 
@@ -23,13 +23,14 @@ class ProfileController extends Controller
             $profileImage->move($destination, $reImage);
 
             // Save image
+            // ToDo:: Save sent data or implement full profile saving
             $user->profile_picture = $reImage;
             $user->save();
         } else {
-            Log::debug(__METHOD__ . " : EOF");
+            Log::info(__METHOD__ . " : EOF");
             return response("Unable to process data!", ResponseAlias::HTTP_BAD_REQUEST);
         }
-        Log::debug(__METHOD__ . " : EOF");
+        Log::info(__METHOD__ . " : EOF");
         return response("Updated!", ResponseAlias::HTTP_ACCEPTED);
     }
 }
