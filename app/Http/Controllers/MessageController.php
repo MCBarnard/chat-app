@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 class MessageController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a list of your threads.
      *
      * @return Response
      */
@@ -31,19 +31,23 @@ class MessageController extends Controller
     }
 
     /**
-     * Display a single item of the resource.
+     * Display all Messages in the thread.
      *
      * @return Response
      */
     public function view($thread)
     {
         Log::info(__METHOD__ . " : BOF");
-        return response('Success', ResponseAlias::HTTP_OK);
+        $messages = Message::where('thread_id', $thread)->latest()->limit(100)->get();
+        $data = [
+            'data' => $messages->reverse()->values(),
+        ];
         Log::info(__METHOD__ . " : EOF");
+        return response($data, ResponseAlias::HTTP_OK);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Create a new thread.
      *
      * @return Application|ResponseFactory|Response
      * @throws BindingResolutionException
@@ -67,12 +71,14 @@ class MessageController extends Controller
         $user = User::find(1);
 
         if(!$user) {
+            Log::info(__METHOD__ . " : EOF");
             return response("You need to be logged in!", ResponseAlias::HTTP_UNAUTHORIZED);
         }
 
         $contacts = json_decode($user->contacts->users);
 
         if (!in_array($request->input('recipient'), $contacts)) {
+            Log::info(__METHOD__ . " : EOF");
             return response("You are not connected to the recipient of this message", ResponseAlias::HTTP_BAD_REQUEST);
         }
 
@@ -137,7 +143,22 @@ class MessageController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Set specific message as delete.
+     *
+     * @param  \App\Models\Message  $message
+     * @return Response
+     */
+    public function delete($messageId)
+    {
+        Log::info(__METHOD__ . " : BOF");
+        $message = Message::find($messageId);
+        // Delete message
+        $messagesDomain = app()->make(Messages::class);
+        return $messagesDomain->deleteMessage($message);
+    }
+
+    /**
+     * Delete the specific message.
      *
      * @param  \App\Models\Message  $message
      * @return Response

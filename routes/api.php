@@ -27,11 +27,14 @@ Route::group(['prefix'=>'testing'], function ($router) {
     $router->group(['prefix'=>'messages'], function ($router) {
         $router->get('', [MessageController::class, 'index']);
         $router->get('{thread?}', [MessageController::class, 'view'])->where('thread', '[0-9]*');
+        $router->get('{messageId?}/delete', [MessageController::class, 'delete'])->where('messageId', '[0-9]*');
         $router->post('new', [MessageController::class, 'create']);
     });
 
     $router->group(['prefix'=>'threads'], function ($router) {
+        $router->get('', [ThreadController::class, 'view']);
         $router->get('{thread?}', [ThreadController::class, 'index'])->where('thread', '[0-9]*');
+        $router->get('{thread?}/delete', [ThreadController::class, 'delete'])->where('thread', '[0-9]*');
         $router->post('new', [ThreadController::class, 'create']);
     });
 

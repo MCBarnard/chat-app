@@ -156,7 +156,7 @@ class ConnectionRequestController extends Controller
                 return response("Could not create contacts and could not save connection request as requested", ResponseAlias::HTTP_BAD_REQUEST);
             }
         }
-//        $connectionRequest->save();
+        $connectionRequest->save();
 
         Log::info(__METHOD__ . " : EOF");
         return response($requestId, ResponseAlias::HTTP_OK);

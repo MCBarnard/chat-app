@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('connection_id')->unique();
             $table->string('profile_picture')->nullable();
             $table->foreignId('contacts_id')->nullable()->constrained('contacts');
+            $table->json('threads')->default(json_encode(array()));
             $table->rememberToken();
             $table->softDeletes();
             $table->timestamps();

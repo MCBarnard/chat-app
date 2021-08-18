@@ -1,3 +1,0 @@
-Theme: https://www.google.com/search?q=web+chat+app+design&tbm=isch&ved=2ahUKEwiome_nyKbyAhVMpBoKHVFCABQQ2-cCegQIABAA&oq=web+chat+app+design&gs_lcp=CgNpbWcQAzIFCAAQgARQk-UEWKfpBGDj6wRoAHAAeACAAZsCiAG3CJIBAzItNJgBAKABAaoBC2d3cy13aXotaW1nwAEB&sclient=img&ei=OIASYaidFczIatGEgaAB&bih=908&biw=1920#imgrc=OQxM0VxyK2UDyM
-Icons: https://primer.style/octicons/
-
