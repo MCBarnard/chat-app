@@ -55,14 +55,14 @@ const routes = [
             title:'Logout'
         }
     },
-    {
-        path: '*',
-        component: () => import('../Pages/ErrorPages/PageNotFoundPage'),
-        name: 'PageNotFoundPage',
-        meta: {
-            title:'Page not Found'
-        }
-    }
+    // {
+    //     path: '*',
+    //     component: () => import('../Pages/ErrorPages/PageNotFoundPage'),
+    //     name: 'PageNotFoundPage',
+    //     meta: {
+    //         title:''
+    //     }
+    // }
 ];
 
 export default routes;

@@ -1,0 +1,179 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.app-page-auth {
+    width: 100%;
+    font-family: Open Sans;
+    display: flex;
+    min-height: 100vh;
+
+    &__left {
+        max-width: 350px;
+        width: 100%;
+        padding: 20px;
+        background: linear-gradient(45deg, #141419, #343d48);
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        &__text-block {
+            font-family: Lato, sans-serif;
+            color: #ffffff;
+            text-align: center;
+            z-index: 2;
+
+            h1 {
+                font-weight: bold;
+                margin: 0 0 20px;
+            }
+            p {
+                font-weight: 40;
+                margin: 20px auto;
+                max-width: 280px;
+            }
+            a {
+                background: transparent;
+                border-radius: 50px;
+                padding: 10px;
+                display: block;
+                text-align: center;
+                max-width: 150px;
+                width: 100%;
+                border: 1px solid #ffffff;
+                color: #ffffff;
+                margin: 20px auto 0;
+                cursor: pointer;
+                transition: background 0.5s ease, color 0.5s ease;
+                font-weight: bold;
+
+                &:hover {
+                    color: #141419;
+                    background: #ffffff;
+                }
+            }
+        }
+        .shapes {
+            z-index: 1;
+            display: block;
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            top: 0;
+            left: 0;
+
+            div {
+                position: absolute;
+                background: red;
+                height: 50px;
+                width: 50px;
+            }
+            .circle-big {
+                border-radius: 50%;
+                height: 500px;
+                width: 500px;
+                bottom: -250px;
+                left: -250px;
+                background: rgba(113, 113, 113, 0.16);
+            }
+            .triangle-sharp {
+                top: 42%;
+                right: -90px;
+                width: 0;
+                height: 0;
+                border-top: 50px solid transparent;
+                border-bottom: 50px solid transparent;
+                border-right: 190px solid rgba(113, 113, 113, 0.16);
+                background: transparent;
+                transform: rotate(298deg);
+                box-shadow: 0 0 33px -14px #2e2e3a;
+            }
+            .square {
+                background: rgba(113, 113, 113, 0.16);
+                top: 50px;
+                right: 80px;
+                width: 40px;
+                height: 40px;
+                box-shadow: 0 0 33px -14px #2e2e3a;
+                transform: rotate(45deg);
+            }
+
+            .rect {
+                background: rgba(113, 113, 113, 0.16);
+                top: unset;
+                bottom: 150px;
+                right: 50px;
+                width: 15px;
+                height: 50px;
+                transform: rotate(-45deg);
+                box-shadow: 0 0 33px -14px #2e2e3a;
+            }
+        }
+    }
+
+    &__right {
+        width: 100%;
+        padding: 20px;
+        position: relative;
+        background: #eff3ff;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        .login-page, .register-page {
+            margin: auto;
+            width: 100%;
+            max-width: 550px;
+
+            form {
+                .header {
+                    color: #494959;
+                    text-align: center;
+                    display: inline-block;
+                    margin: 0 auto 32px;
+                    font-weight: bold;
+                    font-size: 30px;
+                    font-family: Lato;
+                    width: 100%;
+                }
+
+                .form-input-fields {
+                    width: 100%;
+
+                    .input-field {
+                        width: 100%;
+                        max-width: 100%;
+                        position: relative;
+
+                        & + .input-field {
+                            margin-top: 16px;
+                        }
+
+                        input {
+                            padding-left: 50px;
+                            width: calc(100% - 55px);
+                            outline: none!important;
+                            height: 50px;
+                            border: none;
+                            background: rgba(113, 113, 113, 0.16);
+                        }
+                        svg {
+                            fill: #586169;
+                            max-height: 20px;
+                            position: absolute;
+                            left: 0px;
+                            pointer-events: none;
+                            top: 1rem;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
