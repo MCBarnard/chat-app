@@ -5,16 +5,16 @@
         </div>
         <alert-component heading="This is a danger alert"
                          body="Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet."
-                         variant="danger"/>
+                         variant="danger" :slide-in="false"/>
         <alert-component heading="This is a success alert"
                          body="Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet."
-                         variant="success"/>
+                         variant="success" :slide-in="false"/>
         <alert-component heading="This is a warning alert"
                          body="Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet."
-                         variant="warning"/>
+                         variant="warning" :slide-in="false"/>
         <alert-component heading="This is an info alert"
                          body="Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet."
-                         :dismissible="false"/>
+                         :dismissible="false" :slide-in="false"/>
     </div>
 </template>
 

@@ -11,7 +11,7 @@
             </button>
         </div>
     </div>
-    <alert-component v-if="alert.show" :heading="alert.heading" :body="alert.message" :variant="alert.variant" :dismissible="alert.dismissible"/>
+    <alert-component v-if="alert.show" :heading="alert.heading" :body="alert.message" :variant="alert.variant" :dismissible="alert.dismissible"  :slide-in="alert.slideIn"/>
     <div class="contact-cards">
         <div class="contact-cards__container">
             <contact-card v-for="(item, index) in contacts" :key="index"

@@ -7,6 +7,7 @@
                          body="We currently built this to be able to upload a profile picture and test the functionality, styling will come soon"
                          variant="warning"
                          :dismissible="false"
+                         :slide-in="false"
         />
         <form action="#" @submit.prevent="submitProfile">
             <input type="file" @change="profilePictureSelected" ref="profile_image" placeholder="Submit an Image">

@@ -7,16 +7,18 @@ export const globalMixin = {
                 show: "",
                 message: "",
                 variant: "",
-                dismissible: false
+                dismissible: false,
+                slideIn: false
             }
         }
     },
     methods: {
-        useAlert(show, message, variant = "info", dismissible = false) {
+        useAlert(show, message, variant = "info", dismissible = false, slideIn = false) {
             this.alert.show = show;
             this.alert.message = message;
             this.alert.variant = variant;
             this.alert.dismissible = dismissible;
+            this.alert.slideIn = slideIn;
         },
         pictureOrDefaultPicture(imageSlot) {
             if (typeof imageSlot !== "undefined" && imageSlot !== null && imageSlot !== "") {

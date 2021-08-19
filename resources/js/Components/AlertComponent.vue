@@ -1,5 +1,5 @@
 <template>
-    <div class="main-component" :class="[{'closed': closed}, {'loaded': loaded}]">
+    <div class="main-component" :class="[{'closed': closed}, {'slide-in': $props.slideIn}, {'loaded': loaded}]">
         <div class="color-circle" :class="[{'green': success}, {'orange': warning}, {'red': danger}, {'blue': info}]"></div>
         <div class="wrapper" :class="[{'green': success}, {'orange': warning}, {'red': danger}, {'blue': info}]">
             <div class="wrapper__section-container">
@@ -93,6 +93,10 @@ export default {
         body: {
             type: String,
             required: true
+        },
+        slideIn: {
+            type: Boolean,
+            default: false
         }
     }
 }
@@ -103,12 +107,14 @@ export default {
     position: relative;
     overflow: hidden;
     max-height: 300px;
-    transform: translateX(-200%);
 
-    &.loaded {
-        transition: all 1s linear;
-        transform: unset;
+    &.slide-in {
+        transform: translateX(-200%);
 
+        &.loaded {
+            transition: all 1s linear;
+            transform: unset;
+        }
     }
 
     &.closed {

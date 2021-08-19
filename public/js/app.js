@@ -2128,7 +2128,8 @@ var globalMixin = {
         show: "",
         message: "",
         variant: "",
-        dismissible: false
+        dismissible: false,
+        slideIn: false
       }
     };
   },
@@ -2136,10 +2137,12 @@ var globalMixin = {
     useAlert: function useAlert(show, message) {
       var variant = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "info";
       var dismissible = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
+      var slideIn = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : false;
       this.alert.show = show;
       this.alert.message = message;
       this.alert.variant = variant;
       this.alert.dismissible = dismissible;
+      this.alert.slideIn = slideIn;
     },
     pictureOrDefaultPicture: function pictureOrDefaultPicture(imageSlot) {
       if (typeof imageSlot !== "undefined" && imageSlot !== null && imageSlot !== "") {
