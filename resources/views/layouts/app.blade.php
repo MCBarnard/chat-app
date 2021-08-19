@@ -23,10 +23,10 @@
 {{--        <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>--}}
 {{--        <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>--}}
         @if(Request::is('register'))
-        <div id="app" class="app-page-auth">
+        <div id="app" class="app-page-auth right-aligned">
             <div class="app-page-auth__left">
                 <div class="app-page-auth__left__text-block">
-                    <h1>Welcome Back!</h1>
+                    <h1>Have an Account?</h1>
                     <p>Login to start messaging your connections in private!</p>
                     <a class="nav-link" href="{{ route('login') }}">SIGN IN</a>
                 </div>
@@ -45,7 +45,7 @@
             <div id="app" class="app-page-auth">
                 <div class="app-page-auth__left">
                     <div class="app-page-auth__left__text-block">
-                        <h1>Hi, There!</h1>
+                        <h1>New Here?</h1>
                         <p>Sign Up to start messaging your connections in private!</p>
                         <a class="nav-link" href="{{ route('register') }}">SIGN UP</a>
                     </div>
