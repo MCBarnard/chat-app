@@ -1,7 +1,7 @@
 <template>
     <div class="chat-info-page">
-        <alert-component heading="Coming Soon"
-                         body="We are currently working on this page, look out for the launch..."
+        <alert-component message="Coming Soon"
+                         subtitle="We are currently working on this page, look out for the launch..."
                          :dismissible="false" :slide-in="true"/>
     </div>
 </template>

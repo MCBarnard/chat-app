@@ -11,60 +11,75 @@
             </button>
         </div>
     </div>
-    <alert-component v-if="alert.show" :heading="alert.heading" :body="alert.message" :variant="alert.variant" :dismissible="alert.dismissible"  :slide-in="alert.slideIn"/>
-    <div class="contact-cards">
-        <div class="contact-cards__container">
-            <contact-card v-for="(item, index) in contacts" :key="index"
-                          :name="item.name"
-                          :image="pictureOrDefaultPicture(item.image)"
-                          :thread-id="item.threadId"
-                          :connection-id="item.connectionId"
-                          @start-thread="startThread($event)"
-                          @go-to-thread="goToThread($event)"
-                          @block-thread="blockThread($event)"
-            />
+    <div class="wrapper-control-height">
+        <alert-component v-if="alert.show" :message="alert.message" :subtitle="alert.subtitle" :variant="alert.variant" :dismissible="alert.dismissible"  :slide-in="alert.slideIn"/>
+        <alert-component v-if="responseAlert.show" :message="responseAlert.message" :subtitle="responseAlert.subtitle" :variant="responseAlert.variant" :dismissible="responseAlert.dismissible"  :slide-in="responseAlert.slideIn"/>
+        <div class="contacts-block-split">
+            <div class="contact-cards">
+                <div class="contact-cards__container">
+                    <contact-card v-for="(item, index) in contacts" :key="index"
+                                  :name="item.name"
+                                  :image="pictureOrDefaultPicture(item.image)"
+                                  :thread-id="item.threadId"
+                                  :connection-id="item.connectionId"
+                                  @start-thread="startThread($event)"
+                                  @go-to-thread="goToThread($event)"
+                                  @block-thread="blockThread($event)"
+                    />
+                </div>
+            </div>
+            <div class="connection-request-block">
+                <connection-request-card v-for="(item, index) in $store.getters.getNewConnectionRequests" :key="index"
+                                         :request-id="item.id"
+                                         :name="item.from"
+                                         :message="item.message"
+                                         :image="pictureOrDefaultPicture(item.owner_profile_picture)"
+                                         @accepted="acceptConnectionRequest($event)"
+                                         @rejected="declineConnectionRequest($event)"
+                />
+            </div>
         </div>
-    </div>
-    <div v-if="showAddNewContact" class="add-new-contact-page" :class="[{'smaller': stepOne}]">
-        <button @click="resetStepOne" class="back-button" :class="[{'hidden-button': stepOne}]">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="50" height="50">
-                <path fill-rule="evenodd"
-                      d="M7.78 12.53a.75.75 0 01-1.06 0L2.47 8.28a.75.75 0 010-1.06l4.25-4.25a.75.75 0 011.06 1.06L4.81 7h7.44a.75.75 0 010 1.5H4.81l2.97 2.97a.75.75 0 010 1.06z"></path>
-            </svg>
-        </button>
-        <button :class="[{'hidden-button': !stepOne}]" @click="closeModal" class="close-button">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="50" height="50">
-                <path fill-rule="evenodd"
-                      d="M3.404 12.596a6.5 6.5 0 119.192-9.192 6.5 6.5 0 01-9.192 9.192zM2.344 2.343a8 8 0 1011.313 11.314A8 8 0 002.343 2.343zM6.03 4.97a.75.75 0 00-1.06 1.06L6.94 8 4.97 9.97a.75.75 0 101.06 1.06L8 9.06l1.97 1.97a.75.75 0 101.06-1.06L9.06 8l1.97-1.97a.75.75 0 10-1.06-1.06L8 6.94 6.03 4.97z"></path>
-            </svg>
-        </button>
-        <div class="card-body">
-            <lottie-component
-                class="lottie-component"
-                json-url="https://assets5.lottiefiles.com/packages/lf20_lKnuQT.json"
-                speed="0.5"
-            />
-            <form action="#" @submit.prevent="">
-                <div class="containing-section" :class="[{'next': !stepOne}]">
-                    <div class="first-section" :class="[{'hidden': !stepOne}]">
-                        <input type="text" placeholder="Enter a connection id" v-model="newConnection.connectionId">
-                        <button class="submit-btn" @click="stepOne = false">
-                            Next
-                        </button>
-                    </div>
-                    <div class="second-section"  :class="[{'hidden': stepOne}]">
-                        <textarea placeholder="To start talking, send them an introduction message, it's just polite!"></textarea>
-                        <div class="button-container">
-                            <button class="cancel-btn" @click="closeModal">
-                                Cancel
-                            </button>
-                            <button class="submit-btn" @click="makeConnectionRequest">
-                                Send Request
+        <div v-if="showAddNewContact" class="add-new-contact-page" :class="[{'smaller': stepOne}]">
+            <button @click="resetStepOne" class="back-button" :class="[{'hidden-button': stepOne}]">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="50" height="50">
+                    <path fill-rule="evenodd"
+                          d="M7.78 12.53a.75.75 0 01-1.06 0L2.47 8.28a.75.75 0 010-1.06l4.25-4.25a.75.75 0 011.06 1.06L4.81 7h7.44a.75.75 0 010 1.5H4.81l2.97 2.97a.75.75 0 010 1.06z"></path>
+                </svg>
+            </button>
+            <button :class="[{'hidden-button': !stepOne}]" @click="closeModal" class="close-button">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="50" height="50">
+                    <path fill-rule="evenodd"
+                          d="M3.404 12.596a6.5 6.5 0 119.192-9.192 6.5 6.5 0 01-9.192 9.192zM2.344 2.343a8 8 0 1011.313 11.314A8 8 0 002.343 2.343zM6.03 4.97a.75.75 0 00-1.06 1.06L6.94 8 4.97 9.97a.75.75 0 101.06 1.06L8 9.06l1.97 1.97a.75.75 0 101.06-1.06L9.06 8l1.97-1.97a.75.75 0 10-1.06-1.06L8 6.94 6.03 4.97z"></path>
+                </svg>
+            </button>
+            <div class="card-body">
+                <lottie-component
+                    class="lottie-component"
+                    json-url="https://assets5.lottiefiles.com/packages/lf20_lKnuQT.json"
+                    speed="0.5"
+                />
+                <form action="#" @submit.prevent="">
+                    <div class="containing-section" :class="[{'next': !stepOne}]">
+                        <div class="first-section" :class="[{'hidden': !stepOne}]">
+                            <input type="text" placeholder="Enter a connection id" v-model="newConnection.connectionId">
+                            <button class="submit-btn" @click="stepOne = false">
+                                Next
                             </button>
                         </div>
+                        <div class="second-section"  :class="[{'hidden': stepOne}]">
+                            <textarea v-model="newConnection.message" placeholder="To start talking, send them an introduction message, it's just polite!"></textarea>
+                            <div class="button-container">
+                                <button class="cancel-btn" @click="closeModal">
+                                    Cancel
+                                </button>
+                                <button class="submit-btn" @click="makeConnectionRequest">
+                                    Send Request
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
 </div>
@@ -73,6 +88,7 @@
 <script>
 import LottieComponent from "../Components/LottieComponent";
 import ContactCard from "../Components/ContactCard";
+import ConnectionRequestCard from "../Components/ConnectionRequestCard";
 import {globalMixin} from "../Mixins/GlobalMixin";
 import AlertComponent from "../Components/AlertComponent";
 
@@ -81,7 +97,8 @@ export default {
     components: {
         AlertComponent,
         ContactCard,
-        LottieComponent
+        LottieComponent,
+        ConnectionRequestCard
     },
     mixins: [globalMixin],
     data() {
@@ -91,6 +108,14 @@ export default {
             newConnection: {
                 connectionId: "",
                 message: ""
+            },
+            responseAlert: {
+                show: "",
+                message: "",
+                subtitle: "",
+                variant: "",
+                dismissible: false,
+                slideIn: false
             },
             contacts: [
                 {
@@ -108,7 +133,37 @@ export default {
             ]
         };
     },
+    async mounted() {
+        await this.fetchContacts();
+    },
     methods: {
+        async acceptConnectionRequest(id) {
+            const data = {
+                state: this.$store.getters.getStateIds.accepted
+            };
+            await axios.post(`/data/connection-requests/${id}`, data).then(response => {
+                this.fetchContacts();
+                console.log(response)
+            });
+        },
+        async declineConnectionRequest(id) {
+            const data = {
+                state: this.$store.getters.getStateIds.rejected
+            };
+            await axios.post(`/data/connection-requests/${id}`, data).then(response => {
+                this.fetchContacts();
+                console.log(response)
+            });
+        },
+        async fetchContacts() {
+            await axios.get("/data/contacts").then(response => {
+                console.log(response.data)
+                this.contacts = response.data;
+                if (typeof this.contacts !== "array" || this.contacts.length === 0) {
+                    this.useAlert(true, "You don't have any connections yet.", "Asking a friend for their connection id and add them to your network", "info", false);
+                }
+            });
+        },
         closeModal() {
             this.showAddNewContact = false;
             this.resetStepOne();
@@ -118,9 +173,42 @@ export default {
         resetStepOne() {
             this.stepOne = true;
         },
-        makeConnectionRequest() {
+        async makeConnectionRequest() {
+            const data = {
+                connectionId: this.newConnection.connectionId,
+                message: this.newConnection.message
+            };
+            await axios.post("/data/connection-requests/new", data).then(response => {
+                if (response.status === 201) {
+                    this.responseAlert = {
+                        show: true,
+                        message: "Successfully sent Connection request!",
+                        subtitle: "You will receive a notification as soon as they accept your request!",
+                        variant: "success",
+                        dismissible: true,
+                        slideIn: true
+                    };
+                } else if(response.status === 208) {
+                    this.responseAlert = {
+                        show: true,
+                        message: response.data,
+                        subtitle: "You will receive a notification as soon as they accept your request!",
+                        variant: "warning",
+                        dismissible: true,
+                        slideIn: true
+                    };
+                }
+            }).catch(error => {
+                this.responseAlert = {
+                    show: true,
+                    message: "Something went wrong...",
+                    subtitle: error.response.data,
+                    variant: "danger",
+                    dismissible: true,
+                    slideIn: true
+                 };
+            });
             this.closeModal();
-            console.log("sending!")
         },
         startThread (id) {
             console.log("Start thread with connection-id: ", id);
@@ -140,7 +228,11 @@ export default {
     background: #eff3ff;
     min-height: 100vh;
 }
-
+.wrapper-control-height {
+    overflow: auto;
+    position: relative;
+    height: calc(100vh - 51.53px);
+}
 .page-header {
     display: flex;
     justify-content: space-between;
@@ -185,7 +277,6 @@ export default {
 
     &__container {
         margin: auto;
-        //background: red;
         display: flex;
         flex-wrap: wrap;
     }
@@ -282,6 +373,7 @@ export default {
                 font-family: sans-serif;
                 padding: 10px;
                 outline: none!important;
+                -webkit-font-smoothing: antialiased;
             }
 
             .containing-section {
@@ -366,5 +458,20 @@ export default {
 .button-container {
     display: flex;
     justify-content: flex-end;
+}
+.contacts-block-split {
+    display: flex;
+
+    .contact-cards {
+        width: 100%;
+    }
+    .connection-request-block {
+        max-width: 370px;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        padding: 20px;
+        height: 100%;
+    }
 }
 </style>

@@ -26,7 +26,7 @@ class Message extends Model
      */
     public function creator()
     {
-        return $this->belongsTo(User::class, 'foreign_key');
+        return $this->belongsTo(User::class);
     }
 
     /**

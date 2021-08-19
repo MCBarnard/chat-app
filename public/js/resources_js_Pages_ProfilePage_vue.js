@@ -100,11 +100,11 @@ __webpack_require__.r(__webpack_exports__);
       type: Boolean,
       "default": true
     },
-    heading: {
+    message: {
       type: String,
       required: true
     },
-    body: {
+    subtitle: {
       type: String,
       required: true
     },
@@ -658,7 +658,7 @@ var render = function() {
                 [
                   _vm._v(
                     "\n                    " +
-                      _vm._s(_vm.heading) +
+                      _vm._s(_vm.message) +
                       "\n                "
                   )
                 ]
@@ -670,7 +670,7 @@ var render = function() {
                 [
                   _vm._v(
                     "\n                    " +
-                      _vm._s(_vm.body) +
+                      _vm._s(_vm.subtitle) +
                       "\n                "
                   )
                 ]
@@ -712,8 +712,8 @@ var render = function() {
       _vm._v(" "),
       _c("alert-component", {
         attrs: {
-          heading: "This looks weird right now...",
-          body:
+          message: "This looks weird right now...",
+          subtitle:
             "We currently built this to be able to upload a profile picture and test the functionality, styling will come soon",
           variant: "warning",
           dismissible: false,

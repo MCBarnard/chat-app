@@ -3,8 +3,8 @@
         <div class="page-header">
             <h1>Profile</h1>
         </div>
-        <alert-component heading="This looks weird right now..."
-                         body="We currently built this to be able to upload a profile picture and test the functionality, styling will come soon"
+        <alert-component message="This looks weird right now..."
+                         subtitle="We currently built this to be able to upload a profile picture and test the functionality, styling will come soon"
                          variant="warning"
                          :dismissible="false"
                          :slide-in="false"

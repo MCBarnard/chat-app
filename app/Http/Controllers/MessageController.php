@@ -19,18 +19,6 @@ use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 class MessageController extends Controller
 {
     /**
-     * Display a list of your threads.
-     *
-     * @return Response
-     */
-    public function index()
-    {
-        Log::info(__METHOD__ . " : BOF");
-        return response('Success', ResponseAlias::HTTP_OK);
-        Log::info(__METHOD__ . " : EOF");
-    }
-
-    /**
      * Display all Messages in the thread.
      *
      * @return Response
@@ -39,9 +27,18 @@ class MessageController extends Controller
     {
         Log::info(__METHOD__ . " : BOF");
         $messages = Message::where('thread_id', $thread)->latest()->limit(100)->get();
-        $data = [
-            'data' => $messages->reverse()->values(),
-        ];
+        $data = [];
+
+        foreach($messages as $msg) {
+            $user = $msg->creator()->first();
+            array_push($data, [
+                'id' => $msg->id,
+                'message' => $msg->message,
+                'username' => $user->name,
+                'owner' => Auth::user()->id == $msg->id,
+                'picture' => $user->profile_picture
+            ]);
+        }
         Log::info(__METHOD__ . " : EOF");
         return response($data, ResponseAlias::HTTP_OK);
     }
@@ -67,8 +64,7 @@ class MessageController extends Controller
        ]);
 
         // Check if contact exists in contact list
-        // ToDo: implement auth()->user->id
-        $user = User::find(1);
+        $user = Auth::user();
 
         if(!$user) {
             Log::info(__METHOD__ . " : EOF");
@@ -98,55 +94,11 @@ class MessageController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     * @return Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Message  $message
-     * @return Response
-     */
-    public function show(Message $message)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Message  $message
-     * @return Response
-     */
-    public function edit(Message $message)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param  \App\Models\Message  $message
-     * @return Response
-     */
-    public function update(Request $request, Message $message)
-    {
-        //
-    }
-
-    /**
      * Set specific message as delete.
      *
-     * @param  \App\Models\Message  $message
+     * @param $messageId
      * @return Response
+     * @throws BindingResolutionException
      */
     public function delete($messageId)
     {
@@ -155,16 +107,5 @@ class MessageController extends Controller
         // Delete message
         $messagesDomain = app()->make(Messages::class);
         return $messagesDomain->deleteMessage($message);
-    }
-
-    /**
-     * Delete the specific message.
-     *
-     * @param  \App\Models\Message  $message
-     * @return Response
-     */
-    public function destroy(Message $message)
-    {
-        //
     }
 }

@@ -17,6 +17,7 @@ class CreateConnectionRequestsTable extends Migration
             $table->id();
             $table->foreignId('owner')->constrained('users');
             $table->foreignId('recipient')->constrained('users');
+            $table->mediumText('message')->nullable();
             $table->integer('state')->default(0);
             $table->softDeletes();
             $table->timestamps();

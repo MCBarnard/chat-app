@@ -6,6 +6,7 @@ export const globalMixin = {
             alert: {
                 show: "",
                 message: "",
+                subtitle: "",
                 variant: "",
                 dismissible: false,
                 slideIn: false
@@ -13,9 +14,10 @@ export const globalMixin = {
         }
     },
     methods: {
-        useAlert(show, message, variant = "info", dismissible = false, slideIn = false) {
+        useAlert(show, message, subtitle, variant = "info", dismissible = false, slideIn = false) {
             this.alert.show = show;
             this.alert.message = message;
+            this.alert.subtitle = subtitle;
             this.alert.variant = variant;
             this.alert.dismissible = dismissible;
             this.alert.slideIn = slideIn;

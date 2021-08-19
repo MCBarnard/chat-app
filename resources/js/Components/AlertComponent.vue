@@ -38,10 +38,10 @@
                 </div>
                 <div class="wrapper__section-container__right">
                     <div class="wrapper__section-container__right__heading" :class="[{'green': success}, {'orange': warning}, {'red': danger}, {'blue': info}]">
-                        {{ heading }}
+                        {{ message }}
                     </div>
                     <div class="wrapper__section-container__right__message">
-                        {{ body }}
+                        {{ subtitle }}
                     </div>
                 </div>
             </div>
@@ -86,11 +86,11 @@ export default {
             type: Boolean,
             default: true
         },
-        heading: {
+        message: {
             type: String,
             required: true
         },
-        body: {
+        subtitle: {
             type: String,
             required: true
         },

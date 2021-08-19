@@ -3,8 +3,8 @@
     <div class="page-header">
         <h1>Dashboard</h1>
     </div>
-    <alert-component heading="This looks weird right now..."
-                     body="We are still in the progress of building this page."
+    <alert-component message="This looks weird right now..."
+                     subtitle="We are still in the progress of building this page."
                      variant="warning"
                      :dismissible="false"
     />

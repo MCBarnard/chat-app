@@ -3,17 +3,17 @@
         <div class="page-header">
             <h1>Settings</h1>
         </div>
-        <alert-component heading="This is a danger alert"
-                         body="Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet."
+        <alert-component message="This is a danger alert"
+                         subtitle="Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet."
                          variant="danger" :slide-in="false"/>
-        <alert-component heading="This is a success alert"
-                         body="Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet."
+        <alert-component message="This is a success alert"
+                         subtitle="Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet."
                          variant="success" :slide-in="false"/>
-        <alert-component heading="This is a warning alert"
-                         body="Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet."
+        <alert-component message="This is a warning alert"
+                         subtitle="Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet."
                          variant="warning" :slide-in="false"/>
-        <alert-component heading="This is an info alert"
-                         body="Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet."
+        <alert-component message="This is an info alert"
+                         subtitle="Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet.Lorem ipsum dolor semet."
                          :dismissible="false" :slide-in="false"/>
     </div>
 </template>

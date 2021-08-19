@@ -25,15 +25,22 @@ class ConnectionRequestController extends Controller
     {
         Log::info(__METHOD__ . " : BOF");
         $pendingState = config('constantValues.defaultValues.states.pending');
-        $connectionRequests = ConnectionRequest::where('recipient', 2)->where('state', $pendingState)->get();
+        $connectionRequests = ConnectionRequest::where('recipient', Auth::user()->id)->where('state', $pendingState)->get();
+        $payload =[];
         if ($connectionRequests->isEmpty()) {
             Log::info(__METHOD__ . " : EOF");
-            return response("No results", ResponseAlias::HTTP_OK);
+            return response(json_encode($payload), ResponseAlias::HTTP_OK);
         }
 
-        $payload = [
-            'data'=> $connectionRequests,
-        ];
+        foreach($connectionRequests as $req) {
+            $creator = $req->owner()->first();
+            array_push($payload, [
+                'from' => $creator->name,
+                'message' => $req->message ?? '',
+                'owner_profile_picture' => $creator->profile_picture,
+                'id' => $req->id
+            ]);
+        }
 
         Log::info(__METHOD__ . " : EOF");
         return response($payload, ResponseAlias::HTTP_OK);
@@ -49,8 +56,11 @@ class ConnectionRequestController extends Controller
     {
         Log::info(__METHOD__ . " : BOF");
 
-        $validator = Validator::make($request->only('connectionId'),
-             ['connectionId' => 'required|alphaNum|string|size:9']
+        $validator = Validator::make($request->all(),
+             [
+                 'connectionId' => 'string',
+                 'message' => 'string'
+             ]
         );
 
         if ($validator->fails())
@@ -58,9 +68,7 @@ class ConnectionRequestController extends Controller
             return response("Your request does not meet our parameters!", ResponseAlias::HTTP_BAD_REQUEST);
         }
 
-        // ToDo:: Implement logged in user check
-        // $owner_id = Auth::user()->id;
-        $owner_id = 1;
+        $owner_id = Auth::user()->id;
         $recipient = User::where('connection_id', $request->input('connectionId'))->first();
 
         // Check if recipient exists
@@ -79,6 +87,7 @@ class ConnectionRequestController extends Controller
         ConnectionRequest::create([
             'owner' => $owner_id,
             'recipient' => $recipient->id,
+            'message' => $recipient->message,
             'state' => 0
         ]);
 
@@ -86,26 +95,6 @@ class ConnectionRequestController extends Controller
         return response("Successfully created connection request!", ResponseAlias::HTTP_CREATED);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @return Response
-     */
-    public function show(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param ConnectionRequest $connectionRequest
-     * @return Response
-     */
-    public function edit(ConnectionRequest $connectionRequest)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -123,9 +112,10 @@ class ConnectionRequestController extends Controller
         $validate = Validator::make($request->only('state'), [
             'state' => [
                 'required',
-                'string',
-                'size:1',
-                Rule::in([strval($accepted), strval($rejected)]),
+                'integer',
+                'min:1',
+                'max:2',
+                Rule::in([intval($accepted), intval($rejected)]),
             ]
         ]);
 

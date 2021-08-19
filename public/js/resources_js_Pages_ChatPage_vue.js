@@ -100,11 +100,11 @@ __webpack_require__.r(__webpack_exports__);
       type: Boolean,
       "default": true
     },
-    heading: {
+    message: {
       type: String,
       required: true
     },
-    body: {
+    subtitle: {
       type: String,
       required: true
     },
@@ -460,24 +460,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       searchInput: "",
       activeChatName: "",
       threads: [],
-      messages: [{
-        id: Math.floor(Math.random() * 10000),
-        message: "Hello there",
-        username: "User1",
-        owner: true,
-        picture: "1628852522TestmCUafiV4xB.jpg"
-      }, {
-        id: Math.floor(Math.random() * 10000),
-        message: "Hi...",
-        username: "Fred",
-        owner: false,
-        picture: ""
-      }]
+      messages: []
     };
   },
   computed: {
     showThread: function showThread() {
       return typeof this.$route.params.threadId !== "undefined";
+    },
+    activeThread: function activeThread() {
+      return this.$route.params.threadId;
+    },
+    cleanThread: function cleanThread() {
+      return false;
     }
   },
   mounted: function mounted() {
@@ -528,53 +522,36 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     fetchThreads: function fetchThreads() {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
-                return _context3.abrupt("return", new Promise(function (resolve) {
-                  var data;
-                  setTimeout( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
-                      while (1) {
-                        switch (_context2.prev = _context2.next) {
-                          case 0:
-                            data = [{
-                              name: "Test",
-                              lastMessage: "blah dlah kla salaaaah",
-                              threadId: 1,
-                              hasNotification: true,
-                              active: false
-                            }, {
-                              name: "User",
-                              lastMessage: "blah dlah kla salaaaahblah dlah kla salaaaahblah dlah kla salaaaahblah dlah kla salaaaahblah dlah kla salaaaahblah dlah kla salaaaah",
-                              threadId: 2,
-                              active: false
-                            }, {
-                              name: "Jerald McBoing boing boing boing boing",
-                              lastMessage: "blah dlah kla salaaaah",
-                              threadId: 3,
-                              hasNotification: true,
-                              active: false
-                            }];
-                            resolve(data);
-
-                          case 2:
-                          case "end":
-                            return _context2.stop();
-                        }
-                      }
-                    }, _callee2);
-                  })), 500);
-                }));
+                return _context2.abrupt("return", [{
+                  name: "Test",
+                  lastMessage: "blah dlah kla salaaaah",
+                  threadId: 1,
+                  hasNotification: true,
+                  active: false
+                }, {
+                  name: "User",
+                  lastMessage: "blah dlah kla salaaaahblah dlah kla salaaaahblah dlah kla salaaaahblah dlah kla salaaaahblah dlah kla salaaaahblah dlah kla salaaaah",
+                  threadId: 2,
+                  active: false
+                }, {
+                  name: "Jerald McBoing boing boing boing boing",
+                  lastMessage: "blah dlah kla salaaaah",
+                  threadId: 3,
+                  hasNotification: true,
+                  active: false
+                }]);
 
               case 1:
               case "end":
-                return _context3.stop();
+                return _context2.stop();
             }
           }
-        }, _callee3);
+        }, _callee2);
       }))();
     },
     threadSelected: function threadSelected(id) {
@@ -595,33 +572,64 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     fetchThreadMessages: function fetchThreadMessages(id) {
       var _this3 = this;
 
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _this3.loaded = false;
+                console.log("blah");
+                _context3.next = 4;
+                return axios.get("/data/messages/".concat(_this3.activeThread)).then(function (response) {
+                  if (response.status === 200) {
+                    _this3.messages = response.data;
+                    _this3.loaded = true;
+                  }
+                })["catch"](function (error) {
+                  _this3.useAlert(true, error.response, "danger");
+                });
+
+              case 4:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
+    },
+    submitNewMessage: function submitNewMessage() {
+      var _this4 = this;
+
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+        var message;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                _this3.loaded = false;
-                setTimeout(function () {
-                  _this3.loaded = true;
-                }, 2500);
+                _this4.loaded = false;
+                message = {
+                  message: _this4.newMessage,
+                  recipient: _this4.activeThread,
+                  new_thread: _this4.cleanThread
+                };
+                _context4.next = 4;
+                return axios.post("/data/messages/new", message).then(function (response) {
+                  if (response.status === 201) {
+                    _this4.loaded = true;
 
-              case 2:
+                    _this4.pushNewMessage(message);
+
+                    _this4.newMessage = "";
+                  }
+                });
+
+              case 4:
               case "end":
                 return _context4.stop();
             }
           }
         }, _callee4);
       }))();
-    },
-    submitNewMessage: function submitNewMessage() {
-      var message = {
-        id: Math.floor(Math.random() * 5000),
-        message: this.newMessage,
-        username: this.$store.getters.getUserAccount.username,
-        owner: true
-      };
-      this.pushNewMessage(message);
-      this.newMessage = "";
     },
     pushNewMessage: function pushNewMessage(item) {
       this.messages.push({
@@ -630,32 +638,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         username: item.username,
         owner: item.owner
       });
-    },
-    postMessageThrough: function postMessageThrough() {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
-        var data;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
-                data = {
-                  message: "blah blah message",
-                  recipient: 1
-                };
-                _context5.next = 3;
-                return axios.post("/messages/new", data).then(function (response) {
-                  if (response.status === 201) {
-                    console.log(response.data);
-                  }
-                });
-
-              case 3:
-              case "end":
-                return _context5.stop();
-            }
-          }
-        }, _callee5);
-      }))();
     }
   }
 });
@@ -1741,7 +1723,7 @@ var render = function() {
                 [
                   _vm._v(
                     "\n                    " +
-                      _vm._s(_vm.heading) +
+                      _vm._s(_vm.message) +
                       "\n                "
                   )
                 ]
@@ -1753,7 +1735,7 @@ var render = function() {
                 [
                   _vm._v(
                     "\n                    " +
-                      _vm._s(_vm.body) +
+                      _vm._s(_vm.subtitle) +
                       "\n                "
                   )
                 ]
@@ -1949,8 +1931,8 @@ var render = function() {
     [
       _c("alert-component", {
         attrs: {
-          heading: "Coming Soon",
-          body:
+          message: "Coming Soon",
+          subtitle:
             "We are currently working on this page, look out for the launch...",
           dismissible: false,
           "slide-in": true

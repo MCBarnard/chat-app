@@ -1926,50 +1926,93 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }))();
   },
   mounted: function mounted() {
-    this.testNotificationAnimations();
+    var _this2 = this;
+
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              _context2.next = 2;
+              return _this2.checkForNotifications();
+
+            case 2:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    }))();
   },
   methods: {
+    checkForNotifications: function checkForNotifications() {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return axios.get("/data/connection-requests").then(function (response) {
+                  console.log(response);
+
+                  if (response.data.length > 0) {
+                    _this3.$store.dispatch("ACT_NEW_CONNECTION_REQUEST", true);
+
+                    _this3.$store.dispatch("ACT_NEW_CONNECTION_REQUESTS", response.data);
+                  }
+                });
+
+              case 2:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
+    },
     testNotificationAnimations: function testNotificationAnimations() {
-      var _this2 = this;
+      var _this4 = this;
 
       setTimeout(function () {
-        _this2.newUnreadMessage();
+        _this4.newUnreadMessage();
       }, 1000);
       setTimeout(function () {
-        _this2.newConnectionRequest();
+        _this4.newConnectionRequest();
       }, 2000);
       setTimeout(function () {
-        _this2.newSettingsNotification();
+        _this4.newSettingsNotification();
       }, 3000); // ==================================
 
       setTimeout(function () {
-        _this2.noNewUnreadMessage();
+        _this4.noNewUnreadMessage();
       }, 4000);
       setTimeout(function () {
-        _this2.noNewConnectionRequest();
+        _this4.noNewConnectionRequest();
       }, 5000);
       setTimeout(function () {
-        _this2.noNewSettingsNotification();
+        _this4.noNewSettingsNotification();
       }, 6000); // ==================================
 
       setTimeout(function () {
-        _this2.newUnreadMessage();
+        _this4.newUnreadMessage();
       }, 7000);
       setTimeout(function () {
-        _this2.newConnectionRequest();
+        _this4.newConnectionRequest();
       }, 8000);
       setTimeout(function () {
-        _this2.newSettingsNotification();
+        _this4.newSettingsNotification();
       }, 9000); // ==================================
 
       setTimeout(function () {
-        _this2.noNewUnreadMessage();
+        _this4.noNewUnreadMessage();
       }, 10000);
       setTimeout(function () {
-        _this2.noNewConnectionRequest();
+        _this4.noNewConnectionRequest();
       }, 11000);
       setTimeout(function () {
-        _this2.noNewSettingsNotification();
+        _this4.noNewSettingsNotification();
       }, 12000); // ==================================
     }
   }
@@ -2127,6 +2170,7 @@ var globalMixin = {
       alert: {
         show: "",
         message: "",
+        subtitle: "",
         variant: "",
         dismissible: false,
         slideIn: false
@@ -2134,12 +2178,13 @@ var globalMixin = {
     };
   },
   methods: {
-    useAlert: function useAlert(show, message) {
-      var variant = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "info";
-      var dismissible = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
-      var slideIn = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : false;
+    useAlert: function useAlert(show, message, subtitle) {
+      var variant = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : "info";
+      var dismissible = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : false;
+      var slideIn = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : false;
       this.alert.show = show;
       this.alert.message = message;
+      this.alert.subtitle = subtitle;
       this.alert.variant = variant;
       this.alert.dismissible = dismissible;
       this.alert.slideIn = slideIn;
@@ -2487,46 +2532,76 @@ __webpack_require__.r(__webpack_exports__);
 var notifications = {
   state: {
     messages: {
-      newUnreadMessage: false
+      newUnreadMessage: false,
+      newMessages: []
     },
     contacts: {
-      newConnectionRequest: false
+      newConnectionRequest: false,
+      newRequests: []
     },
     settings: {
-      newSettingsNotification: false
+      newSettingsNotification: false,
+      newNotifications: []
     }
   },
   getters: {
     getNewUnreadMessage: function getNewUnreadMessage(state) {
       return state.messages.newUnreadMessage;
     },
+    getNewUnreadMessages: function getNewUnreadMessages(state) {
+      return state.messages.newMessages;
+    },
     getNewConnectionRequest: function getNewConnectionRequest(state) {
       return state.contacts.newConnectionRequest;
     },
+    getNewConnectionRequests: function getNewConnectionRequests(state) {
+      return state.contacts.newRequests;
+    },
     getNewSettingsNotification: function getNewSettingsNotification(state) {
       return state.settings.newSettingsNotification;
+    },
+    getNewSettingsNotifications: function getNewSettingsNotifications(state) {
+      return state.settings.newNotifications;
     }
   },
   mutations: {
     SET_NEW_UNREAD_MESSAGE: function SET_NEW_UNREAD_MESSAGE(state, payload) {
       state.messages.newUnreadMessage = payload;
     },
+    SET_NEW_UNREAD_MESSAGES: function SET_NEW_UNREAD_MESSAGES(state, payload) {
+      state.messages.newMessages = payload;
+    },
     SET_NEW_CONNECTION_REQUEST: function SET_NEW_CONNECTION_REQUEST(state, payload) {
       state.contacts.newConnectionRequest = payload;
     },
+    SET_NEW_CONNECTION_REQUESTS: function SET_NEW_CONNECTION_REQUESTS(state, payload) {
+      state.contacts.newRequests = payload;
+    },
     SET_NEW_SETTINGS_NOTIFICATION: function SET_NEW_SETTINGS_NOTIFICATION(state, payload) {
       state.settings.newSettingsNotification = payload;
+    },
+    SET_NEW_SETTINGS_NOTIFICATIONS: function SET_NEW_SETTINGS_NOTIFICATIONS(state, payload) {
+      state.settings.newNotifications = payload;
     }
   },
   actions: {
     ACT_NEW_UNREAD_MESSAGE: function ACT_NEW_UNREAD_MESSAGE(state, payload) {
       state.commit("SET_NEW_UNREAD_MESSAGE", payload);
     },
+    ACT_NEW_UNREAD_MESSAGES: function ACT_NEW_UNREAD_MESSAGES(state, payload) {
+      state.commit("SET_NEW_UNREAD_MESSAGES", payload);
+    },
     ACT_NEW_CONNECTION_REQUEST: function ACT_NEW_CONNECTION_REQUEST(state, payload) {
       state.commit("SET_NEW_CONNECTION_REQUEST", payload);
     },
+    ACT_NEW_CONNECTION_REQUESTS: function ACT_NEW_CONNECTION_REQUESTS(state, payload) {
+      state.commit("SET_NEW_CONNECTION_REQUESTS", payload);
+    },
     ACT_NEW_SETTINGS_NOTIFICATION: function ACT_NEW_SETTINGS_NOTIFICATION(state, payload) {
       state.commit("SET_NEW_SETTINGS_NOTIFICATION", payload);
+    },
+    ACT_NEW_SETTINGS_NOTIFICATIONS: function ACT_NEW_SETTINGS_NOTIFICATIONS(state, payload) {
+      state.commit("SET_NEW_SETTINGS_NOTIFICATIONS", payload);
     }
   }
 };

@@ -20,4 +20,8 @@ class ConnectionRequest extends Model
         'recipient',
         'state'
     ];
+
+    public function owner() {
+        return $this->belongsTo(User::class, 'owner');
+    }
 }

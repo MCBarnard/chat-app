@@ -79,27 +79,18 @@ export default {
             searchInput: "",
             activeChatName: "",
             threads: [],
-            messages: [
-                {
-                    id: Math.floor(Math.random() * 10000),
-                    message: "Hello there",
-                    username: "User1",
-                    owner: true,
-                    picture: "1628852522TestmCUafiV4xB.jpg"
-                },
-                {
-                    id: Math.floor(Math.random() * 10000),
-                    message: "Hi...",
-                    username: "Fred",
-                    owner: false,
-                    picture: ""
-                }
-            ]
+            messages: []
         };
     },
     computed: {
         showThread() {
             return typeof this.$route.params.threadId !== "undefined";
+        },
+        activeThread() {
+            return this.$route.params.threadId;
+        },
+        cleanThread() {
+            return false;
         }
     },
     async mounted() {
@@ -121,35 +112,28 @@ export default {
             });
         },
         async fetchThreads() {
-            return new Promise(resolve => {
-                let data;
-                setTimeout(async () => {
-                        data = [
-                            {
-                                name: "Test",
-                                lastMessage: "blah dlah kla salaaaah",
-                                threadId: 1,
-                                hasNotification: true,
-                                active: false
-                            },
-                            {
-                                name: "User",
-                                lastMessage: "blah dlah kla salaaaahblah dlah kla salaaaahblah dlah kla salaaaahblah dlah kla salaaaahblah dlah kla salaaaahblah dlah kla salaaaah",
-                                threadId: 2,
-                                active: false
-                            },
-                            {
-                                name: "Jerald McBoing boing boing boing boing",
-                                lastMessage: "blah dlah kla salaaaah",
-                                threadId: 3,
-                                hasNotification: true,
-                                active: false
-                            },
-                        ];
-                        resolve(data);
-                    }, 500);
-            });
-
+            return [
+                {
+                    name: "Test",
+                    lastMessage: "blah dlah kla salaaaah",
+                    threadId: 1,
+                    hasNotification: true,
+                    active: false
+                },
+                {
+                    name: "User",
+                    lastMessage: "blah dlah kla salaaaahblah dlah kla salaaaahblah dlah kla salaaaahblah dlah kla salaaaahblah dlah kla salaaaahblah dlah kla salaaaah",
+                    threadId: 2,
+                    active: false
+                },
+                {
+                    name: "Jerald McBoing boing boing boing boing",
+                    lastMessage: "blah dlah kla salaaaah",
+                    threadId: 3,
+                    hasNotification: true,
+                    active: false
+                },
+            ];
         },
         threadSelected(id) {
             if (parseInt(this.$route.params.threadId) !== id) {
@@ -163,19 +147,31 @@ export default {
         },
         async fetchThreadMessages(id) {
             this.loaded = false;
-            setTimeout(() => {
-                this.loaded = true;
-            }, 2500);
+            console.log("blah")
+            await axios.get(`/data/messages/${this.activeThread}`)
+                .then(response => {
+                    if(response.status === 200) {
+                        this.messages = response.data;
+                        this.loaded = true;
+                    }
+                }).catch(error => {
+                    this.useAlert(true, error.response, "danger");
+                });
         },
-        submitNewMessage() {
+        async submitNewMessage() {
+            this.loaded = false;
             const message = {
-                id: Math.floor(Math.random() * 5000),
                 message: this.newMessage,
-                username: this.$store.getters.getUserAccount.username,
-                owner: true
+                recipient: this.activeThread,
+                new_thread: this.cleanThread
             }
-            this.pushNewMessage(message);
-            this.newMessage = "";
+            await axios.post("/data/messages/new", message).then(response => {
+                if (response.status === 201) {
+                    this.loaded = true;
+                    this.pushNewMessage(message);
+                    this.newMessage = "";
+                }
+            });
         },
         pushNewMessage(item) {
             this.messages.push({
@@ -183,17 +179,6 @@ export default {
                 message: item.message,
                 username: item.username,
                 owner: item.owner
-            });
-        },
-        async postMessageThrough() {
-            const data = {
-                message: "blah blah message",
-                recipient: 1
-            };
-            await axios.post("/messages/new", data).then(response => {
-                if (response.status === 201) {
-                    console.log(response.data);
-                }
             });
         }
     }
