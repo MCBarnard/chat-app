@@ -128,6 +128,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _Mixins_GlobalMixin__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Mixins/GlobalMixin */ "./resources/js/Mixins/GlobalMixin.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -194,25 +200,15 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
-    animateOut: function animateOut() {
-      var card = document.getElementById(this.cardId);
-
-      if (!card.classList.contains('flip-out')) {
-        card.classList.add('flip-out');
-        setTimeout(function () {
-          if (!card.classList.contains('slide-out')) {
-            card.classList.add('slide-out');
-          }
-        }, 300);
-      }
-    },
     signalSelected: function signalSelected() {
-      this.$emit("accepted", this.$props.requestId);
-      this.animateOut();
+      var data = _objectSpread({}, this.$props);
+
+      this.$emit("accepted", data);
     },
     signalBlocked: function signalBlocked() {
-      this.$emit("rejected", this.$props.requestId);
-      this.animateOut();
+      var data = _objectSpread({}, this.$props);
+
+      this.$emit("rejected", data);
     }
   }
 });
@@ -230,6 +226,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _Mixins_GlobalMixin__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Mixins/GlobalMixin */ "./resources/js/Mixins/GlobalMixin.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -282,8 +284,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     signalSelected: function signalSelected() {
+      var data = _objectSpread({}, this.$props);
+
       if (this.$props.threadId === null || typeof this.$props.threadId === "undefined") {
-        this.$emit("start-thread", this.$props.connectionId);
+        this.$emit("start-thread", data);
       } else {
         this.$emit("go-to-thread", this.$props.threadId);
       }
@@ -357,6 +361,105 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Components/StartChatComponent.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Components/StartChatComponent.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "StartChatComponent",
+  data: function data() {
+    return {
+      message: ""
+    };
+  },
+  computed: {
+    imageUrl: function imageUrl() {
+      return (this === null || this === void 0 ? void 0 : this.$store.getters.getImageStorageUrl) + this.$props.image;
+    }
+  },
+  methods: {
+    sendMessage: function sendMessage() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var data;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                data = {
+                  message: _this.message,
+                  new_thread: true,
+                  recipient: _this.$props.connectionId
+                };
+                _context.next = 3;
+                return axios.post("/data/messages/new", data).then(function (response) {
+                  if (response.status === 201) {
+                    _this.$router.push({
+                      name: 'chat-page',
+                      params: {
+                        threadId: response.data.threadId
+                      }
+                    });
+                  }
+                });
+
+              case 3:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    }
+  },
+  props: {
+    connectionId: {
+      required: true
+    },
+    name: {
+      type: String,
+      required: true
+    },
+    image: {
+      required: true
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Pages/ContactsPage.vue?vue&type=script&lang=js&":
 /*!**************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Pages/ContactsPage.vue?vue&type=script&lang=js& ***!
@@ -369,11 +472,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _Components_LottieComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Components/LottieComponent */ "./resources/js/Components/LottieComponent.vue");
-/* harmony import */ var _Components_ContactCard__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Components/ContactCard */ "./resources/js/Components/ContactCard.vue");
-/* harmony import */ var _Components_ConnectionRequestCard__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Components/ConnectionRequestCard */ "./resources/js/Components/ConnectionRequestCard.vue");
-/* harmony import */ var _Mixins_GlobalMixin__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Mixins/GlobalMixin */ "./resources/js/Mixins/GlobalMixin.js");
-/* harmony import */ var _Components_AlertComponent__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Components/AlertComponent */ "./resources/js/Components/AlertComponent.vue");
+/* harmony import */ var _Components_StartChatComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Components/StartChatComponent */ "./resources/js/Components/StartChatComponent.vue");
+/* harmony import */ var _Components_LottieComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Components/LottieComponent */ "./resources/js/Components/LottieComponent.vue");
+/* harmony import */ var _Components_ContactCard__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Components/ContactCard */ "./resources/js/Components/ContactCard.vue");
+/* harmony import */ var _Components_ConnectionRequestCard__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Components/ConnectionRequestCard */ "./resources/js/Components/ConnectionRequestCard.vue");
+/* harmony import */ var _Mixins_GlobalMixin__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Mixins/GlobalMixin */ "./resources/js/Mixins/GlobalMixin.js");
+/* harmony import */ var _Components_AlertComponent__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Components/AlertComponent */ "./resources/js/Components/AlertComponent.vue");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -467,6 +571,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+
 
 
 
@@ -475,14 +583,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "ContactsPage",
   components: {
-    AlertComponent: _Components_AlertComponent__WEBPACK_IMPORTED_MODULE_5__.default,
-    ContactCard: _Components_ContactCard__WEBPACK_IMPORTED_MODULE_2__.default,
-    LottieComponent: _Components_LottieComponent__WEBPACK_IMPORTED_MODULE_1__.default,
-    ConnectionRequestCard: _Components_ConnectionRequestCard__WEBPACK_IMPORTED_MODULE_3__.default
+    AlertComponent: _Components_AlertComponent__WEBPACK_IMPORTED_MODULE_6__.default,
+    ContactCard: _Components_ContactCard__WEBPACK_IMPORTED_MODULE_3__.default,
+    LottieComponent: _Components_LottieComponent__WEBPACK_IMPORTED_MODULE_2__.default,
+    ConnectionRequestCard: _Components_ConnectionRequestCard__WEBPACK_IMPORTED_MODULE_4__.default,
+    StartChatComponent: _Components_StartChatComponent__WEBPACK_IMPORTED_MODULE_1__.default
   },
-  mixins: [_Mixins_GlobalMixin__WEBPACK_IMPORTED_MODULE_4__.globalMixin],
+  mixins: [_Mixins_GlobalMixin__WEBPACK_IMPORTED_MODULE_5__.globalMixin],
   data: function data() {
     return {
+      newChat: {
+        name: "",
+        connectionId: "",
+        image: ""
+      },
       showAddNewContact: false,
       stepOne: true,
       newConnection: {
@@ -497,18 +611,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         dismissible: false,
         slideIn: false
       },
-      contacts: [{
-        name: "Jacob Ross",
-        image: null,
-        threadId: null,
-        connectionId: 1
-      }, {
-        name: "Some new User",
-        image: null,
-        threadId: 1,
-        connectionId: 1
-      }]
+      contacts: [],
+      showNewChatStart: false
     };
+  },
+  computed: {
+    connectionRequests: function connectionRequests() {
+      return this.$store.getters.getNewConnectionRequests;
+    },
+    newChatModal: function newChatModal() {
+      return this.showNewChatStart;
+    }
   },
   mounted: function mounted() {
     var _this = this;
@@ -529,8 +642,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }, _callee);
     }))();
   },
+  watch: {
+    contacts: function contacts(val) {
+      if (val.length === 0) {
+        this.useAlert(true, "You don't have any connections yet.", "Asking a friend for their connection id and add them to your network", "info", false);
+      } else {
+        this.useAlert(false, "", "");
+      }
+    }
+  },
   methods: {
-    acceptConnectionRequest: function acceptConnectionRequest(id) {
+    popItemFromRequests: function popItemFromRequests(id) {
+      var newArray = [];
+      this.$store.getters.getNewConnectionRequests.forEach(function (item) {
+        if (item.id !== id) {
+          newArray.push(item);
+        }
+      });
+      this.$store.dispatch("ACT_NEW_CONNECTION_REQUESTS", newArray);
+    },
+    acceptConnectionRequest: function acceptConnectionRequest(obj) {
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
@@ -543,10 +674,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   state: _this2.$store.getters.getStateIds.accepted
                 };
                 _context2.next = 3;
-                return axios.post("/data/connection-requests/".concat(id), data).then(function (response) {
+                return axios.post("/data/connection-requests/".concat(obj.requestId), data).then(function (response) {
                   _this2.fetchContacts();
 
-                  console.log(response);
+                  _this2.popItemFromRequests(obj.requestId);
                 });
 
               case 3:
@@ -557,7 +688,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2);
       }))();
     },
-    declineConnectionRequest: function declineConnectionRequest(id) {
+    declineConnectionRequest: function declineConnectionRequest(obj) {
       var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
@@ -570,10 +701,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   state: _this3.$store.getters.getStateIds.rejected
                 };
                 _context3.next = 3;
-                return axios.post("/data/connection-requests/".concat(id), data).then(function (response) {
+                return axios.post("/data/connection-requests/".concat(obj.requestId), data).then(function (response) {
                   _this3.fetchContacts();
 
-                  console.log(response);
+                  setTimeout(function () {
+                    _this3.popItemFromRequests(obj.requestId);
+                  }, 1000);
                 });
 
               case 3:
@@ -594,12 +727,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context4.next = 2;
                 return axios.get("/data/contacts").then(function (response) {
-                  console.log(response.data);
                   _this4.contacts = response.data;
-
-                  if (typeof _this4.contacts !== "array" || _this4.contacts.length === 0) {
-                    _this4.useAlert(true, "You don't have any connections yet.", "Asking a friend for their connection id and add them to your network", "info", false);
-                  }
                 });
 
               case 2:
@@ -675,8 +803,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee5);
       }))();
     },
-    startThread: function startThread(id) {
-      console.log("Start thread with connection-id: ", id);
+    startThread: function startThread(obj) {
+      this.showNewChatStart = true;
+      this.newChat.name = obj.name;
+      this.newChat.connectionId = obj.connectionId;
+      this.newChat.image = obj.image;
+      console.log(obj);
+      console.log("Start thread with connection-id: ", obj);
     },
     goToThread: function goToThread(id) {
       console.log("Go to thread: ", id);
@@ -728,7 +861,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".contact-card[data-v-6acf4274] {\n  width: 325px;\n  background: #ffffff;\n  box-shadow: 0 0 58px -48px #000000;\n  border-radius: 5px;\n  border: 1px solid #d8edf8;\n  margin-bottom: 20px;\n  min-height: 214px;\n}\n.contact-card .heading[data-v-6acf4274] {\n  margin: 0;\n  font-size: 18px;\n  padding: 5px 20px;\n  text-align: center;\n  display: block;\n  border-bottom: 1px solid #f1f1f1;\n  color: #2b444e;\n  font-weight: 400;\n}\n.contact-card__top[data-v-6acf4274] {\n  padding: 16px;\n  display: flex;\n}\n.contact-card__top__left[data-v-6acf4274] {\n  min-width: 80px;\n}\n.contact-card__top__left img[data-v-6acf4274] {\n  max-width: 100px;\n  max-height: 100px;\n  border-radius: 50%;\n  width: 100%;\n  -o-object-fit: contain;\n     object-fit: contain;\n  display: block;\n  margin: auto;\n}\n.contact-card__top__right[data-v-6acf4274] {\n  padding-left: 16px;\n}\n.contact-card__top__right h3[data-v-6acf4274] {\n  font-weight: 500;\n  font-size: 22px;\n  color: #2c3e4f;\n  width: 100%;\n  text-align: left;\n  margin: 5px 0;\n}\n.contact-card__top__right p[data-v-6acf4274] {\n  color: #807d7d;\n  margin: 0;\n}\n.contact-card__bottom[data-v-6acf4274] {\n  display: flex;\n  justify-content: space-evenly;\n  border-top: 1px solid #f1f1f1;\n  padding: 0;\n}\n.contact-card__bottom button[data-v-6acf4274] {\n  background: #ffffff;\n  width: 100%;\n  text-align: center;\n  cursor: pointer;\n}\n.contact-card__bottom button svg[data-v-6acf4274] {\n  fill: #909fb5;\n  width: 20px;\n  margin: auto;\n}\n.contact-card__bottom button.chat[data-v-6acf4274]:hover {\n  background: #f6f6f6;\n}\n.contact-card__bottom button.chat:hover svg[data-v-6acf4274] {\n  fill: #00d25b;\n}\n.contact-card__bottom button.block[data-v-6acf4274]:hover {\n  background: #f6f6f6;\n}\n.contact-card__bottom button.block:hover svg[data-v-6acf4274] {\n  fill: #d90808;\n}\n.flip-out[data-v-6acf4274] {\n  transition: all 0.5s ease;\n  transform: rotateX(90deg);\n  overflow: hidden;\n  margin: 0;\n  box-shadow: unset;\n  border: none;\n}\n.slide-out[data-v-6acf4274] {\n  transition: all 0.3s ease;\n  height: 0;\n  min-height: 0;\n  overflow: hidden;\n  margin: 0;\n  box-shadow: unset;\n  border: none;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".contact-card[data-v-6acf4274] {\n  width: 325px;\n  background: #ffffff;\n  box-shadow: 0 0 58px -48px #000000;\n  border-radius: 5px;\n  border: 1px solid #d8edf8;\n  margin-bottom: 20px;\n  min-height: 214px;\n}\n.contact-card .heading[data-v-6acf4274] {\n  margin: 0;\n  font-size: 18px;\n  padding: 5px 20px;\n  text-align: center;\n  display: block;\n  border-bottom: 1px solid #f1f1f1;\n  color: #2b444e;\n  font-weight: 400;\n}\n.contact-card__top[data-v-6acf4274] {\n  padding: 16px;\n  display: flex;\n}\n.contact-card__top__left[data-v-6acf4274] {\n  min-width: 80px;\n}\n.contact-card__top__left img[data-v-6acf4274] {\n  max-width: 100px;\n  max-height: 100px;\n  border-radius: 50%;\n  width: 100%;\n  -o-object-fit: contain;\n     object-fit: contain;\n  display: block;\n  margin: auto;\n}\n.contact-card__top__right[data-v-6acf4274] {\n  padding-left: 16px;\n}\n.contact-card__top__right h3[data-v-6acf4274] {\n  font-weight: 500;\n  font-size: 22px;\n  color: #2c3e4f;\n  width: 100%;\n  text-align: left;\n  margin: 5px 0;\n}\n.contact-card__top__right p[data-v-6acf4274] {\n  color: #807d7d;\n  margin: 0;\n  word-break: break-all;\n}\n.contact-card__bottom[data-v-6acf4274] {\n  display: flex;\n  justify-content: space-evenly;\n  border-top: 1px solid #f1f1f1;\n  padding: 0;\n}\n.contact-card__bottom button[data-v-6acf4274] {\n  background: #ffffff;\n  width: 100%;\n  text-align: center;\n  cursor: pointer;\n}\n.contact-card__bottom button svg[data-v-6acf4274] {\n  fill: #909fb5;\n  width: 20px;\n  margin: auto;\n}\n.contact-card__bottom button.chat[data-v-6acf4274]:hover {\n  background: #f6f6f6;\n}\n.contact-card__bottom button.chat:hover svg[data-v-6acf4274] {\n  fill: #00d25b;\n}\n.contact-card__bottom button.block[data-v-6acf4274]:hover {\n  background: #f6f6f6;\n}\n.contact-card__bottom button.block:hover svg[data-v-6acf4274] {\n  fill: #d90808;\n}\n.flip-out[data-v-6acf4274] {\n  transition: all 0.5s ease;\n  transform: rotateX(90deg);\n  overflow: hidden;\n  margin: 0;\n  box-shadow: unset;\n  border: none;\n}\n.slide-out[data-v-6acf4274] {\n  transition: all 0.3s ease;\n  height: 0;\n  min-height: 0;\n  overflow: hidden;\n  margin: 0;\n  box-shadow: unset;\n  border: none;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -758,6 +891,29 @@ ___CSS_LOADER_EXPORT___.push([module.id, ".contact-card[data-v-6cae7255] {\n  ma
 
 /***/ }),
 
+/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Components/StartChatComponent.vue?vue&type=style&index=0&id=1d82174e&scoped=true&lang=scss&":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Components/StartChatComponent.vue?vue&type=style&index=0&id=1d82174e&scoped=true&lang=scss& ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js */ "./node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, ".start-chat[data-v-1d82174e] {\n  margin: auto;\n  width: 100%;\n  max-width: 450px;\n  background: #ffffff;\n}\n.start-chat .top .heading[data-v-1d82174e] {\n  font-size: 22px;\n  font-weight: 400;\n  border-bottom: 1px solid #c8d0d4;\n  font-family: \"Lato\";\n  -webkit-font-smoothing: antialiased;\n}\n.start-chat .top .img-container[data-v-1d82174e] {\n  margin: 10px auto;\n}\n.start-chat .top .img-container img[data-v-1d82174e] {\n  max-width: 140px;\n  max-height: 140px;\n  border-radius: 50%;\n  margin: auto;\n  display: block;\n}\n.start-chat .bottom[data-v-1d82174e] {\n  padding: 10px;\n  display: block;\n}\n.start-chat .bottom form[data-v-1d82174e] {\n  display: block;\n  width: 100%;\n}\n.start-chat .bottom form textarea[data-v-1d82174e] {\n  display: block;\n  width: 100%;\n  height: 150px;\n  background: #f1f1f1;\n  outline: none !important;\n  -webkit-font-smoothing: antialiased;\n  padding: 10px;\n}\n.start-chat .bottom form button[data-v-1d82174e] {\n  display: block;\n  width: 100%;\n  padding: 8px;\n  background: #1e344b;\n  color: #ffffff;\n  -webkit-font-smoothing: antialiased;\n}", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
 /***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Pages/ContactsPage.vue?vue&type=style&index=0&id=5c2f9aab&scoped=true&lang=scss&":
 /*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Pages/ContactsPage.vue?vue&type=style&index=0&id=5c2f9aab&scoped=true&lang=scss& ***!
@@ -774,7 +930,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".contacts-page[data-v-5c2f9aab] {\n  background: #eff3ff;\n  min-height: 100vh;\n}\n.wrapper-control-height[data-v-5c2f9aab] {\n  overflow: auto;\n  position: relative;\n  height: calc(100vh - 51.53px);\n}\n.page-header[data-v-5c2f9aab] {\n  display: flex;\n  justify-content: space-between;\n  padding: 8px 20px;\n  background: #ffffff;\n  box-shadow: 0 0 20px -12px #000000;\n}\n.page-header h1[data-v-5c2f9aab] {\n  font-size: 24px;\n  font-weight: 500;\n  color: #2c3e4f;\n  margin: 0;\n}\n.page-header .buttons-container button[data-v-5c2f9aab] {\n  background: #394f65;\n  padding: 4px 16px;\n  border-radius: 5px;\n  outline: none !important;\n  cursor: pointer;\n  box-shadow: 0 0 6px -3px #2c3e4f;\n}\n.page-header .buttons-container button[data-v-5c2f9aab]:hover {\n  background: #2c3e4f;\n  box-shadow: 0 0 18px -10px #2c3e4f;\n}\n.page-header .buttons-container button svg[data-v-5c2f9aab] {\n  fill: #fff;\n}\n.contact-cards[data-v-5c2f9aab] {\n  width: 100%;\n  padding: 20px 0 0 20px;\n  max-height: calc(100vh - 52px);\n  overflow: auto;\n}\n.contact-cards__container[data-v-5c2f9aab] {\n  margin: auto;\n  display: flex;\n  flex-wrap: wrap;\n}\n.add-new-contact-page[data-v-5c2f9aab] {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  right: 50%;\n  bottom: 50%;\n  transform: translate(-50%, -50%);\n  height: 450px;\n  width: 345px;\n  background: #ffffff;\n  box-shadow: 0 0 20px -12px #000000;\n  overflow: hidden;\n  transition: all 0.5s;\n}\n.add-new-contact-page .back-button[data-v-5c2f9aab] {\n  position: absolute;\n  top: 0;\n  left: 0;\n  cursor: pointer;\n  background: #ffffff00;\n  outline: none !important;\n  transition: all 0.3s ease;\n}\n.add-new-contact-page .back-button svg[data-v-5c2f9aab] {\n  fill: #d2d2d2;\n  width: 30px;\n  height: 30px;\n  transition: all 0.8s ease;\n}\n.add-new-contact-page .back-button:hover svg[data-v-5c2f9aab] {\n  fill: #1f3c4b;\n}\n.add-new-contact-page .close-button[data-v-5c2f9aab] {\n  position: absolute;\n  top: 4px;\n  right: 0;\n  background: #ffffff;\n  outline: none !important;\n  cursor: pointer;\n  transition: all 0.3s ease;\n}\n.add-new-contact-page .close-button svg[data-v-5c2f9aab] {\n  fill: #d2d2d2;\n  width: 20px;\n  height: 20px;\n  transition: all 0.8s ease;\n}\n.add-new-contact-page .close-button:hover svg[data-v-5c2f9aab] {\n  fill: red;\n}\n.add-new-contact-page .hidden-button[data-v-5c2f9aab] {\n  opacity: 0 !important;\n  transition: none !important;\n  pointer-events: none !important;\n}\n.add-new-contact-page.smaller[data-v-5c2f9aab] {\n  height: 220px;\n}\n.add-new-contact-page.smaller .back-button[data-v-5c2f9aab] {\n  display: none;\n}\n.add-new-contact-page .card-body[data-v-5c2f9aab] {\n  padding: 10px;\n}\n.add-new-contact-page .card-body form[data-v-5c2f9aab] {\n  overflow: hidden;\n  width: 100%;\n  max-width: 100%;\n  display: flex;\n}\n.add-new-contact-page .card-body form textarea[data-v-5c2f9aab] {\n  max-width: 350px;\n  margin: 10px auto;\n  color: #707070;\n  height: 200px;\n  width: 100%;\n  border-radius: 5px;\n  border: 1px solid #d3d3d3;\n  display: block;\n  font-family: sans-serif;\n  padding: 10px;\n  outline: none !important;\n  -webkit-font-smoothing: antialiased;\n}\n.add-new-contact-page .card-body form .containing-section[data-v-5c2f9aab] {\n  width: 650px;\n  position: relative;\n  display: flex;\n  transition: all 1s ease;\n}\n.add-new-contact-page .card-body form .containing-section.next[data-v-5c2f9aab] {\n  transform: translateX(-325px);\n}\n.add-new-contact-page .card-body form .containing-section .first-section[data-v-5c2f9aab] {\n  width: 325px;\n  display: flex;\n  height: 34px;\n}\n.add-new-contact-page .card-body form .containing-section .first-section input[data-v-5c2f9aab] {\n  width: 100%;\n  outline: none !important;\n  border-left: 1px solid #d4d4d4;\n  border-top: 1px solid #d4d4d4;\n  border-bottom: 1px solid #d4d4d4;\n  background: #eff3ff;\n  color: #7c7c7c;\n  border-radius: 5px 0 0 5px;\n  padding: 5px;\n}\n.add-new-contact-page .card-body form .containing-section .first-section input[data-v-5c2f9aab]:focus, .add-new-contact-page .card-body form .containing-section .first-section input[data-v-5c2f9aab]:active {\n  color: #000000;\n}\n.add-new-contact-page .card-body form .containing-section .first-section button[data-v-5c2f9aab] {\n  margin: 0;\n  border-radius: 0 5px 5px 0;\n  transition: all 0.3s ease;\n}\n.add-new-contact-page .card-body form .containing-section .second-section[data-v-5c2f9aab] {\n  width: 325px;\n}\n.add-new-contact-page .card-body form .containing-section .hidden[data-v-5c2f9aab] {\n  opacity: 0 !important;\n  transition: none !important;\n  pointer-events: none !important;\n}\n.add-new-contact-page .card-body .cancel-btn[data-v-5c2f9aab] {\n  cursor: pointer;\n  background: #ffffff00;\n}\n.add-new-contact-page .card-body .cancel-btn[data-v-5c2f9aab]:hover {\n  text-decoration: underline;\n}\n.add-new-contact-page .card-body .submit-btn[data-v-5c2f9aab] {\n  background: #394f65;\n  padding: 9px 14px;\n  border-radius: 5px;\n  outline: none !important;\n  cursor: pointer;\n  box-shadow: 0 0 6px -3px #2c3e4f;\n  color: #ffffff;\n  margin-left: 8px;\n}\n.add-new-contact-page .card-body .submit-btn[data-v-5c2f9aab]:hover {\n  background: #2c3e4f;\n  box-shadow: 0 0 18px -10px #2c3e4f;\n}\n.lottie-component[data-v-5c2f9aab] {\n  max-width: 150px;\n  margin: auto;\n  height: 164px;\n}\n.button-container[data-v-5c2f9aab] {\n  display: flex;\n  justify-content: flex-end;\n}\n.contacts-block-split[data-v-5c2f9aab] {\n  display: flex;\n}\n.contacts-block-split .contact-cards[data-v-5c2f9aab] {\n  width: 100%;\n}\n.contacts-block-split .connection-request-block[data-v-5c2f9aab] {\n  max-width: 370px;\n  display: flex;\n  justify-content: center;\n  flex-wrap: wrap;\n  padding: 20px;\n  height: 100%;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".contacts-page[data-v-5c2f9aab] {\n  background: #eff3ff;\n  min-height: 100vh;\n  position: relative;\n}\n.modal-new-chat[data-v-5c2f9aab] {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  background: #050b0ead;\n  top: 0;\n  left: 0;\n  display: flex;\n  justify-content: center;\n  flex-direction: column;\n}\n.wrapper-control-height[data-v-5c2f9aab] {\n  overflow: auto;\n  position: relative;\n  height: calc(100vh - 51.53px);\n}\n.page-header[data-v-5c2f9aab] {\n  display: flex;\n  justify-content: space-between;\n  padding: 8px 20px;\n  background: #ffffff;\n  box-shadow: 0 0 20px -12px #000000;\n}\n.page-header h1[data-v-5c2f9aab] {\n  font-size: 24px;\n  font-weight: 500;\n  color: #2c3e4f;\n  margin: 0;\n}\n.page-header .buttons-container button[data-v-5c2f9aab] {\n  background: #394f65;\n  padding: 4px 16px;\n  border-radius: 5px;\n  outline: none !important;\n  cursor: pointer;\n  box-shadow: 0 0 6px -3px #2c3e4f;\n}\n.page-header .buttons-container button[data-v-5c2f9aab]:hover {\n  background: #2c3e4f;\n  box-shadow: 0 0 18px -10px #2c3e4f;\n}\n.page-header .buttons-container button svg[data-v-5c2f9aab] {\n  fill: #fff;\n}\n.contact-cards[data-v-5c2f9aab] {\n  width: 100%;\n  padding: 20px 0 0 20px;\n  max-height: calc(100vh - 52px);\n  overflow: auto;\n}\n.contact-cards__container[data-v-5c2f9aab] {\n  margin: auto;\n  display: flex;\n  flex-wrap: wrap;\n}\n.add-new-contact-page[data-v-5c2f9aab] {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  right: 50%;\n  bottom: 50%;\n  transform: translate(-50%, -50%);\n  height: 450px;\n  width: 345px;\n  background: #ffffff;\n  box-shadow: 0 0 20px -12px #000000;\n  overflow: hidden;\n  transition: all 0.5s;\n}\n.add-new-contact-page .back-button[data-v-5c2f9aab] {\n  position: absolute;\n  top: 0;\n  left: 0;\n  cursor: pointer;\n  background: #ffffff00;\n  outline: none !important;\n  transition: all 0.3s ease;\n}\n.add-new-contact-page .back-button svg[data-v-5c2f9aab] {\n  fill: #d2d2d2;\n  width: 30px;\n  height: 30px;\n  transition: all 0.8s ease;\n}\n.add-new-contact-page .back-button:hover svg[data-v-5c2f9aab] {\n  fill: #1f3c4b;\n}\n.add-new-contact-page .close-button[data-v-5c2f9aab] {\n  position: absolute;\n  top: 4px;\n  right: 0;\n  background: #ffffff;\n  outline: none !important;\n  cursor: pointer;\n  transition: all 0.3s ease;\n}\n.add-new-contact-page .close-button svg[data-v-5c2f9aab] {\n  fill: #d2d2d2;\n  width: 20px;\n  height: 20px;\n  transition: all 0.8s ease;\n}\n.add-new-contact-page .close-button:hover svg[data-v-5c2f9aab] {\n  fill: red;\n}\n.add-new-contact-page .hidden-button[data-v-5c2f9aab] {\n  opacity: 0 !important;\n  transition: none !important;\n  pointer-events: none !important;\n}\n.add-new-contact-page.smaller[data-v-5c2f9aab] {\n  height: 220px;\n}\n.add-new-contact-page.smaller .back-button[data-v-5c2f9aab] {\n  display: none;\n}\n.add-new-contact-page .card-body[data-v-5c2f9aab] {\n  padding: 10px;\n}\n.add-new-contact-page .card-body form[data-v-5c2f9aab] {\n  overflow: hidden;\n  width: 100%;\n  max-width: 100%;\n  display: flex;\n}\n.add-new-contact-page .card-body form textarea[data-v-5c2f9aab] {\n  max-width: 350px;\n  margin: 10px auto;\n  color: #707070;\n  height: 200px;\n  width: 100%;\n  border-radius: 5px;\n  border: 1px solid #d3d3d3;\n  display: block;\n  font-family: sans-serif;\n  padding: 10px;\n  outline: none !important;\n  -webkit-font-smoothing: antialiased;\n}\n.add-new-contact-page .card-body form .containing-section[data-v-5c2f9aab] {\n  width: 650px;\n  position: relative;\n  display: flex;\n  transition: all 1s ease;\n}\n.add-new-contact-page .card-body form .containing-section.next[data-v-5c2f9aab] {\n  transform: translateX(-325px);\n}\n.add-new-contact-page .card-body form .containing-section .first-section[data-v-5c2f9aab] {\n  width: 325px;\n  display: flex;\n  height: 34px;\n}\n.add-new-contact-page .card-body form .containing-section .first-section input[data-v-5c2f9aab] {\n  width: 100%;\n  outline: none !important;\n  border-left: 1px solid #d4d4d4;\n  border-top: 1px solid #d4d4d4;\n  border-bottom: 1px solid #d4d4d4;\n  background: #eff3ff;\n  color: #7c7c7c;\n  border-radius: 5px 0 0 5px;\n  padding: 5px;\n}\n.add-new-contact-page .card-body form .containing-section .first-section input[data-v-5c2f9aab]:focus, .add-new-contact-page .card-body form .containing-section .first-section input[data-v-5c2f9aab]:active {\n  color: #000000;\n}\n.add-new-contact-page .card-body form .containing-section .first-section button[data-v-5c2f9aab] {\n  margin: 0;\n  border-radius: 0 5px 5px 0;\n  transition: all 0.3s ease;\n}\n.add-new-contact-page .card-body form .containing-section .second-section[data-v-5c2f9aab] {\n  width: 325px;\n}\n.add-new-contact-page .card-body form .containing-section .hidden[data-v-5c2f9aab] {\n  opacity: 0 !important;\n  transition: none !important;\n  pointer-events: none !important;\n}\n.add-new-contact-page .card-body .cancel-btn[data-v-5c2f9aab] {\n  cursor: pointer;\n  background: #ffffff00;\n}\n.add-new-contact-page .card-body .cancel-btn[data-v-5c2f9aab]:hover {\n  text-decoration: underline;\n}\n.add-new-contact-page .card-body .submit-btn[data-v-5c2f9aab] {\n  background: #394f65;\n  padding: 9px 14px;\n  border-radius: 5px;\n  outline: none !important;\n  cursor: pointer;\n  box-shadow: 0 0 6px -3px #2c3e4f;\n  color: #ffffff;\n  margin-left: 8px;\n}\n.add-new-contact-page .card-body .submit-btn[data-v-5c2f9aab]:hover {\n  background: #2c3e4f;\n  box-shadow: 0 0 18px -10px #2c3e4f;\n}\n.lottie-component[data-v-5c2f9aab] {\n  max-width: 150px;\n  margin: auto;\n  height: 164px;\n}\n.button-container[data-v-5c2f9aab] {\n  display: flex;\n  justify-content: flex-end;\n}\n.contacts-block-split[data-v-5c2f9aab] {\n  display: flex;\n}\n.contacts-block-split .contact-cards[data-v-5c2f9aab] {\n  width: 100%;\n}\n.contacts-block-split .connection-request-block[data-v-5c2f9aab] {\n  max-width: 370px;\n  display: flex;\n  justify-content: center;\n  flex-wrap: wrap;\n  padding: 20px;\n  height: 100%;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -865,6 +1021,35 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_12_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_12_0_rules_0_use_2_node_modules_sass_loader_dist_cjs_js_clonedRuleSet_12_0_rules_0_use_3_node_modules_vue_loader_lib_index_js_vue_loader_options_ContactCard_vue_vue_type_style_index_0_id_6cae7255_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Components/StartChatComponent.vue?vue&type=style&index=0&id=1d82174e&scoped=true&lang=scss&":
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Components/StartChatComponent.vue?vue&type=style&index=0&id=1d82174e&scoped=true&lang=scss& ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_12_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_12_0_rules_0_use_2_node_modules_sass_loader_dist_cjs_js_clonedRuleSet_12_0_rules_0_use_3_node_modules_vue_loader_lib_index_js_vue_loader_options_StartChatComponent_vue_vue_type_style_index_0_id_1d82174e_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[1]!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[2]!../../../node_modules/sass-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[3]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./StartChatComponent.vue?vue&type=style&index=0&id=1d82174e&scoped=true&lang=scss& */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Components/StartChatComponent.vue?vue&type=style&index=0&id=1d82174e&scoped=true&lang=scss&");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_12_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_12_0_rules_0_use_2_node_modules_sass_loader_dist_cjs_js_clonedRuleSet_12_0_rules_0_use_3_node_modules_vue_loader_lib_index_js_vue_loader_options_StartChatComponent_vue_vue_type_style_index_0_id_1d82174e_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_1__.default, options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_12_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_12_0_rules_0_use_2_node_modules_sass_loader_dist_cjs_js_clonedRuleSet_12_0_rules_0_use_3_node_modules_vue_loader_lib_index_js_vue_loader_options_StartChatComponent_vue_vue_type_style_index_0_id_1d82174e_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
 
 /***/ }),
 
@@ -1055,6 +1240,46 @@ component.options.__file = "resources/js/Components/LottieComponent.vue"
 
 /***/ }),
 
+/***/ "./resources/js/Components/StartChatComponent.vue":
+/*!********************************************************!*\
+  !*** ./resources/js/Components/StartChatComponent.vue ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _StartChatComponent_vue_vue_type_template_id_1d82174e_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./StartChatComponent.vue?vue&type=template&id=1d82174e&scoped=true& */ "./resources/js/Components/StartChatComponent.vue?vue&type=template&id=1d82174e&scoped=true&");
+/* harmony import */ var _StartChatComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./StartChatComponent.vue?vue&type=script&lang=js& */ "./resources/js/Components/StartChatComponent.vue?vue&type=script&lang=js&");
+/* harmony import */ var _StartChatComponent_vue_vue_type_style_index_0_id_1d82174e_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./StartChatComponent.vue?vue&type=style&index=0&id=1d82174e&scoped=true&lang=scss& */ "./resources/js/Components/StartChatComponent.vue?vue&type=style&index=0&id=1d82174e&scoped=true&lang=scss&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+;
+
+
+/* normalize component */
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__.default)(
+  _StartChatComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _StartChatComponent_vue_vue_type_template_id_1d82174e_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _StartChatComponent_vue_vue_type_template_id_1d82174e_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "1d82174e",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/Components/StartChatComponent.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/Pages/ContactsPage.vue":
 /*!*********************************************!*\
   !*** ./resources/js/Pages/ContactsPage.vue ***!
@@ -1155,6 +1380,21 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/Components/StartChatComponent.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************!*\
+  !*** ./resources/js/Components/StartChatComponent.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_StartChatComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./StartChatComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Components/StartChatComponent.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_StartChatComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
 /***/ "./resources/js/Pages/ContactsPage.vue?vue&type=script&lang=js&":
 /*!**********************************************************************!*\
   !*** ./resources/js/Pages/ContactsPage.vue?vue&type=script&lang=js& ***!
@@ -1202,6 +1442,18 @@ __webpack_require__.r(__webpack_exports__);
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_12_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_12_0_rules_0_use_2_node_modules_sass_loader_dist_cjs_js_clonedRuleSet_12_0_rules_0_use_3_node_modules_vue_loader_lib_index_js_vue_loader_options_ContactCard_vue_vue_type_style_index_0_id_6cae7255_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[1]!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[2]!../../../node_modules/sass-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[3]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ContactCard.vue?vue&type=style&index=0&id=6cae7255&scoped=true&lang=scss& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Components/ContactCard.vue?vue&type=style&index=0&id=6cae7255&scoped=true&lang=scss&");
+
+
+/***/ }),
+
+/***/ "./resources/js/Components/StartChatComponent.vue?vue&type=style&index=0&id=1d82174e&scoped=true&lang=scss&":
+/*!******************************************************************************************************************!*\
+  !*** ./resources/js/Components/StartChatComponent.vue?vue&type=style&index=0&id=1d82174e&scoped=true&lang=scss& ***!
+  \******************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_12_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_12_0_rules_0_use_2_node_modules_sass_loader_dist_cjs_js_clonedRuleSet_12_0_rules_0_use_3_node_modules_vue_loader_lib_index_js_vue_loader_options_StartChatComponent_vue_vue_type_style_index_0_id_1d82174e_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[1]!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[2]!../../../node_modules/sass-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[3]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./StartChatComponent.vue?vue&type=style&index=0&id=1d82174e&scoped=true&lang=scss& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Components/StartChatComponent.vue?vue&type=style&index=0&id=1d82174e&scoped=true&lang=scss&");
 
 
 /***/ }),
@@ -1278,6 +1530,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_LottieComponent_vue_vue_type_template_id_2e32acba_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_LottieComponent_vue_vue_type_template_id_2e32acba_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./LottieComponent.vue?vue&type=template&id=2e32acba&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Components/LottieComponent.vue?vue&type=template&id=2e32acba&scoped=true&");
+
+
+/***/ }),
+
+/***/ "./resources/js/Components/StartChatComponent.vue?vue&type=template&id=1d82174e&scoped=true&":
+/*!***************************************************************************************************!*\
+  !*** ./resources/js/Components/StartChatComponent.vue?vue&type=template&id=1d82174e&scoped=true& ***!
+  \***************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_StartChatComponent_vue_vue_type_template_id_1d82174e_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_StartChatComponent_vue_vue_type_template_id_1d82174e_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_StartChatComponent_vue_vue_type_template_id_1d82174e_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./StartChatComponent.vue?vue&type=template&id=1d82174e&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Components/StartChatComponent.vue?vue&type=template&id=1d82174e&scoped=true&");
 
 
 /***/ }),
@@ -1745,6 +2013,79 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Components/StartChatComponent.vue?vue&type=template&id=1d82174e&scoped=true&":
+/*!******************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Components/StartChatComponent.vue?vue&type=template&id=1d82174e&scoped=true& ***!
+  \******************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "start-chat" }, [
+    _c("div", { staticClass: "top" }, [
+      _c("div", { staticClass: "heading" }, [
+        _vm._v("Connect with " + _vm._s(_vm.$props.name))
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "img-container" }, [
+        _c("img", { attrs: { src: _vm.imageUrl, alt: "" } })
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "bottom" }, [
+      _c(
+        "form",
+        {
+          attrs: { action: "#" },
+          on: {
+            submit: function($event) {
+              $event.preventDefault()
+              return _vm.sendMessage.apply(null, arguments)
+            }
+          }
+        },
+        [
+          _c("textarea", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.message,
+                expression: "message"
+              }
+            ],
+            attrs: { placeholder: "Enter your message" },
+            domProps: { value: _vm.message },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.message = $event.target.value
+              }
+            }
+          }),
+          _vm._v(" "),
+          _c("button", { attrs: { type: "submit" } }, [_vm._v("Send")])
+        ]
+      )
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Pages/ContactsPage.vue?vue&type=template&id=5c2f9aab&scoped=true&":
 /*!*******************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Pages/ContactsPage.vue?vue&type=template&id=5c2f9aab&scoped=true& ***!
@@ -1863,10 +2204,7 @@ var render = function() {
           _c(
             "div",
             { staticClass: "connection-request-block" },
-            _vm._l(_vm.$store.getters.getNewConnectionRequests, function(
-              item,
-              index
-            ) {
+            _vm._l(_vm.connectionRequests, function(item, index) {
               return _c("connection-request-card", {
                 key: index,
                 attrs: {
@@ -2124,7 +2462,24 @@ var render = function() {
           : _vm._e()
       ],
       1
-    )
+    ),
+    _vm._v(" "),
+    _vm.newChatModal
+      ? _c(
+          "div",
+          { staticClass: "modal-new-chat" },
+          [
+            _c("start-chat-component", {
+              attrs: {
+                "connection-id": _vm.newChat.connectionId,
+                image: _vm.pictureOrDefaultPicture(_vm.newChat.image),
+                name: _vm.newChat.name
+              }
+            })
+          ],
+          1
+        )
+      : _vm._e()
   ])
 }
 var staticRenderFns = []

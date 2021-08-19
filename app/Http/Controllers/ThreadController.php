@@ -25,7 +25,7 @@ class ThreadController extends Controller
         // Check if users are contacts
         $user = Auth::user();
 
-
+        // ToDo:: Solve this...
         // create new thread for both users and update their threads field
 
         // save message to thread
@@ -41,7 +41,7 @@ class ThreadController extends Controller
         Log::info(__METHOD__ . " : BOF");
         $user = Auth::user();
         $responseThreads = [];
-        foreach (json_decode($user->threads) as $item) {
+        foreach ($user->threads as $item) {
             array_push($responseThreads, Thread::find($item));
         }
         Log::info(__METHOD__ . " : EOF");

@@ -58,7 +58,6 @@ class MessageController extends Controller
            'message' => 'required|string',
            'recipient' => [
                Rule::requiredIf($recipientRequired),
-               'integer'
            ],
            'new_thread' => 'required|boolean'
        ]);
@@ -72,8 +71,8 @@ class MessageController extends Controller
         }
 
         $contacts = json_decode($user->contacts->users);
-
-        if (!in_array($request->input('recipient'), $contacts)) {
+        $receiver = User::where('connection_id', $request->input('recipient'))->first();
+        if (!in_array($receiver->id, $contacts)) {
             Log::info(__METHOD__ . " : EOF");
             return response("You are not connected to the recipient of this message", ResponseAlias::HTTP_BAD_REQUEST);
         }
@@ -81,7 +80,7 @@ class MessageController extends Controller
         // format
         $messageObject = [
             'message' => $request->input('message'),
-            'recipient' => $request->input('recipient'),
+            'recipient' => $receiver->id,
             'new_thread' => $request->input('new_thread')
         ];
 

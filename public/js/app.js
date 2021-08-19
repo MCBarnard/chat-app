@@ -1944,6 +1944,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }, _callee2);
     }))();
   },
+  computed: {
+    newConnectionRequestComputed: {
+      get: function get() {
+        return this.$store.getters.getNewConnectionRequests;
+      },
+      set: function set(val) {
+        return val;
+      }
+    }
+  },
+  watch: {
+    newConnectionRequestComputed: function newConnectionRequestComputed(val) {
+      if (val.length === 0) {
+        this.$store.dispatch("ACT_NEW_CONNECTION_REQUEST", false);
+      }
+    }
+  },
   methods: {
     checkForNotifications: function checkForNotifications() {
       var _this3 = this;
@@ -1955,8 +1972,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context3.next = 2;
                 return axios.get("/data/connection-requests").then(function (response) {
-                  console.log(response);
-
                   if (response.data.length > 0) {
                     _this3.$store.dispatch("ACT_NEW_CONNECTION_REQUEST", true);
 

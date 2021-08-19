@@ -66,24 +66,19 @@ export default {
         }
     },
     methods: {
-        animateOut() {
-            const card = document.getElementById(this.cardId);
-            if (!card.classList.contains('flip-out')) {
-                card.classList.add('flip-out');
-                setTimeout(() => {
-                    if (!card.classList.contains('slide-out')) {
-                        card.classList.add('slide-out');
-                    }
-                }, 300);
-            }
-        },
         signalSelected() {
-            this.$emit("accepted", this.$props.requestId);
-            this.animateOut();
+            const data = {
+                ...this.$props
+            };
+
+            this.$emit("accepted", data);
         },
         signalBlocked() {
-            this.$emit("rejected", this.$props.requestId);
-            this.animateOut();
+            const data = {
+                ...this.$props
+            };
+
+            this.$emit("rejected", data);
         }
     }
 }
@@ -142,6 +137,7 @@ export default {
             p {
                 color: #807d7d;
                 margin: 0;
+                word-break: break-all;
             }
         }
     }

@@ -22,15 +22,13 @@ class ContactController extends Controller
         Log::info(__METHOD__ . " : BOF");
         $contacts = json_decode(Auth::user()->contacts()->first()->users);
         $payload = [];
-        Log::debug("================||==============");
-        Log::debug(print_r($contacts, true));
-        Log::debug("==========||====================");
 
         if (count($contacts) == 0) {
             $payload = $contacts;
         } else {
             foreach ($contacts as $contact) {
                 $user = User::find($contact);
+                // ToDo:: Add thread functionality
 //                Log::debug("================||==============");
 //                Log::debug(print_r($user->threads, true));
 //                Log::debug("==========||====================");

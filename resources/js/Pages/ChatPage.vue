@@ -1,57 +1,62 @@
 <template>
-    <section class="chat-page-section">
-        <div class="chat-page-section__left">
-            <form action="#" @submit.prevent="searchForContact">
-                <input type="text" class="searchbar-input" v-model="searchInput" placeholder="Search">
-                <button type="submit">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16">
-                        <path fill-rule="evenodd"
-                              d="M11.5 7a4.499 4.499 0 11-8.998 0A4.499 4.499 0 0111.5 7zm-.82 4.74a6 6 0 111.06-1.06l3.04 3.04a.75.75 0 11-1.06 1.06l-3.04-3.04z"></path>
-                    </svg>
-                </button>
-            </form>
-            <contact-pill v-for="(thread, index) in threads"
-                          :key="index"
-                          :has-notification="thread.hasNotification"
-                          :thread-id="thread.threadId"
-                          :last-message="thread.lastMessage"
-                          :name="thread.name"
-                          :active="thread.active"
-                          @threadSelected="threadSelected($event)" />
-        </div>
-        <div v-if="showThread && loaded" class="chat-page-section__right">
-            <div class="active-thread-user">
-                {{ activeChatName }}
+    <div class="empty-shell">
+        <alert-component v-if="emptyThread" message="You have no open rooms!"
+                         subtitle="Open the contacts page to view start a conversation"
+                         :dismissible="false" :slide-in="true"/>
+        <section v-else class="chat-page-section">
+            <div class="chat-page-section__left">
+                <form action="#" @submit.prevent="searchForContact">
+                    <input type="text" class="searchbar-input" v-model="searchInput" placeholder="Search">
+                    <button type="submit">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16">
+                            <path fill-rule="evenodd"
+                                  d="M11.5 7a4.499 4.499 0 11-8.998 0A4.499 4.499 0 0111.5 7zm-.82 4.74a6 6 0 111.06-1.06l3.04 3.04a.75.75 0 11-1.06 1.06l-3.04-3.04z"></path>
+                        </svg>
+                    </button>
+                </form>
+                <contact-pill v-for="(thread, index) in threads"
+                              :key="index"
+                              :has-notification="thread.hasNotification"
+                              :thread-id="thread.threadId"
+                              :last-message="thread.lastMessage"
+                              :name="thread.name"
+                              :active="thread.active"
+                              @threadSelected="threadSelected($event)" />
             </div>
-            <div class="chat-page-section__right__messages">
-                <div class="chatPage">
-                    <message-block v-for="(message, index) in messages" :key="index"
-                                   :message-id="message.id"
-                                   :message="message.message"
-                                   :user="message.username"
-                                   :owner="message.owner"
-                                   :pictureName="pictureOrDefaultPicture(message.picture)"
-                    />
+            <div v-if="showThread && loaded" class="chat-page-section__right">
+                <div class="active-thread-user">
+                    {{ activeChatName }}
                 </div>
+                <div class="chat-page-section__right__messages">
+                    <div class="chatPage">
+                        <message-block v-for="(message, index) in messages" :key="index"
+                                       :message-id="message.id"
+                                       :message="message.message"
+                                       :user="message.username"
+                                       :owner="message.owner"
+                                       :pictureName="pictureOrDefaultPicture(message.picture)"
+                        />
+                    </div>
+                </div>
+                <form action="#" @submit.prevent="submitNewMessage">
+                    <input type="text" v-model="newMessage" placeholder="Enter your message here...">
+                    <button>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                            <path fill-rule="evenodd"
+                                  d="M1.513 1.96a1.374 1.374 0 011.499-.21l19.335 9.215a1.146 1.146 0 010 2.07L3.012 22.25a1.374 1.374 0 01-1.947-1.46L2.49 12 1.065 3.21a1.374 1.374 0 01.448-1.25zm2.375 10.79l-1.304 8.042L21.031 12 2.584 3.208l1.304 8.042h7.362a.75.75 0 010 1.5H3.888z"></path>
+                        </svg>
+                    </button>
+                </form>
             </div>
-            <form action="#" @submit.prevent="submitNewMessage">
-                <input type="text" v-model="newMessage" placeholder="Enter your message here...">
-                <button>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-                        <path fill-rule="evenodd"
-                              d="M1.513 1.96a1.374 1.374 0 011.499-.21l19.335 9.215a1.146 1.146 0 010 2.07L3.012 22.25a1.374 1.374 0 01-1.947-1.46L2.49 12 1.065 3.21a1.374 1.374 0 01.448-1.25zm2.375 10.79l-1.304 8.042L21.031 12 2.584 3.208l1.304 8.042h7.362a.75.75 0 010 1.5H3.888z"></path>
-                    </svg>
-                </button>
-            </form>
-        </div>
-        <div v-else-if="showThread && !loaded" class="chat-page-section__right">
-            <!--            Add some cool loader here...-->
-            <message-loader />
-        </div>
-        <div v-else-if="!showThread" class="chat-page-section__right">
-            <chat-info-page />
-        </div>
-    </section>
+            <div v-else-if="showThread && !loaded" class="chat-page-section__right">
+                <!--            Add some cool loader here...-->
+                <message-loader />
+            </div>
+            <div v-else-if="!showThread" class="chat-page-section__right">
+                <chat-info-page />
+            </div>
+        </section>
+    </div>
 </template>
 
 <script>
@@ -61,6 +66,7 @@ import {globalMixin} from "../Mixins/GlobalMixin";
 import ContactPill from "../Components/ContactPill";
 import MessageLoader from "../Components/MessageLoader";
 import ChatInfoPage from "./ChatInfo";
+import AlertComponent from "../Components/AlertComponent";
 
 export default {
     name: "ChatPage",
@@ -69,7 +75,8 @@ export default {
         MessageBlock,
         LottieComponent,
         ContactPill,
-        MessageLoader
+        MessageLoader,
+        AlertComponent,
     },
     mixins: [globalMixin],
     data() {
@@ -91,10 +98,13 @@ export default {
         },
         cleanThread() {
             return false;
+        },
+        emptyThread() {
+            return this.threads.length === 0;
         }
     },
     async mounted() {
-        this.threads = await this.fetchThreads(parseInt(this.$route.params.threadId)).then((response) => response);
+        await this.fetchThreads(parseInt(this.$route.params.threadId));
         if (this.showThread) {
             this.setActiveThread(parseInt(this.$route.params.threadId));
             await this.fetchThreadMessages(this.$route.params.threadId);
@@ -112,28 +122,9 @@ export default {
             });
         },
         async fetchThreads() {
-            return [
-                {
-                    name: "Test",
-                    lastMessage: "blah dlah kla salaaaah",
-                    threadId: 1,
-                    hasNotification: true,
-                    active: false
-                },
-                {
-                    name: "User",
-                    lastMessage: "blah dlah kla salaaaahblah dlah kla salaaaahblah dlah kla salaaaahblah dlah kla salaaaahblah dlah kla salaaaahblah dlah kla salaaaah",
-                    threadId: 2,
-                    active: false
-                },
-                {
-                    name: "Jerald McBoing boing boing boing boing",
-                    lastMessage: "blah dlah kla salaaaah",
-                    threadId: 3,
-                    hasNotification: true,
-                    active: false
-                },
-            ];
+            await axios.get("/data/threads").then(response => {
+                this.threads = response.data;
+            });
         },
         threadSelected(id) {
             if (parseInt(this.$route.params.threadId) !== id) {
@@ -147,7 +138,6 @@ export default {
         },
         async fetchThreadMessages(id) {
             this.loaded = false;
-            console.log("blah")
             await axios.get(`/data/messages/${this.activeThread}`)
                 .then(response => {
                     if(response.status === 200) {
@@ -187,6 +177,11 @@ export default {
 
 <style scoped lang="scss">
 @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@200&display=swap');
+
+.empty-shell {
+    height: 100vh;
+    background: #eff3ff;
+}
 
 .chatPage {
     font-family: 'Inconsolata', monospace;

@@ -59,7 +59,7 @@ class ConnectionRequestController extends Controller
         $validator = Validator::make($request->all(),
              [
                  'connectionId' => 'string',
-                 'message' => 'string'
+                 'message' => 'nullable|string'
              ]
         );
 
@@ -87,7 +87,7 @@ class ConnectionRequestController extends Controller
         ConnectionRequest::create([
             'owner' => $owner_id,
             'recipient' => $recipient->id,
-            'message' => $recipient->message,
+            'message' => $request->input('message'),
             'state' => 0
         ]);
 

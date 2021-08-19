@@ -29,7 +29,7 @@
                 </div>
             </div>
             <div class="connection-request-block">
-                <connection-request-card v-for="(item, index) in $store.getters.getNewConnectionRequests" :key="index"
+                <connection-request-card v-for="(item, index) in connectionRequests" :key="index"
                                          :request-id="item.id"
                                          :name="item.from"
                                          :message="item.message"
@@ -82,10 +82,14 @@
             </div>
         </div>
     </div>
+    <div v-if="newChatModal" class="modal-new-chat">
+        <start-chat-component :connection-id="newChat.connectionId" :image="pictureOrDefaultPicture(newChat.image)" :name="newChat.name" />
+    </div>
 </div>
 </template>
 
 <script>
+import StartChatComponent from "../Components/StartChatComponent";
 import LottieComponent from "../Components/LottieComponent";
 import ContactCard from "../Components/ContactCard";
 import ConnectionRequestCard from "../Components/ConnectionRequestCard";
@@ -98,11 +102,17 @@ export default {
         AlertComponent,
         ContactCard,
         LottieComponent,
-        ConnectionRequestCard
+        ConnectionRequestCard,
+        StartChatComponent
     },
     mixins: [globalMixin],
     data() {
         return {
+            newChat: {
+                name: "",
+                connectionId: "",
+                image: ""
+            },
             showAddNewContact: false,
             stepOne: true,
             newConnection: {
@@ -117,51 +127,63 @@ export default {
                 dismissible: false,
                 slideIn: false
             },
-            contacts: [
-                {
-                    name: "Jacob Ross",
-                    image: null,
-                    threadId: null,
-                    connectionId: 1
-                },
-                {
-                    name: "Some new User",
-                    image: null,
-                    threadId: 1,
-                    connectionId: 1
-                },
-            ]
+            contacts: [],
+            showNewChatStart: false
         };
+    },
+    computed: {
+        connectionRequests() {
+            return this.$store.getters.getNewConnectionRequests;
+        },
+        newChatModal() {
+            return this.showNewChatStart;
+        }
     },
     async mounted() {
         await this.fetchContacts();
     },
+    watch: {
+        contacts(val) {
+            if (val.length === 0) {
+                this.useAlert(true, "You don't have any connections yet.", "Asking a friend for their connection id and add them to your network", "info", false);
+            } else {
+                this.useAlert(false, "", "")
+            }
+        }
+    },
     methods: {
-        async acceptConnectionRequest(id) {
+        popItemFromRequests(id) {
+            const newArray = []
+            this.$store.getters.getNewConnectionRequests.forEach(item => {
+                if (item.id !== id) {
+                    newArray.push(item);
+                }
+            });
+            this.$store.dispatch("ACT_NEW_CONNECTION_REQUESTS", newArray);
+        },
+        async acceptConnectionRequest(obj) {
             const data = {
                 state: this.$store.getters.getStateIds.accepted
             };
-            await axios.post(`/data/connection-requests/${id}`, data).then(response => {
+            await axios.post(`/data/connection-requests/${obj.requestId}`, data).then(response => {
                 this.fetchContacts();
-                console.log(response)
+                this.popItemFromRequests(obj.requestId);
             });
         },
-        async declineConnectionRequest(id) {
+        async declineConnectionRequest(obj) {
             const data = {
                 state: this.$store.getters.getStateIds.rejected
             };
-            await axios.post(`/data/connection-requests/${id}`, data).then(response => {
+            await axios.post(`/data/connection-requests/${obj.requestId}`, data).then(response => {
                 this.fetchContacts();
-                console.log(response)
+                setTimeout(() => {
+                    this.popItemFromRequests(obj.requestId);
+                }, 1000);
             });
         },
         async fetchContacts() {
             await axios.get("/data/contacts").then(response => {
-                console.log(response.data)
                 this.contacts = response.data;
-                if (typeof this.contacts !== "array" || this.contacts.length === 0) {
-                    this.useAlert(true, "You don't have any connections yet.", "Asking a friend for their connection id and add them to your network", "info", false);
-                }
             });
         },
         closeModal() {
@@ -210,8 +232,13 @@ export default {
             });
             this.closeModal();
         },
-        startThread (id) {
-            console.log("Start thread with connection-id: ", id);
+        startThread (obj) {
+            this.showNewChatStart = true;
+            this.newChat.name = obj.name;
+            this.newChat.connectionId = obj.connectionId;
+            this.newChat.image = obj.image;
+            console.log(obj)
+            console.log("Start thread with connection-id: ", obj);
         },
         goToThread (id) {
             console.log("Go to thread: ", id);
@@ -227,6 +254,18 @@ export default {
 .contacts-page {
     background: #eff3ff;
     min-height: 100vh;
+    position: relative;
+}
+.modal-new-chat {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #050b0ead;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
 }
 .wrapper-control-height {
     overflow: auto;

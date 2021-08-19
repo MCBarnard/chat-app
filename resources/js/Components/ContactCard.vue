@@ -52,8 +52,11 @@ export default {
     },
     methods: {
         signalSelected() {
+            const data = {
+                ...this.$props
+            };
             if (this.$props.threadId === null || typeof this.$props.threadId === "undefined") {
-                this.$emit("start-thread", this.$props.connectionId);
+                this.$emit("start-thread", data);
             } else {
                 this.$emit("go-to-thread", this.$props.threadId);
             }

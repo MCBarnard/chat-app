@@ -10,13 +10,25 @@ use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class ConnectionRequests
 {
-    public function isNotPending($recipient, $owner)
+    public function stateReadyToAccept($recipient, $owner): bool
     {
         Log::info(__METHOD__ . ' : BOF');
-        $exists = ConnectionRequest::where('owner', $owner)->where('recipient', $recipient)->first();
+        $accepted = config('constantValues.defaultValues.states')['accepted'];
+        $pending = config('constantValues.defaultValues.states')['pending'];
+        $connections = ConnectionRequest::where('owner', $owner)->where('recipient', $recipient)->get();
+        if (count($connections) > 0) {
+            $unAnswered = ConnectionRequest::where('owner', $owner)->where('recipient', $recipient)->where('state', $pending)->first();
+            if (!$unAnswered) {
+                $accepted = ConnectionRequest::where('owner', $owner)->where('recipient', $recipient)->where('state', $accepted)->first();
+                Log::info(__METHOD__ . ' : EOF');
+                return (bool)$accepted;
+            }
+            Log::info(__METHOD__ . ' : EOF');
+            return (bool)$unAnswered;
+        }
 
         Log::info(__METHOD__ . ' : EOF');
-        return (bool)$exists;
+        return false;
     }
 
     public function sanityCheck($recipient, $owner): array
@@ -34,9 +46,9 @@ class ConnectionRequests
         }
 
         // Check if there is a pending state request still waiting on a response
-        if ($this->isNotPending($recipient->id, $owner)) {
+        if ($this->stateReadyToAccept($recipient->id, $owner)) {
             $error = true;
-            $message = "Request is still pending";
+            $message = "Request has already been made";
             $code = ResponseAlias::HTTP_ALREADY_REPORTED;
         }
 

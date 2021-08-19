@@ -38,6 +38,7 @@ Route::group(['middleware' => ['auth']], function ($router) {
         });
 
         $router->group(['prefix'=>'threads'], function ($router) {
+            $router->get('', [ThreadController::class, 'view']);
             $router->get('{thread?}', [ThreadController::class, 'index'])->where('thread', '[0-9]*');
             $router->get('{thread?}/delete', [ThreadController::class, 'delete'])->where('thread', '[0-9]*');
             $router->post('new', [ThreadController::class, 'create']);

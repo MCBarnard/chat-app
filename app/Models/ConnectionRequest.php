@@ -18,6 +18,7 @@ class ConnectionRequest extends Model
     protected $fillable = [
         'owner',
         'recipient',
+        'message',
         'state'
     ];
 

@@ -375,6 +375,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Components_ContactPill__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Components/ContactPill */ "./resources/js/Components/ContactPill.vue");
 /* harmony import */ var _Components_MessageLoader__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Components/MessageLoader */ "./resources/js/Components/MessageLoader.vue");
 /* harmony import */ var _ChatInfo__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./ChatInfo */ "./resources/js/Pages/ChatInfo.vue");
+/* harmony import */ var _Components_AlertComponent__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Components/AlertComponent */ "./resources/js/Components/AlertComponent.vue");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -437,6 +438,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+
 
 
 
@@ -450,7 +457,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     MessageBlock: _Components_MessageBlock__WEBPACK_IMPORTED_MODULE_1__.default,
     LottieComponent: _Components_LottieComponent__WEBPACK_IMPORTED_MODULE_2__.default,
     ContactPill: _Components_ContactPill__WEBPACK_IMPORTED_MODULE_4__.default,
-    MessageLoader: _Components_MessageLoader__WEBPACK_IMPORTED_MODULE_5__.default
+    MessageLoader: _Components_MessageLoader__WEBPACK_IMPORTED_MODULE_5__.default,
+    AlertComponent: _Components_AlertComponent__WEBPACK_IMPORTED_MODULE_7__.default
   },
   mixins: [_Mixins_GlobalMixin__WEBPACK_IMPORTED_MODULE_3__.globalMixin],
   data: function data() {
@@ -472,6 +480,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     cleanThread: function cleanThread() {
       return false;
+    },
+    emptyThread: function emptyThread() {
+      return this.threads.length === 0;
     }
   },
   mounted: function mounted() {
@@ -483,24 +494,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           switch (_context.prev = _context.next) {
             case 0:
               _context.next = 2;
-              return _this.fetchThreads(parseInt(_this.$route.params.threadId)).then(function (response) {
-                return response;
-              });
+              return _this.fetchThreads(parseInt(_this.$route.params.threadId));
 
             case 2:
-              _this.threads = _context.sent;
-
               if (!_this.showThread) {
-                _context.next = 7;
+                _context.next = 6;
                 break;
               }
 
               _this.setActiveThread(parseInt(_this.$route.params.threadId));
 
-              _context.next = 7;
+              _context.next = 6;
               return _this.fetchThreadMessages(_this.$route.params.threadId);
 
-            case 7:
+            case 6:
             case "end":
               return _context.stop();
           }
@@ -522,31 +529,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     fetchThreads: function fetchThreads() {
+      var _this3 = this;
+
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                return _context2.abrupt("return", [{
-                  name: "Test",
-                  lastMessage: "blah dlah kla salaaaah",
-                  threadId: 1,
-                  hasNotification: true,
-                  active: false
-                }, {
-                  name: "User",
-                  lastMessage: "blah dlah kla salaaaahblah dlah kla salaaaahblah dlah kla salaaaahblah dlah kla salaaaahblah dlah kla salaaaahblah dlah kla salaaaah",
-                  threadId: 2,
-                  active: false
-                }, {
-                  name: "Jerald McBoing boing boing boing boing",
-                  lastMessage: "blah dlah kla salaaaah",
-                  threadId: 3,
-                  hasNotification: true,
-                  active: false
-                }]);
+                _context2.next = 2;
+                return axios.get("/data/threads").then(function (response) {
+                  _this3.threads = response.data;
+                });
 
-              case 1:
+              case 2:
               case "end":
                 return _context2.stop();
             }
@@ -570,26 +565,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       console.log(this.searchInput);
     },
     fetchThreadMessages: function fetchThreadMessages(id) {
-      var _this3 = this;
+      var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                _this3.loaded = false;
-                console.log("blah");
-                _context3.next = 4;
-                return axios.get("/data/messages/".concat(_this3.activeThread)).then(function (response) {
+                _this4.loaded = false;
+                _context3.next = 3;
+                return axios.get("/data/messages/".concat(_this4.activeThread)).then(function (response) {
                   if (response.status === 200) {
-                    _this3.messages = response.data;
-                    _this3.loaded = true;
+                    _this4.messages = response.data;
+                    _this4.loaded = true;
                   }
                 })["catch"](function (error) {
-                  _this3.useAlert(true, error.response, "danger");
+                  _this4.useAlert(true, error.response, "danger");
                 });
 
-              case 4:
+              case 3:
               case "end":
                 return _context3.stop();
             }
@@ -598,7 +592,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     submitNewMessage: function submitNewMessage() {
-      var _this4 = this;
+      var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
         var message;
@@ -606,20 +600,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                _this4.loaded = false;
+                _this5.loaded = false;
                 message = {
-                  message: _this4.newMessage,
-                  recipient: _this4.activeThread,
-                  new_thread: _this4.cleanThread
+                  message: _this5.newMessage,
+                  recipient: _this5.activeThread,
+                  new_thread: _this5.cleanThread
                 };
                 _context4.next = 4;
                 return axios.post("/data/messages/new", message).then(function (response) {
                   if (response.status === 201) {
-                    _this4.loaded = true;
+                    _this5.loaded = true;
 
-                    _this4.pushNewMessage(message);
+                    _this5.pushNewMessage(message);
 
-                    _this4.newMessage = "";
+                    _this5.newMessage = "";
                   }
                 });
 
@@ -776,7 +770,7 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 ___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Inconsolata:wght@200&display=swap);"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".chatPage[data-v-765e6930] {\n  font-family: \"Inconsolata\", monospace;\n  background: #eff3ff;\n  min-height: 100%;\n  width: 100%;\n  color: #fafafa;\n}\n.container[data-v-765e6930] {\n  height: 100%;\n  width: 100%;\n  justify-content: center;\n  align-items: center;\n  display: flex;\n  max-width: 500px;\n  flex-wrap: wrap;\n}\n.text[data-v-765e6930] {\n  font-weight: 100;\n  font-size: 28px;\n  color: #fafafa;\n}\n.chat-page-section[data-v-765e6930] {\n  display: flex;\n  height: 100vh;\n}\n.chat-page-section__left[data-v-765e6930] {\n  width: 100%;\n  max-width: 250px;\n  background: #23232bfc;\n}\n.chat-page-section__left form[data-v-765e6930] {\n  display: flex;\n  padding: 20px 7px;\n  margin-bottom: 2rem;\n}\n.chat-page-section__left form input[data-v-765e6930] {\n  width: 100%;\n  padding: 5px;\n  border-radius: 11px 0 0 11px;\n  background: #eff3ff;\n  color: #a1a1a1;\n  outline: none !important;\n}\n.chat-page-section__left form input[data-v-765e6930]:focus, .chat-page-section__left form input[data-v-765e6930]:active {\n  color: #000000;\n}\n.chat-page-section__left form button[data-v-765e6930] {\n  background: #eff3ff;\n  border-radius: 0 11px 11px 0;\n  padding: 10px;\n  outline: none !important;\n  cursor: pointer;\n}\n.chat-page-section__left form button svg[data-v-765e6930] {\n  fill: #a1a1a1;\n}\n.chat-page-section__right[data-v-765e6930] {\n  width: 100%;\n  overflow: hidden;\n  position: relative;\n}\n.chat-page-section__right .active-thread-user[data-v-765e6930] {\n  display: flex;\n  justify-content: flex-end;\n  padding: 10px;\n  box-shadow: 0 0 20px -12px #000000;\n  z-index: 2;\n  position: relative;\n}\n.chat-page-section__right__messages[data-v-765e6930] {\n  width: 100%;\n  height: calc(100% - 30px);\n  overflow: auto;\n  position: relative;\n}\n.chat-page-section__right .chatPage[data-v-765e6930] {\n  min-height: 100%;\n  position: relative;\n  z-index: 1;\n}\n.chat-page-section__right form[data-v-765e6930] {\n  display: flex;\n  position: sticky;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  box-shadow: 0 0 20px -12px #000000;\n  z-index: 2;\n}\n.chat-page-section__right form input[data-v-765e6930] {\n  width: 100%;\n  padding: 5px;\n  border-radius: 11px 0 0 11px;\n  background: #f1f1f1;\n  color: #a1a1a1;\n  outline: none !important;\n  transition: all 0.3s ease;\n  border-right: 1px solid #dedede;\n}\n.chat-page-section__right form input[data-v-765e6930]:focus, .chat-page-section__right form input[data-v-765e6930]:active {\n  color: #000000;\n  background: #ffffff;\n}\n.chat-page-section__right form input[data-v-765e6930]:focus +, .chat-page-section__right form input[data-v-765e6930]:active + {\n  background: #ffffff;\n}\n.chat-page-section__right form button[data-v-765e6930] {\n  background: #f1f1f1;\n  border: 2px solid #f1f1f1;\n  outline: none !important;\n  padding: 5px 10px;\n  transition: all 0.3s ease;\n}\n.chat-page-section__right form button svg[data-v-765e6930] {\n  transform: rotate(-45deg);\n  max-width: 20px;\n}\n.chat-page-section__right form input:focus + button[data-v-765e6930], .chat-page-section__right form input:active + button[data-v-765e6930] {\n  background: #ffffff;\n  border: 2px solid #ffffff;\n}\n.chat-page-section__right .loading-container[data-v-765e6930] {\n  background: #eff3ff;\n  height: 100vh;\n  display: flex;\n  justify-content: center;\n  flex-direction: column;\n}\n.chat-page-section__right .loading-container__wrapper[data-v-765e6930] {\n  margin: auto;\n  width: 400px;\n  height: 400px;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".empty-shell[data-v-765e6930] {\n  height: 100vh;\n  background: #eff3ff;\n}\n.chatPage[data-v-765e6930] {\n  font-family: \"Inconsolata\", monospace;\n  background: #eff3ff;\n  min-height: 100%;\n  width: 100%;\n  color: #fafafa;\n}\n.container[data-v-765e6930] {\n  height: 100%;\n  width: 100%;\n  justify-content: center;\n  align-items: center;\n  display: flex;\n  max-width: 500px;\n  flex-wrap: wrap;\n}\n.text[data-v-765e6930] {\n  font-weight: 100;\n  font-size: 28px;\n  color: #fafafa;\n}\n.chat-page-section[data-v-765e6930] {\n  display: flex;\n  height: 100vh;\n}\n.chat-page-section__left[data-v-765e6930] {\n  width: 100%;\n  max-width: 250px;\n  background: #23232bfc;\n}\n.chat-page-section__left form[data-v-765e6930] {\n  display: flex;\n  padding: 20px 7px;\n  margin-bottom: 2rem;\n}\n.chat-page-section__left form input[data-v-765e6930] {\n  width: 100%;\n  padding: 5px;\n  border-radius: 11px 0 0 11px;\n  background: #eff3ff;\n  color: #a1a1a1;\n  outline: none !important;\n}\n.chat-page-section__left form input[data-v-765e6930]:focus, .chat-page-section__left form input[data-v-765e6930]:active {\n  color: #000000;\n}\n.chat-page-section__left form button[data-v-765e6930] {\n  background: #eff3ff;\n  border-radius: 0 11px 11px 0;\n  padding: 10px;\n  outline: none !important;\n  cursor: pointer;\n}\n.chat-page-section__left form button svg[data-v-765e6930] {\n  fill: #a1a1a1;\n}\n.chat-page-section__right[data-v-765e6930] {\n  width: 100%;\n  overflow: hidden;\n  position: relative;\n}\n.chat-page-section__right .active-thread-user[data-v-765e6930] {\n  display: flex;\n  justify-content: flex-end;\n  padding: 10px;\n  box-shadow: 0 0 20px -12px #000000;\n  z-index: 2;\n  position: relative;\n}\n.chat-page-section__right__messages[data-v-765e6930] {\n  width: 100%;\n  height: calc(100% - 30px);\n  overflow: auto;\n  position: relative;\n}\n.chat-page-section__right .chatPage[data-v-765e6930] {\n  min-height: 100%;\n  position: relative;\n  z-index: 1;\n}\n.chat-page-section__right form[data-v-765e6930] {\n  display: flex;\n  position: sticky;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  box-shadow: 0 0 20px -12px #000000;\n  z-index: 2;\n}\n.chat-page-section__right form input[data-v-765e6930] {\n  width: 100%;\n  padding: 5px;\n  border-radius: 11px 0 0 11px;\n  background: #f1f1f1;\n  color: #a1a1a1;\n  outline: none !important;\n  transition: all 0.3s ease;\n  border-right: 1px solid #dedede;\n}\n.chat-page-section__right form input[data-v-765e6930]:focus, .chat-page-section__right form input[data-v-765e6930]:active {\n  color: #000000;\n  background: #ffffff;\n}\n.chat-page-section__right form input[data-v-765e6930]:focus +, .chat-page-section__right form input[data-v-765e6930]:active + {\n  background: #ffffff;\n}\n.chat-page-section__right form button[data-v-765e6930] {\n  background: #f1f1f1;\n  border: 2px solid #f1f1f1;\n  outline: none !important;\n  padding: 5px 10px;\n  transition: all 0.3s ease;\n}\n.chat-page-section__right form button svg[data-v-765e6930] {\n  transform: rotate(-45deg);\n  max-width: 20px;\n}\n.chat-page-section__right form input:focus + button[data-v-765e6930], .chat-page-section__right form input:active + button[data-v-765e6930] {\n  background: #ffffff;\n  border: 2px solid #ffffff;\n}\n.chat-page-section__right .loading-container[data-v-765e6930] {\n  background: #eff3ff;\n  height: 100vh;\n  display: flex;\n  justify-content: center;\n  flex-direction: column;\n}\n.chat-page-section__right .loading-container__wrapper[data-v-765e6930] {\n  margin: auto;\n  width: 400px;\n  height: 400px;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -1964,194 +1958,220 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("section", { staticClass: "chat-page-section" }, [
-    _c(
-      "div",
-      { staticClass: "chat-page-section__left" },
-      [
-        _c(
-          "form",
-          {
-            attrs: { action: "#" },
-            on: {
-              submit: function($event) {
-                $event.preventDefault()
-                return _vm.searchForContact.apply(null, arguments)
-              }
-            }
-          },
-          [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.searchInput,
-                  expression: "searchInput"
-                }
-              ],
-              staticClass: "searchbar-input",
-              attrs: { type: "text", placeholder: "Search" },
-              domProps: { value: _vm.searchInput },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.searchInput = $event.target.value
-                }
-              }
-            }),
-            _vm._v(" "),
-            _c("button", { attrs: { type: "submit" } }, [
-              _c(
-                "svg",
-                {
-                  attrs: {
-                    xmlns: "http://www.w3.org/2000/svg",
-                    viewBox: "0 0 16 16",
-                    width: "16",
-                    height: "16"
-                  }
-                },
-                [
-                  _c("path", {
-                    attrs: {
-                      "fill-rule": "evenodd",
-                      d:
-                        "M11.5 7a4.499 4.499 0 11-8.998 0A4.499 4.499 0 0111.5 7zm-.82 4.74a6 6 0 111.06-1.06l3.04 3.04a.75.75 0 11-1.06 1.06l-3.04-3.04z"
-                    }
-                  })
-                ]
-              )
-            ])
-          ]
-        ),
-        _vm._v(" "),
-        _vm._l(_vm.threads, function(thread, index) {
-          return _c("contact-pill", {
-            key: index,
+  return _c(
+    "div",
+    { staticClass: "empty-shell" },
+    [
+      _vm.emptyThread
+        ? _c("alert-component", {
             attrs: {
-              "has-notification": thread.hasNotification,
-              "thread-id": thread.threadId,
-              "last-message": thread.lastMessage,
-              name: thread.name,
-              active: thread.active
-            },
-            on: {
-              threadSelected: function($event) {
-                return _vm.threadSelected($event)
-              }
+              message: "You have no open rooms!",
+              subtitle: "Open the contacts page to view start a conversation",
+              dismissible: false,
+              "slide-in": true
             }
           })
-        })
-      ],
-      2
-    ),
-    _vm._v(" "),
-    _vm.showThread && _vm.loaded
-      ? _c("div", { staticClass: "chat-page-section__right" }, [
-          _c("div", { staticClass: "active-thread-user" }, [
-            _vm._v("\n            " + _vm._s(_vm.activeChatName) + "\n        ")
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "chat-page-section__right__messages" }, [
+        : _c("section", { staticClass: "chat-page-section" }, [
             _c(
               "div",
-              { staticClass: "chatPage" },
-              _vm._l(_vm.messages, function(message, index) {
-                return _c("message-block", {
-                  key: index,
-                  attrs: {
-                    "message-id": message.id,
-                    message: message.message,
-                    user: message.username,
-                    owner: message.owner,
-                    pictureName: _vm.pictureOrDefaultPicture(message.picture)
-                  }
-                })
-              }),
-              1
-            )
-          ]),
-          _vm._v(" "),
-          _c(
-            "form",
-            {
-              attrs: { action: "#" },
-              on: {
-                submit: function($event) {
-                  $event.preventDefault()
-                  return _vm.submitNewMessage.apply(null, arguments)
-                }
-              }
-            },
-            [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.newMessage,
-                    expression: "newMessage"
-                  }
-                ],
-                attrs: {
-                  type: "text",
-                  placeholder: "Enter your message here..."
-                },
-                domProps: { value: _vm.newMessage },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.newMessage = $event.target.value
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("button", [
+              { staticClass: "chat-page-section__left" },
+              [
                 _c(
-                  "svg",
+                  "form",
                   {
-                    attrs: {
-                      xmlns: "http://www.w3.org/2000/svg",
-                      viewBox: "0 0 24 24",
-                      width: "24",
-                      height: "24"
+                    attrs: { action: "#" },
+                    on: {
+                      submit: function($event) {
+                        $event.preventDefault()
+                        return _vm.searchForContact.apply(null, arguments)
+                      }
                     }
                   },
                   [
-                    _c("path", {
-                      attrs: {
-                        "fill-rule": "evenodd",
-                        d:
-                          "M1.513 1.96a1.374 1.374 0 011.499-.21l19.335 9.215a1.146 1.146 0 010 2.07L3.012 22.25a1.374 1.374 0 01-1.947-1.46L2.49 12 1.065 3.21a1.374 1.374 0 01.448-1.25zm2.375 10.79l-1.304 8.042L21.031 12 2.584 3.208l1.304 8.042h7.362a.75.75 0 010 1.5H3.888z"
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.searchInput,
+                          expression: "searchInput"
+                        }
+                      ],
+                      staticClass: "searchbar-input",
+                      attrs: { type: "text", placeholder: "Search" },
+                      domProps: { value: _vm.searchInput },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.searchInput = $event.target.value
+                        }
                       }
-                    })
+                    }),
+                    _vm._v(" "),
+                    _c("button", { attrs: { type: "submit" } }, [
+                      _c(
+                        "svg",
+                        {
+                          attrs: {
+                            xmlns: "http://www.w3.org/2000/svg",
+                            viewBox: "0 0 16 16",
+                            width: "16",
+                            height: "16"
+                          }
+                        },
+                        [
+                          _c("path", {
+                            attrs: {
+                              "fill-rule": "evenodd",
+                              d:
+                                "M11.5 7a4.499 4.499 0 11-8.998 0A4.499 4.499 0 0111.5 7zm-.82 4.74a6 6 0 111.06-1.06l3.04 3.04a.75.75 0 11-1.06 1.06l-3.04-3.04z"
+                            }
+                          })
+                        ]
+                      )
+                    ])
                   ]
+                ),
+                _vm._v(" "),
+                _vm._l(_vm.threads, function(thread, index) {
+                  return _c("contact-pill", {
+                    key: index,
+                    attrs: {
+                      "has-notification": thread.hasNotification,
+                      "thread-id": thread.threadId,
+                      "last-message": thread.lastMessage,
+                      name: thread.name,
+                      active: thread.active
+                    },
+                    on: {
+                      threadSelected: function($event) {
+                        return _vm.threadSelected($event)
+                      }
+                    }
+                  })
+                })
+              ],
+              2
+            ),
+            _vm._v(" "),
+            _vm.showThread && _vm.loaded
+              ? _c("div", { staticClass: "chat-page-section__right" }, [
+                  _c("div", { staticClass: "active-thread-user" }, [
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(_vm.activeChatName) +
+                        "\n            "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "chat-page-section__right__messages" },
+                    [
+                      _c(
+                        "div",
+                        { staticClass: "chatPage" },
+                        _vm._l(_vm.messages, function(message, index) {
+                          return _c("message-block", {
+                            key: index,
+                            attrs: {
+                              "message-id": message.id,
+                              message: message.message,
+                              user: message.username,
+                              owner: message.owner,
+                              pictureName: _vm.pictureOrDefaultPicture(
+                                message.picture
+                              )
+                            }
+                          })
+                        }),
+                        1
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "form",
+                    {
+                      attrs: { action: "#" },
+                      on: {
+                        submit: function($event) {
+                          $event.preventDefault()
+                          return _vm.submitNewMessage.apply(null, arguments)
+                        }
+                      }
+                    },
+                    [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.newMessage,
+                            expression: "newMessage"
+                          }
+                        ],
+                        attrs: {
+                          type: "text",
+                          placeholder: "Enter your message here..."
+                        },
+                        domProps: { value: _vm.newMessage },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.newMessage = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("button", [
+                        _c(
+                          "svg",
+                          {
+                            attrs: {
+                              xmlns: "http://www.w3.org/2000/svg",
+                              viewBox: "0 0 24 24",
+                              width: "24",
+                              height: "24"
+                            }
+                          },
+                          [
+                            _c("path", {
+                              attrs: {
+                                "fill-rule": "evenodd",
+                                d:
+                                  "M1.513 1.96a1.374 1.374 0 011.499-.21l19.335 9.215a1.146 1.146 0 010 2.07L3.012 22.25a1.374 1.374 0 01-1.947-1.46L2.49 12 1.065 3.21a1.374 1.374 0 01.448-1.25zm2.375 10.79l-1.304 8.042L21.031 12 2.584 3.208l1.304 8.042h7.362a.75.75 0 010 1.5H3.888z"
+                              }
+                            })
+                          ]
+                        )
+                      ])
+                    ]
+                  )
+                ])
+              : _vm.showThread && !_vm.loaded
+              ? _c(
+                  "div",
+                  { staticClass: "chat-page-section__right" },
+                  [_c("message-loader")],
+                  1
                 )
-              ])
-            ]
-          )
-        ])
-      : _vm.showThread && !_vm.loaded
-      ? _c(
-          "div",
-          { staticClass: "chat-page-section__right" },
-          [_c("message-loader")],
-          1
-        )
-      : !_vm.showThread
-      ? _c(
-          "div",
-          { staticClass: "chat-page-section__right" },
-          [_c("chat-info-page")],
-          1
-        )
-      : _vm._e()
-  ])
+              : !_vm.showThread
+              ? _c(
+                  "div",
+                  { staticClass: "chat-page-section__right" },
+                  [_c("chat-info-page")],
+                  1
+                )
+              : _vm._e()
+          ])
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

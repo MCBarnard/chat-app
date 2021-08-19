@@ -41,13 +41,29 @@ export default {
         // this.testNotificationAnimations();
         await this.checkForNotifications();
     },
+    computed: {
+        newConnectionRequestComputed: {
+            get() {
+                return this.$store.getters.getNewConnectionRequests;
+            },
+            set(val){
+                return val
+            }
+        }
+    },
+    watch: {
+        newConnectionRequestComputed(val) {
+            if (val.length === 0) {
+                this.$store.dispatch("ACT_NEW_CONNECTION_REQUEST", false);
+            }
+        }
+    },
     methods: {
         async checkForNotifications() {
             // Check message Notifications
 
             // Check connection Requests
             await axios.get("/data/connection-requests").then(response => {
-                console.log(response)
                 if (response.data.length > 0) {
                     this.$store.dispatch("ACT_NEW_CONNECTION_REQUEST", true);
                     this.$store.dispatch("ACT_NEW_CONNECTION_REQUESTS", response.data);
