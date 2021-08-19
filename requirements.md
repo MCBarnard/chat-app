@@ -22,6 +22,16 @@
 
 ![#1589F0](https://via.placeholder.com/15/1589F0/000000?text=+) Create Settings page
 
+![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) ~~Create Login Page design~~
+
+![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) ~~Create Registration Page design~~
+
+![#1589F0](https://via.placeholder.com/15/1589F0/000000?text=+) Create Email Verification Page design
+
+![#1589F0](https://via.placeholder.com/15/1589F0/000000?text=+) Create Password Reset Page design
+
+![#1589F0](https://via.placeholder.com/15/1589F0/000000?text=+) Create Password Reset Page design
+
 ![#1589F0](https://via.placeholder.com/15/1589F0/000000?text=+) Move profile picture hosting to an online platform
 
 ![#1589F0](https://via.placeholder.com/15/1589F0/000000?text=+) Incorporate Keys encryption keys
