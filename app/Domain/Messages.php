@@ -46,7 +46,7 @@ class Messages
         $message = Message::create([
             'creator_id' => Auth::user()->id,
             'thread_id' => $thread->id,
-            'message' => $messageObject['message']
+            'message' => $messageObject['message'],
         ]);
 
         // save message and thread

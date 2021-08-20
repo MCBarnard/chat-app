@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Log;
 
 class Thread extends Model
 {
@@ -16,7 +17,7 @@ class Thread extends Model
      * @var array
      */
     protected $fillable = [
-        'participants',
+        'participants'
     ];
 
     /**
@@ -27,4 +28,8 @@ class Thread extends Model
     protected $casts = [
         'participants' => 'array'
     ];
+
+    public function owner() {
+        return $this->belongsTo(User::class, 'owner');
+    }
 }

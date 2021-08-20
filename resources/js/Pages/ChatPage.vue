@@ -107,7 +107,7 @@ export default {
         await this.fetchThreads(parseInt(this.$route.params.threadId));
         if (this.showThread) {
             this.setActiveThread(parseInt(this.$route.params.threadId));
-            await this.fetchThreadMessages(this.$route.params.threadId);
+            await this.fetchThreadMessages();
         }
     },
     methods: {
@@ -123,24 +123,35 @@ export default {
         },
         async fetchThreads() {
             await axios.get("/data/threads").then(response => {
-                this.threads = response.data;
+                const freshThreads = [];
+                response.data.forEach(item => {
+                    freshThreads.push({
+                        name: item.name,
+                        lastMessage: item.last_message,
+                        threadId: item.thread_id,
+                        hasNotification: item.newMessage,
+                        active: false
+                    });
+                });
+                this.threads = freshThreads;
             });
         },
         threadSelected(id) {
             if (parseInt(this.$route.params.threadId) !== id) {
                 this.setActiveThread(id)
                 this.$router.push({ name: 'chat-page', params: { threadId: id } });
-                this.fetchThreadMessages(id);
+                this.fetchThreadMessages();
             }
         },
         searchForContact() {
             console.log(this.searchInput);
         },
-        async fetchThreadMessages(id) {
+        async fetchThreadMessages() {
             this.loaded = false;
             await axios.get(`/data/messages/${this.activeThread}`)
                 .then(response => {
                     if(response.status === 200) {
+                        console.log(response)
                         this.messages = response.data;
                         this.loaded = true;
                     }

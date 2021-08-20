@@ -18,6 +18,7 @@ class CreateMessagesTable extends Migration
             $table->foreignId('creator_id')->constrained('users');
             $table->foreignId('thread_id')->constrained('threads');
             $table->string('message');
+            $table->boolean('read')->default(false);
             $table->softDeletes();
             $table->timestamps();
         });

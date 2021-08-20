@@ -2,12 +2,21 @@
 
 namespace App\Domain;
 
+use App\Models\Message;
 use App\Models\Thread;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
 
 class Threads
 {
+    public function lastMessage($threadId)
+    {
+        Log::info(__METHOD__ . ' : BOF');
+        $message = Message::where('thread_id', $threadId)->latest()->limit(1)->first();
+        Log::info(__METHOD__ . ' : EOF');
+        return $message;
+    }
+
     public function deleteThread($threadId)
     {
         Log::info(__METHOD__ . " : BOF");

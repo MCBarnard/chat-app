@@ -18,7 +18,8 @@ class Message extends Model
     protected $fillable = [
         'creator_id',
         'thread_id',
-        'message'
+        'message',
+        'read'
     ];
 
     /**

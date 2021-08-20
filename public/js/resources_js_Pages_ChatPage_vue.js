@@ -505,7 +505,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               _this.setActiveThread(parseInt(_this.$route.params.threadId));
 
               _context.next = 6;
-              return _this.fetchThreadMessages(_this.$route.params.threadId);
+              return _this.fetchThreadMessages();
 
             case 6:
             case "end":
@@ -538,7 +538,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context2.next = 2;
                 return axios.get("/data/threads").then(function (response) {
-                  _this3.threads = response.data;
+                  var freshThreads = [];
+                  response.data.forEach(function (item) {
+                    freshThreads.push({
+                      name: item.name,
+                      lastMessage: item.last_message,
+                      threadId: item.thread_id,
+                      hasNotification: item.newMessage,
+                      active: false
+                    });
+                  });
+                  _this3.threads = freshThreads;
                 });
 
               case 2:
@@ -558,13 +568,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             threadId: id
           }
         });
-        this.fetchThreadMessages(id);
+        this.fetchThreadMessages();
       }
     },
     searchForContact: function searchForContact() {
       console.log(this.searchInput);
     },
-    fetchThreadMessages: function fetchThreadMessages(id) {
+    fetchThreadMessages: function fetchThreadMessages() {
       var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
@@ -576,6 +586,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context3.next = 3;
                 return axios.get("/data/messages/".concat(_this4.activeThread)).then(function (response) {
                   if (response.status === 200) {
+                    console.log(response);
                     _this4.messages = response.data;
                     _this4.loaded = true;
                   }
