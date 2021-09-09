@@ -5,7 +5,8 @@ const account = {
             username: undefined,
             user_id: undefined,
             threads: undefined,
-            email: undefined
+            email: undefined,
+            profilePicture: undefined
         }
     },
     getters: {
@@ -27,6 +28,9 @@ const account = {
         SET_ACCOUNT_EMAIL (state, payload) {
             state.userAccount.email = payload;
         },
+        SET_ACCOUNT_PICTURE (state, payload) {
+            state.userAccount.profilePicture = payload;
+        },
     },
     actions: {
         ACT_ACCOUNT_AUTHED (state, authed) {
@@ -43,6 +47,9 @@ const account = {
         },
         ACT_ACCOUNT_EMAIL (state, authed) {
             state.commit("SET_ACCOUNT_EMAIL", authed);
+        },
+        ACT_ACCOUNT_PICTURE (state, picture) {
+            state.commit("SET_ACCOUNT_PICTURE", picture);
         },
     }
 };

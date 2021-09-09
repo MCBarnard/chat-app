@@ -29,21 +29,29 @@ class ContactController extends Controller
             foreach ($contacts as $contact) {
                 $user = User::find($contact);
                 // ToDo:: Add thread functionality
-//                Log::debug("================||==============");
-//                Log::debug(print_r($user->threads, true));
-//                Log::debug("==========||====================");
-//                $threadId = "";
-//                foreach ($user->threads as $thread) {
+                Log::debug("================||==============");
+                Log::debug(print_r($user->threads, true));
+                Log::debug("==========||====================");
+                $threadId = null;
+                foreach ($user->threads as $thread) {
+                    Log::debug(print_r($thread, true));
+//                    fetch thread
+                    $currentThread = Thread::find($thread);
+                    if ($currentThread->participants === [Auth::user()->id, $user->id] || $currentThread->participants === [$user->id, Auth::user()->id]) {
+                        Log::debug("found!!");
+                        $threadId = $currentThread->id;
+                    }
 //                    $threads = Thread::where('participants', [Auth::user()->id, $user->id])
 //                        ->orWhere('participants', [$user->id, Auth::user()->id])->first();
-//                    Log::debug("found!!");
-//                    Log::debug(print_r($threads, true));
-//                }
+//                    if ($threads) {
+//                        Log::debug("found!!");
+//                    }
+                }
 //                $threads = "";
                 array_push($payload, [
                     'name' => $user->name,
                     'image' => $user->profile_picture,
-                    'threadId' => null,
+                    'threadId' => $threadId,
                     'connectionId' => $user->connection_id,
                 ]);
             }

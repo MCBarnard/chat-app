@@ -31,6 +31,6 @@ class ProfileController extends Controller
             return response("Unable to process data!", ResponseAlias::HTTP_BAD_REQUEST);
         }
         Log::info(__METHOD__ . " : EOF");
-        return response("Updated!", ResponseAlias::HTTP_ACCEPTED);
+        return response($reImage, ResponseAlias::HTTP_ACCEPTED);
     }
 }

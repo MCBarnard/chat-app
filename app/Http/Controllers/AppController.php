@@ -15,7 +15,7 @@ class AppController extends Controller
         $optionValues = [];
         $optionValues['csrfToken'] = csrf_token();
         $optionValues['states'] = json_encode(config('constantValues.states'));
-        $optionValues = json_encode(config('constantValues.states'));
+        $optionValues = json_encode($optionValues);
         Log::info(__METHOD__ . " : EOF");
         return view('home', compact('optionValues'));
     }

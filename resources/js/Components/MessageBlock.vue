@@ -46,6 +46,7 @@ export default {
     display: flex;
     justify-content: flex-start;
     padding: 8px;
+    margin-bottom: 28px;
 }
 .message-container.owner {
     justify-content: flex-end;

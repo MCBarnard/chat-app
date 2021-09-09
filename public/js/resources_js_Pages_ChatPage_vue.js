@@ -376,6 +376,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Components_MessageLoader__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Components/MessageLoader */ "./resources/js/Components/MessageLoader.vue");
 /* harmony import */ var _ChatInfo__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./ChatInfo */ "./resources/js/Pages/ChatInfo.vue");
 /* harmony import */ var _Components_AlertComponent__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Components/AlertComponent */ "./resources/js/Components/AlertComponent.vue");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -468,15 +474,33 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       searchInput: "",
       activeChatName: "",
       threads: [],
-      messages: []
+      messages: [],
+      activeThreadId: ""
     };
+  },
+  watch: {
+    threadId: function threadId() {
+      this.activeThreadId = this.$route.params.threadId;
+    },
+    threads: function threads(val) {
+      var hasNotification = false;
+      val.forEach(function (item) {
+        if (item.hasNotification) {
+          hasNotification = true;
+        }
+      });
+
+      if (!hasNotification) {
+        this.$store.dispatch("ACT_NEW_UNREAD_MESSAGE", false);
+      }
+    }
   },
   computed: {
     showThread: function showThread() {
-      return typeof this.$route.params.threadId !== "undefined";
+      return typeof this.activeThreadId !== "undefined";
     },
     activeThread: function activeThread() {
-      return this.$route.params.threadId;
+      return parseInt(this.activeThreadId);
     },
     cleanThread: function cleanThread() {
       return false;
@@ -493,21 +517,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              _context.next = 2;
-              return _this.fetchThreads(parseInt(_this.$route.params.threadId));
+              _this.activeThreadId = _this.$route.params.threadId;
+              _context.next = 3;
+              return _this.fetchThreads(parseInt(_this.activeThreadId));
 
-            case 2:
+            case 3:
               if (!_this.showThread) {
-                _context.next = 6;
+                _context.next = 8;
                 break;
               }
 
-              _this.setActiveThread(parseInt(_this.$route.params.threadId));
+              _this.setActiveThread(parseInt(_this.activeThreadId));
 
-              _context.next = 6;
+              _context.next = 7;
               return _this.fetchThreadMessages();
 
-            case 6:
+            case 7:
+              _this.scrollToBottom();
+
+            case 8:
             case "end":
               return _context.stop();
           }
@@ -520,7 +548,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this2 = this;
 
       this.threads.forEach(function (item) {
-        if (item.threadId === id) {
+        if (parseInt(item.threadId) === parseInt(id)) {
           _this2.activeChatName = item.name;
           item.active = true;
         } else {
@@ -560,7 +588,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     threadSelected: function threadSelected(id) {
-      if (parseInt(this.$route.params.threadId) !== id) {
+      if (parseInt(this.activeThreadId) !== id) {
         this.setActiveThread(id);
         this.$router.push({
           name: 'chat-page',
@@ -568,13 +596,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             threadId: id
           }
         });
+        this.activeThreadId = id;
         this.fetchThreadMessages();
+        this.removeMessageNotification(id);
+        this.setThreadMessagesRead();
       }
+    },
+    removeMessageNotification: function removeMessageNotification(id) {
+      this.threads.forEach(function (item) {
+        if (item.threadId === id) {
+          item.hasNotification = false;
+        }
+      });
     },
     searchForContact: function searchForContact() {
       console.log(this.searchInput);
     },
-    fetchThreadMessages: function fetchThreadMessages() {
+    setThreadMessagesRead: function setThreadMessagesRead() {
       var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
@@ -582,19 +620,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                _this4.loaded = false;
-                _context3.next = 3;
-                return axios.get("/data/messages/".concat(_this4.activeThread)).then(function (response) {
-                  if (response.status === 200) {
-                    console.log(response);
-                    _this4.messages = response.data;
-                    _this4.loaded = true;
-                  }
-                })["catch"](function (error) {
-                  _this4.useAlert(true, error.response, "danger");
-                });
+                _context3.next = 2;
+                return axios.get("/data/messages/".concat(_this4.activeThreadId, "/read"));
 
-              case 3:
+              case 2:
               case "end":
                 return _context3.stop();
             }
@@ -602,33 +631,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee3);
       }))();
     },
-    submitNewMessage: function submitNewMessage() {
+    fetchThreadMessages: function fetchThreadMessages() {
       var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
-        var message;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
                 _this5.loaded = false;
-                message = {
-                  message: _this5.newMessage,
-                  recipient: _this5.activeThread,
-                  new_thread: _this5.cleanThread
-                };
-                _context4.next = 4;
-                return axios.post("/data/messages/new", message).then(function (response) {
-                  if (response.status === 201) {
+                _context4.next = 3;
+                return axios.get("/data/messages/".concat(_this5.activeThreadId)).then(function (response) {
+                  if (response.status === 200) {
+                    _this5.messages = response.data.messages;
+                    _this5.hasUnread = response.data.hasUnread;
                     _this5.loaded = true;
-
-                    _this5.pushNewMessage(message);
-
-                    _this5.newMessage = "";
                   }
+                })["catch"](function (error) {
+                  _this5.useAlert(true, error.response, "danger");
                 });
 
-              case 4:
+              case 3:
               case "end":
                 return _context4.stop();
             }
@@ -636,13 +659,57 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee4);
       }))();
     },
+    submitNewMessage: function submitNewMessage() {
+      var _this6 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
+        var message;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                message = {
+                  message: _this6.newMessage,
+                  recipient: _this6.activeThread,
+                  new_thread: _this6.cleanThread,
+                  owner: true,
+                  picture: _this6.$store.getters.getUserAccount.profilePicture,
+                  user: _this6.$store.getters.getUserAccount.username
+                };
+                _context5.next = 3;
+                return axios.post("/data/messages/new", message).then(function (response) {
+                  if (response.status === 201) {
+                    var data = _objectSpread(_objectSpread({}, message), {}, {
+                      messageId: response.data.id
+                    });
+
+                    _this6.pushNewMessage(data);
+
+                    _this6.newMessage = "";
+                  }
+                });
+
+              case 3:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5);
+      }))();
+    },
     pushNewMessage: function pushNewMessage(item) {
+      var _this7 = this;
+
       this.messages.push({
-        id: item.id,
+        id: item.messageId,
         message: item.message,
-        username: item.username,
-        owner: item.owner
+        username: item.user,
+        owner: item.owner,
+        picture: item.picture
       });
+      setTimeout(function () {
+        _this7.scrollToBottom();
+      }, 200);
     }
   }
 });
@@ -711,7 +778,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".message-container[data-v-39934991] {\n  display: flex;\n  justify-content: flex-start;\n  padding: 8px;\n}\n.message-container.owner[data-v-39934991] {\n  justify-content: flex-end;\n}\n.message-section[data-v-39934991] {\n  display: flex;\n  justify-content: flex-start;\n  flex-direction: column;\n  position: relative;\n}\n.message-section span[data-v-39934991] {\n  display: flex;\n  margin-left: 30px;\n  word-break: break-word;\n  max-width: 500px;\n  background: #2c3e4f;\n  color: #ffffff;\n  padding: 12px;\n  border-radius: 5px;\n  flex-wrap: wrap;\n}\n.message-section img[data-v-39934991] {\n  position: absolute;\n  left: 0;\n  bottom: -35px;\n  max-width: 50px;\n  max-height: 50px;\n  -o-object-fit: contain;\n     object-fit: contain;\n  border-radius: 50%;\n  border: 5px solid #eff3ff;\n}\n.message-section.owner[data-v-39934991] {\n  justify-content: flex-end;\n  color: #2c3e4f;\n}\n.message-section.owner span[data-v-39934991] {\n  margin-left: unset;\n  margin-right: 30px;\n  background: #ffffff;\n  color: #081840;\n}\n.message-section.owner img[data-v-39934991] {\n  left: unset;\n  right: 0;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".message-container[data-v-39934991] {\n  display: flex;\n  justify-content: flex-start;\n  padding: 8px;\n  margin-bottom: 28px;\n}\n.message-container.owner[data-v-39934991] {\n  justify-content: flex-end;\n}\n.message-section[data-v-39934991] {\n  display: flex;\n  justify-content: flex-start;\n  flex-direction: column;\n  position: relative;\n}\n.message-section span[data-v-39934991] {\n  display: flex;\n  margin-left: 30px;\n  word-break: break-word;\n  max-width: 500px;\n  background: #2c3e4f;\n  color: #ffffff;\n  padding: 12px;\n  border-radius: 5px;\n  flex-wrap: wrap;\n}\n.message-section img[data-v-39934991] {\n  position: absolute;\n  left: 0;\n  bottom: -35px;\n  max-width: 50px;\n  max-height: 50px;\n  -o-object-fit: contain;\n     object-fit: contain;\n  border-radius: 50%;\n  border: 5px solid #eff3ff;\n}\n.message-section.owner[data-v-39934991] {\n  justify-content: flex-end;\n  color: #2c3e4f;\n}\n.message-section.owner span[data-v-39934991] {\n  margin-left: unset;\n  margin-right: 30px;\n  background: #ffffff;\n  color: #081840;\n}\n.message-section.owner img[data-v-39934991] {\n  left: unset;\n  right: 0;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -781,7 +848,7 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 ___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Inconsolata:wght@200&display=swap);"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".empty-shell[data-v-765e6930] {\n  height: 100vh;\n  background: #eff3ff;\n}\n.chatPage[data-v-765e6930] {\n  font-family: \"Inconsolata\", monospace;\n  background: #eff3ff;\n  min-height: 100%;\n  width: 100%;\n  color: #fafafa;\n}\n.container[data-v-765e6930] {\n  height: 100%;\n  width: 100%;\n  justify-content: center;\n  align-items: center;\n  display: flex;\n  max-width: 500px;\n  flex-wrap: wrap;\n}\n.text[data-v-765e6930] {\n  font-weight: 100;\n  font-size: 28px;\n  color: #fafafa;\n}\n.chat-page-section[data-v-765e6930] {\n  display: flex;\n  height: 100vh;\n}\n.chat-page-section__left[data-v-765e6930] {\n  width: 100%;\n  max-width: 250px;\n  background: #23232bfc;\n}\n.chat-page-section__left form[data-v-765e6930] {\n  display: flex;\n  padding: 20px 7px;\n  margin-bottom: 2rem;\n}\n.chat-page-section__left form input[data-v-765e6930] {\n  width: 100%;\n  padding: 5px;\n  border-radius: 11px 0 0 11px;\n  background: #eff3ff;\n  color: #a1a1a1;\n  outline: none !important;\n}\n.chat-page-section__left form input[data-v-765e6930]:focus, .chat-page-section__left form input[data-v-765e6930]:active {\n  color: #000000;\n}\n.chat-page-section__left form button[data-v-765e6930] {\n  background: #eff3ff;\n  border-radius: 0 11px 11px 0;\n  padding: 10px;\n  outline: none !important;\n  cursor: pointer;\n}\n.chat-page-section__left form button svg[data-v-765e6930] {\n  fill: #a1a1a1;\n}\n.chat-page-section__right[data-v-765e6930] {\n  width: 100%;\n  overflow: hidden;\n  position: relative;\n}\n.chat-page-section__right .active-thread-user[data-v-765e6930] {\n  display: flex;\n  justify-content: flex-end;\n  padding: 10px;\n  box-shadow: 0 0 20px -12px #000000;\n  z-index: 2;\n  position: relative;\n}\n.chat-page-section__right__messages[data-v-765e6930] {\n  width: 100%;\n  height: calc(100% - 30px);\n  overflow: auto;\n  position: relative;\n}\n.chat-page-section__right .chatPage[data-v-765e6930] {\n  min-height: 100%;\n  position: relative;\n  z-index: 1;\n}\n.chat-page-section__right form[data-v-765e6930] {\n  display: flex;\n  position: sticky;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  box-shadow: 0 0 20px -12px #000000;\n  z-index: 2;\n}\n.chat-page-section__right form input[data-v-765e6930] {\n  width: 100%;\n  padding: 5px;\n  border-radius: 11px 0 0 11px;\n  background: #f1f1f1;\n  color: #a1a1a1;\n  outline: none !important;\n  transition: all 0.3s ease;\n  border-right: 1px solid #dedede;\n}\n.chat-page-section__right form input[data-v-765e6930]:focus, .chat-page-section__right form input[data-v-765e6930]:active {\n  color: #000000;\n  background: #ffffff;\n}\n.chat-page-section__right form input[data-v-765e6930]:focus +, .chat-page-section__right form input[data-v-765e6930]:active + {\n  background: #ffffff;\n}\n.chat-page-section__right form button[data-v-765e6930] {\n  background: #f1f1f1;\n  border: 2px solid #f1f1f1;\n  outline: none !important;\n  padding: 5px 10px;\n  transition: all 0.3s ease;\n}\n.chat-page-section__right form button svg[data-v-765e6930] {\n  transform: rotate(-45deg);\n  max-width: 20px;\n}\n.chat-page-section__right form input:focus + button[data-v-765e6930], .chat-page-section__right form input:active + button[data-v-765e6930] {\n  background: #ffffff;\n  border: 2px solid #ffffff;\n}\n.chat-page-section__right .loading-container[data-v-765e6930] {\n  background: #eff3ff;\n  height: 100vh;\n  display: flex;\n  justify-content: center;\n  flex-direction: column;\n}\n.chat-page-section__right .loading-container__wrapper[data-v-765e6930] {\n  margin: auto;\n  width: 400px;\n  height: 400px;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".empty-shell[data-v-765e6930] {\n  height: 100vh;\n  background: #eff3ff;\n}\n.chatPage[data-v-765e6930] {\n  font-family: \"Inconsolata\", monospace;\n  background: #eff3ff;\n  min-height: 100%;\n  width: 100%;\n  color: #fafafa;\n}\n.container[data-v-765e6930] {\n  height: 100%;\n  width: 100%;\n  justify-content: center;\n  align-items: center;\n  display: flex;\n  max-width: 500px;\n  flex-wrap: wrap;\n}\n.text[data-v-765e6930] {\n  font-weight: 100;\n  font-size: 28px;\n  color: #fafafa;\n}\n.chat-page-section[data-v-765e6930] {\n  display: flex;\n  height: 100vh;\n}\n.chat-page-section__left[data-v-765e6930] {\n  width: 100%;\n  max-width: 250px;\n  background: #23232bfc;\n}\n.chat-page-section__left form[data-v-765e6930] {\n  display: flex;\n  padding: 20px 7px;\n  margin-bottom: 2rem;\n}\n.chat-page-section__left form input[data-v-765e6930] {\n  width: 100%;\n  padding: 5px;\n  border-radius: 11px 0 0 11px;\n  background: #eff3ff;\n  color: #a1a1a1;\n  outline: none !important;\n}\n.chat-page-section__left form input[data-v-765e6930]:focus, .chat-page-section__left form input[data-v-765e6930]:active {\n  color: #000000;\n}\n.chat-page-section__left form button[data-v-765e6930] {\n  background: #eff3ff;\n  border-radius: 0 11px 11px 0;\n  padding: 10px;\n  outline: none !important;\n  cursor: pointer;\n}\n.chat-page-section__left form button svg[data-v-765e6930] {\n  fill: #a1a1a1;\n}\n.chat-page-section__right[data-v-765e6930] {\n  width: 100%;\n  overflow: hidden;\n  position: relative;\n}\n.chat-page-section__right .active-thread-user[data-v-765e6930] {\n  display: flex;\n  justify-content: flex-end;\n  padding: 10px;\n  box-shadow: 0 0 20px -12px #000000;\n  z-index: 2;\n  position: relative;\n  background: #ffffff;\n}\n.chat-page-section__right__messages[data-v-765e6930] {\n  width: 100%;\n  height: calc(100% - 80px);\n  overflow: auto;\n  position: relative;\n}\n.chat-page-section__right .chatPage[data-v-765e6930] {\n  min-height: 100%;\n  position: relative;\n  z-index: 1;\n}\n.chat-page-section__right form[data-v-765e6930] {\n  display: flex;\n  position: sticky;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  box-shadow: 0 0 20px -12px #000000;\n  z-index: 2;\n}\n.chat-page-section__right form input[data-v-765e6930] {\n  width: 100%;\n  padding: 5px;\n  border-radius: 11px 0 0 11px;\n  background: #f1f1f1;\n  color: #a1a1a1;\n  outline: none !important;\n  transition: all 0.3s ease;\n  border-right: 1px solid #dedede;\n}\n.chat-page-section__right form input[data-v-765e6930]:focus, .chat-page-section__right form input[data-v-765e6930]:active {\n  color: #000000;\n  background: #ffffff;\n}\n.chat-page-section__right form input[data-v-765e6930]:focus +, .chat-page-section__right form input[data-v-765e6930]:active + {\n  background: #ffffff;\n}\n.chat-page-section__right form button[data-v-765e6930] {\n  background: #f1f1f1;\n  border: 2px solid #f1f1f1;\n  outline: none !important;\n  padding: 5px 10px;\n  transition: all 0.3s ease;\n}\n.chat-page-section__right form button svg[data-v-765e6930] {\n  transform: rotate(-45deg);\n  max-width: 20px;\n}\n.chat-page-section__right form input:focus + button[data-v-765e6930], .chat-page-section__right form input:active + button[data-v-765e6930] {\n  background: #ffffff;\n  border: 2px solid #ffffff;\n}\n.chat-page-section__right .loading-container[data-v-765e6930] {\n  background: #eff3ff;\n  height: 100vh;\n  display: flex;\n  justify-content: center;\n  flex-direction: column;\n}\n.chat-page-section__right .loading-container__wrapper[data-v-765e6930] {\n  margin: auto;\n  width: 400px;\n  height: 400px;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -2071,9 +2138,9 @@ var render = function() {
               ? _c("div", { staticClass: "chat-page-section__right" }, [
                   _c("div", { staticClass: "active-thread-user" }, [
                     _vm._v(
-                      "\n                " +
+                      "\n                    " +
                         _vm._s(_vm.activeChatName) +
-                        "\n            "
+                        "\n                "
                     )
                   ]),
                   _vm._v(" "),
@@ -2165,12 +2232,7 @@ var render = function() {
                   )
                 ])
               : _vm.showThread && !_vm.loaded
-              ? _c(
-                  "div",
-                  { staticClass: "chat-page-section__right" },
-                  [_c("message-loader")],
-                  1
-                )
+              ? _c("div", { staticClass: "chat-page-section__right" })
               : !_vm.showThread
               ? _c(
                   "div",

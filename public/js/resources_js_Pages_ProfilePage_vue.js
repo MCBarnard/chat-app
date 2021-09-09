@@ -164,6 +164,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     submitProfile: function submitProfile() {
+      var _this = this;
+
       // let formData = new FormData();
       // console.log(this.profileData.picture)
       // formData.append('image_file', this.profileData.picture);
@@ -176,7 +178,7 @@ __webpack_require__.r(__webpack_exports__);
           "Content-Type": "multipart/form-data"
         }
       }).then(function (response) {
-        console.log(response);
+        _this.$store.dispatch("ACT_ACCOUNT_PICTURE", response.data);
       })["catch"](function (error) {
         console.error(error.response.data);
       });

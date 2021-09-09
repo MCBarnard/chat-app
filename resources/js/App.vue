@@ -14,6 +14,7 @@
 <script>
 import {globalMixin} from "./Mixins/GlobalMixin";
 import Navbar from "./Components/Navbar";
+import Echo from "laravel-echo";
 
 export default {
     name: "App",
@@ -21,7 +22,8 @@ export default {
     mixins: [globalMixin],
     data() {
         return {
-            loaded: false
+            loaded: false,
+            canSubscribe: false
         };
     },
     async beforeCreate() {
@@ -32,6 +34,7 @@ export default {
             this.$store.dispatch("ACT_ACCOUNT_USER_ID", response.data.user_id);
             this.$store.dispatch("ACT_ACCOUNT_THREADS", response.data.threads);
             this.$store.dispatch("ACT_ACCOUNT_EMAIL", response.data.email);
+            this.$store.dispatch("ACT_ACCOUNT_PICTURE", this.pictureOrDefaultPicture(response.data.profile_picture));
             // this.loaded = true;
         }).catch(error => {
             console.error(error.response.message)
@@ -42,6 +45,12 @@ export default {
         await this.checkForNotifications();
     },
     computed: {
+        canSubscribeComputed () {
+            return this.canSubscribe;
+        },
+        storeUserId () {
+            return this.$store.getters.getUserAccount.user_id
+        },
         newConnectionRequestComputed: {
             get() {
                 return this.$store.getters.getNewConnectionRequests;
@@ -56,12 +65,45 @@ export default {
             if (val.length === 0) {
                 this.$store.dispatch("ACT_NEW_CONNECTION_REQUEST", false);
             }
+        },
+        storeUserId(val) {
+            if (val) {
+                this.canSubscribe = true;
+            }
+        },
+        canSubscribe (val) {
+            if (val) {
+                window.Echo = new Echo({
+                    broadcaster: 'pusher',
+                    key: '89e04b143c11e803ee52',
+                    cluster: 'ap2',
+                    useTLS: true,
+                    csrfToken: window.options.csrfToken
+                })
+
+                console.log('messages.' + this.$store.getters.getUserAccount.user_id)
+                window.Echo.private('messages.' + this.$store.getters.getUserAccount.user_id)
+                    .listen('NewMessageEvent', data => {
+                        console.log("in here!")
+                        console.log(data)
+                    });
+            }
         }
     },
     methods: {
         async checkForNotifications() {
             // Check message Notifications
-
+            await axios.get("/data/threads").then(response => {
+                let hasNewMessage = false;
+                response.data.forEach(item => {
+                    if (item.newMessage) {
+                        hasNewMessage = true;
+                    }
+                });
+                if (hasNewMessage) {
+                    this.$store.dispatch("ACT_NEW_UNREAD_MESSAGE", true);
+                }
+            });
             // Check connection Requests
             await axios.get("/data/connection-requests").then(response => {
                 if (response.data.length > 0) {

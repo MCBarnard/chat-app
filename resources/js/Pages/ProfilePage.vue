@@ -46,7 +46,7 @@ export default {
             axios.post("profile-data/update", formData, {
                 headers: { "Content-Type": "multipart/form-data" },
             }).then(response => {
-                console.log(response)
+                this.$store.dispatch("ACT_ACCOUNT_PICTURE", response.data);
             }). catch(error => {
                 console.error(error.response.data)
             });

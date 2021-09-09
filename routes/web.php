@@ -33,6 +33,7 @@ Route::group(['middleware' => ['auth']], function ($router) {
     $router->group(['prefix'=>'data'], function ($router) {
         $router->group(['prefix'=>'messages'], function ($router) {
             $router->get('{thread?}', [MessageController::class, 'view'])->where('thread', '[0-9]*');
+            $router->get('{thread?}/read', [MessageController::class, 'setMessagesAsRead'])->where('thread', '[0-9]*');
             $router->get('{messageId?}/delete', [MessageController::class, 'delete'])->where('messageId', '[0-9]*');
             $router->post('new', [MessageController::class, 'create']);
         });

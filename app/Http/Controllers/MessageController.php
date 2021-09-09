@@ -26,7 +26,7 @@ class MessageController extends Controller
     public function view($thread)
     {
         Log::info(__METHOD__ . " : BOF");
-        $messages = Message::where('thread_id', $thread)->latest()->limit(100)->get();
+        $messages = Message::where('thread_id', $thread)->limit(100)->get();
         $data = [];
 
         foreach($messages as $msg) {
@@ -35,12 +35,31 @@ class MessageController extends Controller
                 'id' => $msg->id,
                 'message' => $msg->message,
                 'username' => $user->name,
-                'owner' => Auth::user()->id == $msg->id,
+                'owner' => Auth::user()->id == intval($msg->creator_id),
                 'picture' => $user->profile_picture
             ]);
         }
         Log::info(__METHOD__ . " : EOF");
-        return response($data, ResponseAlias::HTTP_OK);
+        return response(['messages' => $data], ResponseAlias::HTTP_OK);
+    }
+    /**
+     * Set Messages as read in the thread.
+     *
+     * @return Response
+     */
+    public function setMessagesAsRead($thread)
+    {
+        Log::info(__METHOD__ . " : BOF");
+        $messages = Message::where('thread_id', $thread)->get();
+
+        foreach($messages as $msg) {
+            if ($msg->creator_id !== Auth::user()->id) {
+                $msg->read = true;
+                $msg->save();
+            }
+        }
+        Log::info(__METHOD__ . " : EOF");
+        return response("Success!", ResponseAlias::HTTP_OK);
     }
 
     /**
@@ -62,25 +81,10 @@ class MessageController extends Controller
            'new_thread' => 'required|boolean'
        ]);
 
-        // Check if contact exists in contact list
-        $user = Auth::user();
-
-        if(!$user) {
-            Log::info(__METHOD__ . " : EOF");
-            return response("You need to be logged in!", ResponseAlias::HTTP_UNAUTHORIZED);
-        }
-
-        $contacts = json_decode($user->contacts->users);
-        $receiver = User::where('connection_id', $request->input('recipient'))->first();
-        if (!in_array($receiver->id, $contacts)) {
-            Log::info(__METHOD__ . " : EOF");
-            return response("You are not connected to the recipient of this message", ResponseAlias::HTTP_BAD_REQUEST);
-        }
-
         // format
         $messageObject = [
             'message' => $request->input('message'),
-            'recipient' => $receiver->id,
+            'recipient' => $request->input('recipient'),
             'new_thread' => $request->input('new_thread')
         ];
 

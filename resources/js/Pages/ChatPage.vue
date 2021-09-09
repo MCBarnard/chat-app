@@ -50,7 +50,7 @@
             </div>
             <div v-else-if="showThread && !loaded" class="chat-page-section__right">
                 <!--            Add some cool loader here...-->
-                <message-loader />
+<!--                <message-loader />-->
             </div>
             <div v-else-if="!showThread" class="chat-page-section__right">
                 <chat-info-page />
@@ -86,15 +86,32 @@ export default {
             searchInput: "",
             activeChatName: "",
             threads: [],
-            messages: []
+            messages: [],
+            activeThreadId: ""
         };
+    },
+    watch: {
+        threadId() {
+            this.activeThreadId = this.$route.params.threadId;
+        },
+        threads(val) {
+            let hasNotification = false;
+            val.forEach(item => {
+                if (item.hasNotification) {
+                    hasNotification = true;
+                }
+            });
+            if (!hasNotification) {
+                this.$store.dispatch("ACT_NEW_UNREAD_MESSAGE", false);
+            }
+        }
     },
     computed: {
         showThread() {
-            return typeof this.$route.params.threadId !== "undefined";
+            return typeof this.activeThreadId !== "undefined";
         },
         activeThread() {
-            return this.$route.params.threadId;
+            return parseInt(this.activeThreadId);
         },
         cleanThread() {
             return false;
@@ -104,16 +121,18 @@ export default {
         }
     },
     async mounted() {
-        await this.fetchThreads(parseInt(this.$route.params.threadId));
+        this.activeThreadId = this.$route.params.threadId;
+        await this.fetchThreads(parseInt(this.activeThreadId));
         if (this.showThread) {
-            this.setActiveThread(parseInt(this.$route.params.threadId));
+            this.setActiveThread(parseInt(this.activeThreadId));
             await this.fetchThreadMessages();
+            this.scrollToBottom();
         }
     },
     methods: {
         setActiveThread(id) {
             this.threads.forEach(item => {
-                if (item.threadId === id) {
+                if (parseInt(item.threadId) === parseInt(id)) {
                     this.activeChatName = item.name;
                     item.active = true;
                 } else {
@@ -137,22 +156,35 @@ export default {
             });
         },
         threadSelected(id) {
-            if (parseInt(this.$route.params.threadId) !== id) {
+            if (parseInt(this.activeThreadId) !== id) {
                 this.setActiveThread(id)
                 this.$router.push({ name: 'chat-page', params: { threadId: id } });
+                this.activeThreadId = id;
                 this.fetchThreadMessages();
+                this.removeMessageNotification(id);
+                this.setThreadMessagesRead();
             }
+        },
+        removeMessageNotification (id) {
+            this.threads.forEach(item => {
+                if (item.threadId === id) {
+                    item.hasNotification = false;
+                }
+            })
         },
         searchForContact() {
             console.log(this.searchInput);
         },
+        async setThreadMessagesRead() {
+            await axios.get(`/data/messages/${this.activeThreadId}/read`);
+        },
         async fetchThreadMessages() {
             this.loaded = false;
-            await axios.get(`/data/messages/${this.activeThread}`)
+            await axios.get(`/data/messages/${this.activeThreadId}`)
                 .then(response => {
                     if(response.status === 200) {
-                        console.log(response)
-                        this.messages = response.data;
+                        this.messages = response.data.messages;
+                        this.hasUnread = response.data.hasUnread;
                         this.loaded = true;
                     }
                 }).catch(error => {
@@ -160,27 +192,36 @@ export default {
                 });
         },
         async submitNewMessage() {
-            this.loaded = false;
             const message = {
                 message: this.newMessage,
                 recipient: this.activeThread,
-                new_thread: this.cleanThread
+                new_thread: this.cleanThread,
+                owner: true,
+                picture: this.$store.getters.getUserAccount.profilePicture,
+                user: this.$store.getters.getUserAccount.username
             }
             await axios.post("/data/messages/new", message).then(response => {
                 if (response.status === 201) {
-                    this.loaded = true;
-                    this.pushNewMessage(message);
+                    const data = {
+                        ...message,
+                        messageId: response.data.id
+                    };
+                    this.pushNewMessage(data);
                     this.newMessage = "";
                 }
             });
         },
         pushNewMessage(item) {
             this.messages.push({
-                id: item.id,
+                id: item.messageId,
                 message: item.message,
-                username: item.username,
-                owner: item.owner
+                username: item.user,
+                owner: item.owner,
+                picture: item.picture
             });
+            setTimeout(() => {
+                this.scrollToBottom();
+            }, 200);
         }
     }
 }
@@ -270,11 +311,12 @@ export default {
             box-shadow: 0 0 20px -12px #000000;
             z-index: 2;
             position: relative;
+            background: #ffffff;
         }
 
         &__messages {
             width: 100%;
-            height: calc(100% - 30px);
+            height: calc(100% - 80px);
             overflow: auto;
             position: relative;
         }

@@ -241,6 +241,7 @@ export default {
             console.log("Start thread with connection-id: ", obj);
         },
         goToThread (id) {
+            this.$router.push({ name: 'chat-page', params: { threadId: id } });
             console.log("Go to thread: ", id);
         },
         blockThread (id) {
@@ -251,6 +252,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+* {
+    -webkit-font-smoothing: antialiased!important;
+}
+
 .contacts-page {
     background: #eff3ff;
     min-height: 100vh;

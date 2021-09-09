@@ -30,7 +30,11 @@ export const globalMixin = {
         },
         scrollToBottom() {
             const inner = document.querySelector('.chat-page-section__right__messages');
-            inner.scrollTop = inner.scrollHeight;
+            console.log(inner?.scrollTop)
+            console.log(inner?.scrollHeight)
+            console.log("--------------")
+            document.querySelector('.chat-page-section__right__messages').scrollTop = inner?.scrollHeight;
+            console.log(inner?.scrollTop)
         },
         logout() {
             axios.get("/logout").then(() => {

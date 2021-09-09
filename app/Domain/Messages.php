@@ -2,6 +2,7 @@
 
 namespace App\Domain;
 
+use App\Events\NewMessageEvent;
 use App\Models\Message;
 use App\Models\Thread;
 use App\Models\User;
@@ -17,16 +18,34 @@ class Messages
     public function createNewMessage($messageObject) {
         Log::info(__METHOD__ . " : BOF");
 
+
+        // Check if contact exists in contact list
+        $user = Auth::user();
+
+        if(!$user) {
+            Log::info(__METHOD__ . " : EOF");
+            return response("You need to be logged in!", ResponseAlias::HTTP_UNAUTHORIZED);
+        }
+
         // Find or create Thread
         if ($messageObject['new_thread']) {
-            $thread = Thread::where('participants', json_encode(array(Auth::user()->id, $messageObject['recipient'])))->first();
+            $contacts = json_decode($user->contacts->users);
+            $receiver = User::where('connection_id', $messageObject['recipient'])->first();
+
+            if (!in_array($receiver->id, $contacts)) {
+                Log::info(__METHOD__ . " : EOF");
+                return response("You are not connected to the recipient of this message", ResponseAlias::HTTP_BAD_REQUEST);
+            }
+
+            $recipient = User::where('connection_id', $messageObject['recipient'])->first();
+            $thread = Thread::where('participants', json_encode(array(Auth::user()->id, $recipient->id)))->first();
 
             if (blank($thread)) {
                 $thread = Thread::create([
-                    'participants' => array(Auth::user()->id, $messageObject['recipient'])
+                    'participants' => array(Auth::user()->id, $recipient->id)
                 ]);
 
-                $users = [Auth::user()->id, $messageObject['recipient']];
+                $users = [Auth::user()->id, $recipient->id];
                 foreach ($users as $item) {
                     $user = User::find($item);
                     $userThread = $user->threads;
@@ -35,19 +54,43 @@ class Messages
                     $user->save();
                 }
             }
+
+            // create message
+            $message = Message::create([
+                                           'creator_id' => Auth::user()->id,
+                                           'thread_id' => $thread->id,
+                                           'message' => $messageObject['message'],
+                                       ]);
+
+            Log::debug("broadcast!");
+            NewMessageEvent::dispatch($message, $recipient);
+            Log::debug("done broadcasting!!!");
+
         } else {
             $thread = Thread::find($messageObject['recipient']);
             if (!$thread) {
                 return response("Thread does not exist! Could not create message", ResponseAlias::HTTP_NOT_FOUND);
             }
-        }
+            // create message
+            $message = Message::create([
+                                           'creator_id' => Auth::user()->id,
+                                           'thread_id' => $thread->id,
+                                           'message' => $messageObject['message'],
+                                       ]);
 
-        // create message
-        $message = Message::create([
-            'creator_id' => Auth::user()->id,
-            'thread_id' => $thread->id,
-            'message' => $messageObject['message'],
-        ]);
+            foreach($thread->participants as $recipientId) {
+                $recipient = User::find($recipientId);
+                Log::debug("========================");
+                Log::debug(print_r($recipient->id, true));
+                Log::debug(print_r(Auth::user()->id, true));
+                Log::debug("========================");
+                if ($recipient->id != Auth::user()->id) {
+                    Log::debug("broadcast!");
+                    NewMessageEvent::dispatch($message, $recipient);
+                    Log::debug("done broadcasting!!!");
+                }
+            }
+        }
 
         // save message and thread
         Log::info(__METHOD__ . " : EOF");
@@ -79,5 +122,17 @@ class Messages
 
         Log::info(__METHOD__ . " : EOF");
         return response("Message deleted successfully!", ResponseAlias::HTTP_UNAUTHORIZED);
+    }
+
+    public function fetchLastMessages($threadId) {
+        Log::info(__METHOD__ . " : BOF");
+        $data = [
+            ['id' => 1, 'message'=> "", 'name'=>"fred", 'owner'=>Auth::user()->id, "picture"=> ""],
+            ['id' => 1, 'message'=> "", 'name'=>"fred", 'owner'=>Auth::user()->id, "picture"=> ""],
+            ['id' => 1, 'message'=> "", 'name'=>"fred", 'owner'=>Auth::user()->id, "picture"=> ""],
+            ['id' => 1, 'message'=> "", 'name'=>"fred", 'owner'=>Auth::user()->id, "picture"=> ""],
+        ];
+        Log::info(__METHOD__ . " : EOF");
+        return $data;
     }
 }
