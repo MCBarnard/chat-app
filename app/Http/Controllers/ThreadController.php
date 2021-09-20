@@ -24,17 +24,6 @@ class ThreadController extends Controller
                'name' => 'required|string',
                'owner' => 'required|string'
         ]);
-
-        // Check if users are contacts
-        $user = Auth::user();
-
-        // ToDo:: Solve this...
-        // create new thread for both users and update their threads field
-
-        // save message to thread
-//        Thread::create([
-//
-//                       ]);
         Log::info(__METHOD__ . " : EOF");
         return response('Successfully created the thread', ResponseAlias::HTTP_CREATED);
     }

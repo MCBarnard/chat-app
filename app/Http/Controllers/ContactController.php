@@ -28,10 +28,6 @@ class ContactController extends Controller
         } else {
             foreach ($contacts as $contact) {
                 $user = User::find($contact);
-                // ToDo:: Add thread functionality
-                Log::debug("================||==============");
-                Log::debug(print_r($user->threads, true));
-                Log::debug("==========||====================");
                 $threadId = null;
                 foreach ($user->threads as $thread) {
                     Log::debug(print_r($thread, true));
@@ -41,13 +37,8 @@ class ContactController extends Controller
                         Log::debug("found!!");
                         $threadId = $currentThread->id;
                     }
-//                    $threads = Thread::where('participants', [Auth::user()->id, $user->id])
-//                        ->orWhere('participants', [$user->id, Auth::user()->id])->first();
-//                    if ($threads) {
-//                        Log::debug("found!!");
-//                    }
                 }
-//                $threads = "";
+
                 array_push($payload, [
                     'name' => $user->name,
                     'image' => $user->profile_picture,

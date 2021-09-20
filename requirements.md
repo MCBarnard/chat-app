@@ -16,7 +16,7 @@
 
 ![#1589F0](https://via.placeholder.com/15/1589F0/000000?text=+) Move testing api to web routes and connect frontend
 
-![#1589F0](https://via.placeholder.com/15/1589F0/000000?text=+) Frontend Touch up after joining functionality to application (ToDos)
+![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) ~~Frontend Touch up after joining functionality to application (ToDos)~~
 
 ![#1589F0](https://via.placeholder.com/15/1589F0/000000?text=+) Create profile page
 
