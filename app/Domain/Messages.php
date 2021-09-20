@@ -62,9 +62,7 @@ class Messages
                                            'message' => $messageObject['message'],
                                        ]);
 
-            Log::debug("broadcast!");
             NewMessageEvent::dispatch($message, $recipient);
-            Log::debug("done broadcasting!!!");
 
         } else {
             $thread = Thread::find($messageObject['recipient']);
@@ -78,18 +76,7 @@ class Messages
                                            'message' => $messageObject['message'],
                                        ]);
 
-            foreach($thread->participants as $recipientId) {
-                $recipient = User::find($recipientId);
-                Log::debug("========================");
-                Log::debug(print_r($recipient->id, true));
-                Log::debug(print_r(Auth::user()->id, true));
-                Log::debug("========================");
-                if ($recipient->id != Auth::user()->id) {
-                    Log::debug("broadcast!");
-                    NewMessageEvent::dispatch($message, $recipient);
-                    Log::debug("done broadcasting!!!");
-                }
-            }
+            NewMessageEvent::dispatch($message, Auth::user());
         }
 
         // save message and thread

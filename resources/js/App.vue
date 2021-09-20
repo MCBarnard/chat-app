@@ -26,7 +26,7 @@ export default {
             canSubscribe: false
         };
     },
-    async beforeCreate() {
+    async mounted() {
         this.loaded = false;
         await axios.get("/account-details").then(response => {
             this.$store.dispatch("ACT_ACCOUNT_AUTHED", true);
@@ -35,12 +35,10 @@ export default {
             this.$store.dispatch("ACT_ACCOUNT_THREADS", response.data.threads);
             this.$store.dispatch("ACT_ACCOUNT_EMAIL", response.data.email);
             this.$store.dispatch("ACT_ACCOUNT_PICTURE", this.pictureOrDefaultPicture(response.data.profile_picture));
-            // this.loaded = true;
+            this.loaded = true;
         }).catch(error => {
             console.error(error.response.message)
         });
-    },
-    async mounted() {
         // this.testNotificationAnimations();
         await this.checkForNotifications();
     },
@@ -80,12 +78,14 @@ export default {
                     useTLS: true,
                     csrfToken: window.options.csrfToken
                 })
-
-                console.log('messages.' + this.$store.getters.getUserAccount.user_id)
                 window.Echo.private('messages.' + this.$store.getters.getUserAccount.user_id)
-                    .listen('NewMessageEvent', data => {
-                        console.log("in here!")
-                        console.log(data)
+                    .listen('NewMessageEvent', () => {
+                        const path = this.$route.name;
+                        if (path === "chat-landing" || path === "chat-page") {
+                            this.$store.dispatch("ACT_NEW_UNREAD_MESSAGE", false);
+                        } else {
+                            this.$store.dispatch("ACT_NEW_UNREAD_MESSAGE", true);
+                        }
                     });
             }
         }

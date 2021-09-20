@@ -39,8 +39,8 @@ const account = {
         ACT_ACCOUNT_USERNAME (state, authed) {
             state.commit("SET_ACCOUNT_USERNAME", authed);
         },
-        ACT_ACCOUNT_USER_ID (state, authed) {
-            state.commit("SET_ACCOUNT_USER_ID", authed);
+        ACT_ACCOUNT_USER_ID (state, id) {
+            state.commit("SET_ACCOUNT_USER_ID", id);
         },
         ACT_ACCOUNT_THREADS (state, authed) {
             state.commit("SET_ACCOUNT_THREADS", authed);

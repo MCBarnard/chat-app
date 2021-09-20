@@ -23,7 +23,7 @@
                               :active="thread.active"
                               @threadSelected="threadSelected($event)" />
             </div>
-            <div v-if="showThread && loaded" class="chat-page-section__right">
+            <div v-if="showThread && loaded && canSubscribe" class="chat-page-section__right">
                 <div class="active-thread-user">
                     {{ activeChatName }}
                 </div>
@@ -48,8 +48,8 @@
                     </button>
                 </form>
             </div>
-            <div v-else-if="showThread && !loaded" class="chat-page-section__right">
-                <!--            Add some cool loader here...-->
+            <div v-else-if="showThread && !loaded || !canSubscribe" class="chat-page-section__right">
+<!--                            Add some cool loader here...-->
 <!--                <message-loader />-->
             </div>
             <div v-else-if="!showThread" class="chat-page-section__right">
@@ -67,6 +67,7 @@ import ContactPill from "../Components/ContactPill";
 import MessageLoader from "../Components/MessageLoader";
 import ChatInfoPage from "./ChatInfo";
 import AlertComponent from "../Components/AlertComponent";
+import Echo from "laravel-echo";
 
 export default {
     name: "ChatPage",
@@ -87,10 +88,56 @@ export default {
             activeChatName: "",
             threads: [],
             messages: [],
-            activeThreadId: ""
+            activeThreadId: "",
+            canSubscribe: false
         };
     },
     watch: {
+        storeUserId(val) {
+            if (typeof val !== "undefined" && parseInt(val) > 0) {
+                this.canSubscribe = true;
+            }
+        },
+        canSubscribe (val) {
+            if (val) {
+                window.Echo = new Echo({
+                    broadcaster: 'pusher',
+                    key: '89e04b143c11e803ee52',
+                    cluster: 'ap2',
+                    useTLS: true,
+                    csrfToken: window.options.csrfToken
+                })
+
+                window.Echo.private('messages.' + this.$store.getters.getUserAccount.user_id)
+                    .listen('NewMessageEvent', data => {
+                        this.threads.forEach(item => {
+                            if (data.thread === parseInt(item.threadId)) {
+                                item.lastMessage = data.message;
+                            }
+                        })
+                        if (parseInt(data.thread) === parseInt(this.activeThreadId)) {
+                            this.pushNewMessage({
+                                messageId: parseInt(data.id),
+                                message: data.message,
+                                user: data.username,
+                                owner: false,
+                                picture: data.picture
+                            });
+                            // Remove notification
+                            if (!this.$store.getters.getNewUnreadMessages) {
+                                this.$store.dispatch("ACT_NEW_UNREAD_MESSAGES", false);
+                            }
+                            this.$store.dispatch("ACT_NEW_UNREAD_MESSAGE", false);
+                        } else {
+                            this.threads.forEach(item => {
+                                if (data.thread === parseInt(item.threadId)) {
+                                    item.hasNotification = true;
+                                }
+                            })
+                        }
+                    });
+            }
+        },
         threadId() {
             this.activeThreadId = this.$route.params.threadId;
         },
@@ -107,6 +154,9 @@ export default {
         }
     },
     computed: {
+        storeUserId () {
+            return this.$store.getters.getUserAccount.user_id
+        },
         showThread() {
             return typeof this.activeThreadId !== "undefined";
         },
@@ -126,7 +176,12 @@ export default {
         if (this.showThread) {
             this.setActiveThread(parseInt(this.activeThreadId));
             await this.fetchThreadMessages();
-            this.scrollToBottom();
+            setTimeout(() => {
+                this.scrollToBottom();
+            }, 300);
+        }
+        if (this.storeUserId) {
+            this.canSubscribe = true;
         }
     },
     methods: {
@@ -161,8 +216,11 @@ export default {
                 this.$router.push({ name: 'chat-page', params: { threadId: id } });
                 this.activeThreadId = id;
                 this.fetchThreadMessages();
-                this.removeMessageNotification(id);
-                this.setThreadMessagesRead();
+                setTimeout(() => {
+                    this.scrollToBottom();
+                    this.removeMessageNotification(id);
+                    this.setThreadMessagesRead();
+                }, 300);
             }
         },
         removeMessageNotification (id) {
@@ -221,7 +279,7 @@ export default {
             });
             setTimeout(() => {
                 this.scrollToBottom();
-            }, 200);
+            }, 300);
         }
     }
 }

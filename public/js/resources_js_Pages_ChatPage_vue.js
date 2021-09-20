@@ -376,6 +376,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Components_MessageLoader__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Components/MessageLoader */ "./resources/js/Components/MessageLoader.vue");
 /* harmony import */ var _ChatInfo__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./ChatInfo */ "./resources/js/Pages/ChatInfo.vue");
 /* harmony import */ var _Components_AlertComponent__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Components/AlertComponent */ "./resources/js/Components/AlertComponent.vue");
+/* harmony import */ var laravel_echo__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! laravel-echo */ "./node_modules/laravel-echo/dist/echo.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -456,6 +457,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "ChatPage",
   components: {
@@ -475,10 +477,59 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       activeChatName: "",
       threads: [],
       messages: [],
-      activeThreadId: ""
+      activeThreadId: "",
+      canSubscribe: false
     };
   },
   watch: {
+    storeUserId: function storeUserId(val) {
+      if (typeof val !== "undefined" && parseInt(val) > 0) {
+        this.canSubscribe = true;
+      }
+    },
+    canSubscribe: function canSubscribe(val) {
+      var _this = this;
+
+      if (val) {
+        window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_8__.default({
+          broadcaster: 'pusher',
+          key: '89e04b143c11e803ee52',
+          cluster: 'ap2',
+          useTLS: true,
+          csrfToken: window.options.csrfToken
+        });
+        window.Echo["private"]('messages.' + this.$store.getters.getUserAccount.user_id).listen('NewMessageEvent', function (data) {
+          _this.threads.forEach(function (item) {
+            if (data.thread === parseInt(item.threadId)) {
+              item.lastMessage = data.message;
+            }
+          });
+
+          if (parseInt(data.thread) === parseInt(_this.activeThreadId)) {
+            _this.pushNewMessage({
+              messageId: parseInt(data.id),
+              message: data.message,
+              user: data.username,
+              owner: false,
+              picture: data.picture
+            }); // Remove notification
+
+
+            if (!_this.$store.getters.getNewUnreadMessages) {
+              _this.$store.dispatch("ACT_NEW_UNREAD_MESSAGES", false);
+            }
+
+            _this.$store.dispatch("ACT_NEW_UNREAD_MESSAGE", false);
+          } else {
+            _this.threads.forEach(function (item) {
+              if (data.thread === parseInt(item.threadId)) {
+                item.hasNotification = true;
+              }
+            });
+          }
+        });
+      }
+    },
     threadId: function threadId() {
       this.activeThreadId = this.$route.params.threadId;
     },
@@ -496,6 +547,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   computed: {
+    storeUserId: function storeUserId() {
+      return this.$store.getters.getUserAccount.user_id;
+    },
     showThread: function showThread() {
       return typeof this.activeThreadId !== "undefined";
     },
@@ -510,32 +564,39 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   mounted: function mounted() {
-    var _this = this;
+    var _this2 = this;
 
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              _this.activeThreadId = _this.$route.params.threadId;
+              _this2.activeThreadId = _this2.$route.params.threadId;
               _context.next = 3;
-              return _this.fetchThreads(parseInt(_this.activeThreadId));
+              return _this2.fetchThreads(parseInt(_this2.activeThreadId));
 
             case 3:
-              if (!_this.showThread) {
+              if (!_this2.showThread) {
                 _context.next = 8;
                 break;
               }
 
-              _this.setActiveThread(parseInt(_this.activeThreadId));
+              _this2.setActiveThread(parseInt(_this2.activeThreadId));
 
               _context.next = 7;
-              return _this.fetchThreadMessages();
+              return _this2.fetchThreadMessages();
 
             case 7:
-              _this.scrollToBottom();
+              setTimeout(function () {
+                _this2.scrollToBottom();
+              }, 300);
 
             case 8:
+              if (_this2.storeUserId) {
+                _this2.canSubscribe = true;
+              }
+
+            case 9:
             case "end":
               return _context.stop();
           }
@@ -545,11 +606,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   methods: {
     setActiveThread: function setActiveThread(id) {
-      var _this2 = this;
+      var _this3 = this;
 
       this.threads.forEach(function (item) {
         if (parseInt(item.threadId) === parseInt(id)) {
-          _this2.activeChatName = item.name;
+          _this3.activeChatName = item.name;
           item.active = true;
         } else {
           item.active = false;
@@ -557,7 +618,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     fetchThreads: function fetchThreads() {
-      var _this3 = this;
+      var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
@@ -576,7 +637,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                       active: false
                     });
                   });
-                  _this3.threads = freshThreads;
+                  _this4.threads = freshThreads;
                 });
 
               case 2:
@@ -588,6 +649,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     threadSelected: function threadSelected(id) {
+      var _this5 = this;
+
       if (parseInt(this.activeThreadId) !== id) {
         this.setActiveThread(id);
         this.$router.push({
@@ -598,8 +661,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         });
         this.activeThreadId = id;
         this.fetchThreadMessages();
-        this.removeMessageNotification(id);
-        this.setThreadMessagesRead();
+        setTimeout(function () {
+          _this5.scrollToBottom();
+
+          _this5.removeMessageNotification(id);
+
+          _this5.setThreadMessagesRead();
+        }, 300);
       }
     },
     removeMessageNotification: function removeMessageNotification(id) {
@@ -613,7 +681,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       console.log(this.searchInput);
     },
     setThreadMessagesRead: function setThreadMessagesRead() {
-      var _this4 = this;
+      var _this6 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
@@ -621,7 +689,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context3.prev = _context3.next) {
               case 0:
                 _context3.next = 2;
-                return axios.get("/data/messages/".concat(_this4.activeThreadId, "/read"));
+                return axios.get("/data/messages/".concat(_this6.activeThreadId, "/read"));
 
               case 2:
               case "end":
@@ -632,23 +700,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     fetchThreadMessages: function fetchThreadMessages() {
-      var _this5 = this;
+      var _this7 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                _this5.loaded = false;
+                _this7.loaded = false;
                 _context4.next = 3;
-                return axios.get("/data/messages/".concat(_this5.activeThreadId)).then(function (response) {
+                return axios.get("/data/messages/".concat(_this7.activeThreadId)).then(function (response) {
                   if (response.status === 200) {
-                    _this5.messages = response.data.messages;
-                    _this5.hasUnread = response.data.hasUnread;
-                    _this5.loaded = true;
+                    _this7.messages = response.data.messages;
+                    _this7.hasUnread = response.data.hasUnread;
+                    _this7.loaded = true;
                   }
                 })["catch"](function (error) {
-                  _this5.useAlert(true, error.response, "danger");
+                  _this7.useAlert(true, error.response, "danger");
                 });
 
               case 3:
@@ -660,7 +728,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     submitNewMessage: function submitNewMessage() {
-      var _this6 = this;
+      var _this8 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
         var message;
@@ -669,12 +737,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context5.prev = _context5.next) {
               case 0:
                 message = {
-                  message: _this6.newMessage,
-                  recipient: _this6.activeThread,
-                  new_thread: _this6.cleanThread,
+                  message: _this8.newMessage,
+                  recipient: _this8.activeThread,
+                  new_thread: _this8.cleanThread,
                   owner: true,
-                  picture: _this6.$store.getters.getUserAccount.profilePicture,
-                  user: _this6.$store.getters.getUserAccount.username
+                  picture: _this8.$store.getters.getUserAccount.profilePicture,
+                  user: _this8.$store.getters.getUserAccount.username
                 };
                 _context5.next = 3;
                 return axios.post("/data/messages/new", message).then(function (response) {
@@ -683,9 +751,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                       messageId: response.data.id
                     });
 
-                    _this6.pushNewMessage(data);
+                    _this8.pushNewMessage(data);
 
-                    _this6.newMessage = "";
+                    _this8.newMessage = "";
                   }
                 });
 
@@ -698,7 +766,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     pushNewMessage: function pushNewMessage(item) {
-      var _this7 = this;
+      var _this9 = this;
 
       this.messages.push({
         id: item.messageId,
@@ -708,8 +776,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         picture: item.picture
       });
       setTimeout(function () {
-        _this7.scrollToBottom();
-      }, 200);
+        _this9.scrollToBottom();
+      }, 300);
     }
   }
 });
@@ -2134,7 +2202,7 @@ var render = function() {
               2
             ),
             _vm._v(" "),
-            _vm.showThread && _vm.loaded
+            _vm.showThread && _vm.loaded && _vm.canSubscribe
               ? _c("div", { staticClass: "chat-page-section__right" }, [
                   _c("div", { staticClass: "active-thread-user" }, [
                     _vm._v(
@@ -2231,7 +2299,7 @@ var render = function() {
                     ]
                   )
                 ])
-              : _vm.showThread && !_vm.loaded
+              : (_vm.showThread && !_vm.loaded) || !_vm.canSubscribe
               ? _c("div", { staticClass: "chat-page-section__right" })
               : !_vm.showThread
               ? _c(

@@ -1895,7 +1895,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       canSubscribe: false
     };
   },
-  beforeCreate: function beforeCreate() {
+  mounted: function mounted() {
     var _this = this;
 
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
@@ -1916,37 +1916,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 _this.$store.dispatch("ACT_ACCOUNT_EMAIL", response.data.email);
 
-                _this.$store.dispatch("ACT_ACCOUNT_PICTURE", _this.pictureOrDefaultPicture(response.data.profile_picture)); // this.loaded = true;
+                _this.$store.dispatch("ACT_ACCOUNT_PICTURE", _this.pictureOrDefaultPicture(response.data.profile_picture));
 
+                _this.loaded = true;
               })["catch"](function (error) {
                 console.error(error.response.message);
               });
 
             case 3:
+              _context.next = 5;
+              return _this.checkForNotifications();
+
+            case 5:
             case "end":
               return _context.stop();
           }
         }
       }, _callee);
-    }))();
-  },
-  mounted: function mounted() {
-    var _this2 = this;
-
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              _context2.next = 2;
-              return _this2.checkForNotifications();
-
-            case 2:
-            case "end":
-              return _context2.stop();
-          }
-        }
-      }, _callee2);
     }))();
   },
   computed: {
@@ -1977,6 +1963,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     },
     canSubscribe: function canSubscribe(val) {
+      var _this2 = this;
+
       if (val) {
         window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_3__.default({
           broadcaster: 'pusher',
@@ -1985,10 +1973,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           useTLS: true,
           csrfToken: window.options.csrfToken
         });
-        console.log('messages.' + this.$store.getters.getUserAccount.user_id);
-        window.Echo["private"]('messages.' + this.$store.getters.getUserAccount.user_id).listen('NewMessageEvent', function (data) {
-          console.log("in here!");
-          console.log(data);
+        window.Echo["private"]('messages.' + this.$store.getters.getUserAccount.user_id).listen('NewMessageEvent', function () {
+          var path = _this2.$route.name;
+
+          if (path === "chat-landing" || path === "chat-page") {
+            _this2.$store.dispatch("ACT_NEW_UNREAD_MESSAGE", false);
+          } else {
+            _this2.$store.dispatch("ACT_NEW_UNREAD_MESSAGE", true);
+          }
         });
       }
     }
@@ -1997,12 +1989,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     checkForNotifications: function checkForNotifications() {
       var _this3 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
-                _context3.next = 2;
+                _context2.next = 2;
                 return axios.get("/data/threads").then(function (response) {
                   var hasNewMessage = false;
                   response.data.forEach(function (item) {
@@ -2017,7 +2009,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 });
 
               case 2:
-                _context3.next = 4;
+                _context2.next = 4;
                 return axios.get("/data/connection-requests").then(function (response) {
                   if (response.data.length > 0) {
                     _this3.$store.dispatch("ACT_NEW_CONNECTION_REQUEST", true);
@@ -2028,10 +2020,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 4:
               case "end":
-                return _context3.stop();
+                return _context2.stop();
             }
           }
-        }, _callee3);
+        }, _callee2);
       }))();
     },
     testNotificationAnimations: function testNotificationAnimations() {
@@ -2260,11 +2252,10 @@ var globalMixin = {
     },
     scrollToBottom: function scrollToBottom() {
       var inner = document.querySelector('.chat-page-section__right__messages');
-      console.log(inner === null || inner === void 0 ? void 0 : inner.scrollTop);
-      console.log(inner === null || inner === void 0 ? void 0 : inner.scrollHeight);
-      console.log("--------------");
-      document.querySelector('.chat-page-section__right__messages').scrollTop = inner === null || inner === void 0 ? void 0 : inner.scrollHeight;
-      console.log(inner === null || inner === void 0 ? void 0 : inner.scrollTop);
+
+      if (inner) {
+        inner.scrollTop = inner === null || inner === void 0 ? void 0 : inner.scrollHeight;
+      }
     },
     logout: function logout() {
       axios.get("/logout").then(function () {
@@ -2526,8 +2517,8 @@ var account = {
     ACT_ACCOUNT_USERNAME: function ACT_ACCOUNT_USERNAME(state, authed) {
       state.commit("SET_ACCOUNT_USERNAME", authed);
     },
-    ACT_ACCOUNT_USER_ID: function ACT_ACCOUNT_USER_ID(state, authed) {
-      state.commit("SET_ACCOUNT_USER_ID", authed);
+    ACT_ACCOUNT_USER_ID: function ACT_ACCOUNT_USER_ID(state, id) {
+      state.commit("SET_ACCOUNT_USER_ID", id);
     },
     ACT_ACCOUNT_THREADS: function ACT_ACCOUNT_THREADS(state, authed) {
       state.commit("SET_ACCOUNT_THREADS", authed);

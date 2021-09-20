@@ -26,7 +26,7 @@ class MessageController extends Controller
     public function view($thread)
     {
         Log::info(__METHOD__ . " : BOF");
-        $messages = Message::where('thread_id', $thread)->limit(100)->get();
+        $messages = Message::where('thread_id', $thread)->latest('created_at')->limit(100)->get();
         $data = [];
 
         foreach($messages as $msg) {
@@ -39,6 +39,7 @@ class MessageController extends Controller
                 'picture' => $user->profile_picture
             ]);
         }
+        $data = array_reverse($data);
         Log::info(__METHOD__ . " : EOF");
         return response(['messages' => $data], ResponseAlias::HTTP_OK);
     }
