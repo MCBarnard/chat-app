@@ -1,4 +1,4 @@
-------------------------------- NOTES TO MYSELF! -------------------------------------------
+<!-- ------------------------------- NOTES TO MYSELF! -------------------------------------------
 # Development
 ## V1
 
@@ -26,7 +26,7 @@ $crypt->decrypt('hashedValue');
 * Store the chat keys in a local storage extension?
 
 * while developing, store keys in a db table where we can later move the functionality to the user side
-----------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------- -->
 # Chat App
 An online chat platform
 
