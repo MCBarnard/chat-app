@@ -32,14 +32,16 @@ An online chat platform
 
 ## Setup locally
 * `git clone`
+* `composer install`
 * `php artisan key:generate`
 * `php artisan migrate`
+* `npm install`
+* `npm run dev`
+* `php artisan serve`
 ----------------------------
 ##### Optional to add Users
 * `php artisan db:seed --class=CreateUsersSeeder`
 ----------------------------
-* `npm install`
-* `npm run dev`
 
 ## Users (Seeded)
 

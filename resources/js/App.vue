@@ -34,6 +34,7 @@ export default {
             this.$store.dispatch("ACT_ACCOUNT_USER_ID", response.data.user_id);
             this.$store.dispatch("ACT_ACCOUNT_THREADS", response.data.threads);
             this.$store.dispatch("ACT_ACCOUNT_EMAIL", response.data.email);
+            this.$store.dispatch("ACT_ACCOUNT_CONNECTION_ID", response.data.connection_id);
             this.$store.dispatch("ACT_ACCOUNT_PICTURE", this.pictureOrDefaultPicture(response.data.profile_picture));
             this.loaded = true;
         }).catch(error => {
@@ -87,6 +88,15 @@ export default {
                             this.$store.dispatch("ACT_NEW_UNREAD_MESSAGE", true);
                         }
                     });
+
+                window.Echo.private('connections.' + this.$store.getters.getUserAccount.user_id)
+                    .listen('NewConnectionRequestEvent', () => {
+                        this.getConnectionRequests();
+                    });
+                window.Echo.private('connections-accepted.' + this.$store.getters.getUserAccount.user_id)
+                    .listen('ConnectionRequestAcceptedEvent', () => {
+                        this.$store.dispatch("ACT_NEW_CONNECTION_REQUEST", true);
+                    });
             }
         }
     },
@@ -105,16 +115,19 @@ export default {
                 }
             });
             // Check connection Requests
+
+
+            // Check profile notifications
+
+            // Check Settings notifications
+        },
+        async getConnectionRequests() {
             await axios.get("/data/connection-requests").then(response => {
                 if (response.data.length > 0) {
                     this.$store.dispatch("ACT_NEW_CONNECTION_REQUEST", true);
                     this.$store.dispatch("ACT_NEW_CONNECTION_REQUESTS", response.data);
                 }
             });
-
-            // Check profile notifications
-
-            // Check Settings notifications
         },
         testNotificationAnimations() {
 

@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Domain\ConnectionRequests;
+use App\Events\ConnectionRequestAcceptedEvent;
+use App\Events\NewConnectionRequestEvent;
+use App\Events\NewMessageEvent;
 use App\Models\ConnectionRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -84,12 +87,14 @@ class ConnectionRequestController extends Controller
         }
 
         // Create Request
-        ConnectionRequest::create([
+        $connectionRequest = ConnectionRequest::create([
             'owner' => $owner_id,
             'recipient' => $recipient->id,
             'message' => $request->input('message'),
             'state' => 0
         ]);
+
+        NewConnectionRequestEvent::dispatch($connectionRequest, $recipient->id);
 
         Log::info(__METHOD__ . " : EOF");
         return response("Successfully created connection request!", ResponseAlias::HTTP_CREATED);
@@ -147,6 +152,7 @@ class ConnectionRequestController extends Controller
             }
         }
         $connectionRequest->save();
+        ConnectionRequestAcceptedEvent::dispatch($connectionRequest, $connectionRequest->owner);
 
         Log::info(__METHOD__ . " : EOF");
         return response($requestId, ResponseAlias::HTTP_OK);

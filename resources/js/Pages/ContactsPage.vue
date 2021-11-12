@@ -135,6 +135,9 @@ export default {
         connectionRequests() {
             return this.$store.getters.getNewConnectionRequests;
         },
+        connectionRequest() {
+            return this.$store.getters.getNewConnectionRequest;
+        },
         newChatModal() {
             return this.showNewChatStart;
         }
@@ -148,6 +151,11 @@ export default {
                 this.useAlert(true, "You don't have any connections yet.", "Asking a friend for their connection id and add them to your network", "info", false);
             } else {
                 this.useAlert(false, "", "")
+            }
+        },
+        connectionRequest (val) {
+            if (val) {
+                this.fetchContacts();
             }
         }
     },
@@ -184,6 +192,7 @@ export default {
         async fetchContacts() {
             await axios.get("/data/contacts").then(response => {
                 this.contacts = response.data;
+                this.$store.dispatch("ACT_NEW_CONNECTION_REQUEST", false);
             });
         },
         closeModal() {

@@ -619,6 +619,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     connectionRequests: function connectionRequests() {
       return this.$store.getters.getNewConnectionRequests;
     },
+    connectionRequest: function connectionRequest() {
+      return this.$store.getters.getNewConnectionRequest;
+    },
     newChatModal: function newChatModal() {
       return this.showNewChatStart;
     }
@@ -648,6 +651,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         this.useAlert(true, "You don't have any connections yet.", "Asking a friend for their connection id and add them to your network", "info", false);
       } else {
         this.useAlert(false, "", "");
+      }
+    },
+    connectionRequest: function connectionRequest(val) {
+      if (val) {
+        this.fetchContacts();
       }
     }
   },
@@ -728,6 +736,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context4.next = 2;
                 return axios.get("/data/contacts").then(function (response) {
                   _this4.contacts = response.data;
+
+                  _this4.$store.dispatch("ACT_NEW_CONNECTION_REQUEST", false);
                 });
 
               case 2:

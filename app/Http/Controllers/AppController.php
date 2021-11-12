@@ -26,7 +26,9 @@ class AppController extends Controller
             'username' => $user->name,
             'user_id' => $user->id,
             'threads' => $user->threads,
-            'email' => $user->email
+            'email' => $user->email,
+            'connection_id' => $user->connection_id,
+            'profile_picture' => $user->profile_picture,
         ];
         Log::info(__METHOD__ . " : EOF");
         return response($data, Response::HTTP_OK);

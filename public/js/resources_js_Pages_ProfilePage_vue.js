@@ -147,6 +147,53 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -159,17 +206,42 @@ __webpack_require__.r(__webpack_exports__);
     return {
       profileData: {
         picture: ""
-      }
+      },
+      hiddenText: 'Copy',
+      savedProfilePicture: false
     };
   },
+  computed: {
+    hiddenTextComputed: function hiddenTextComputed() {
+      return this.hiddenText;
+    },
+    account: function account() {
+      return this.$store.getters.getUserAccount;
+    },
+    username: function username() {
+      return this.account.username;
+    },
+    email: function email() {
+      return this.account.email;
+    },
+    connectionId: function connectionId() {
+      return this.account.connectionId;
+    },
+    profilePicture: function profilePicture() {
+      return (this === null || this === void 0 ? void 0 : this.$store.getters.getImageStorageUrl) + this.pictureOrDefaultPicture(this.account.profilePicture);
+    }
+  },
   methods: {
+    resetCopyText: function resetCopyText() {
+      this.hiddenText = 'Copy';
+    },
+    copyConnectionId: function copyConnectionId() {
+      this.copyStringToClipboard(this.connectionId);
+      this.hiddenText = 'Copied!';
+    },
     submitProfile: function submitProfile() {
       var _this = this;
 
-      // let formData = new FormData();
-      // console.log(this.profileData.picture)
-      // formData.append('image_file', this.profileData.picture);
-      // console.log(formData);
       var formData = new FormData();
       formData.append('image_file', this.profileData.picture);
       formData.append('image_name', "random_image");
@@ -179,12 +251,24 @@ __webpack_require__.r(__webpack_exports__);
         }
       }).then(function (response) {
         _this.$store.dispatch("ACT_ACCOUNT_PICTURE", response.data);
+
+        _this.savedProfilePicture = true;
       })["catch"](function (error) {
         console.error(error.response.data);
       });
     },
     profilePictureSelected: function profilePictureSelected() {
       this.profileData.picture = this.$refs.profile_image.files[0];
+
+      if (FileReader) {
+        var fr = new FileReader();
+
+        fr.onload = function () {
+          document.getElementById('profile_preview').src = fr.result;
+        };
+
+        fr.readAsDataURL(this.$refs.profile_image.files[0]);
+      }
     }
   }
 });
@@ -229,8 +313,9 @@ __webpack_require__.r(__webpack_exports__);
 // Imports
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap);"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".profile-page[data-v-fc86de82] {\n  background: #eff3ff;\n  min-height: 100vh;\n}\n.page-header[data-v-fc86de82] {\n  display: flex;\n  justify-content: space-between;\n  padding: 8px 20px;\n  background: #ffffff;\n  box-shadow: 0 0 20px -12px #000000;\n}\n.page-header h1[data-v-fc86de82] {\n  font-size: 24px;\n  font-weight: 500;\n  color: #2c3e4f;\n  margin: 0;\n}\n.page-header .buttons-container button[data-v-fc86de82] {\n  background: #394f65;\n  padding: 4px 16px;\n  border-radius: 5px;\n  outline: none !important;\n  cursor: pointer;\n  box-shadow: 0 0 6px -3px #2c3e4f;\n}\n.page-header .buttons-container button[data-v-fc86de82]:hover {\n  background: #2c3e4f;\n  box-shadow: 0 0 18px -10px #2c3e4f;\n}\n.page-header .buttons-container button svg[data-v-fc86de82] {\n  fill: #fff;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".profile-page[data-v-fc86de82] {\n  background: #eff3ff;\n  min-height: 100vh;\n}\n.profile-page .dormant[data-v-fc86de82] {\n  display: none;\n}\n.profile-page .show[data-v-fc86de82] {\n  display: block;\n}\n.profile-page__container[data-v-fc86de82] {\n  max-width: 992px;\n  margin: 20px auto;\n  background: #ffffff;\n  padding: 20px;\n}\n.profile-page__container__profile-picture[data-v-fc86de82] {\n  display: flex;\n  width: 100%;\n  justify-content: space-evenly;\n  position: relative;\n  margin-bottom: 32px;\n}\n.profile-page__container__profile-picture[data-v-fc86de82]:after {\n  content: \"\";\n  width: 100%;\n  max-width: 685px;\n  height: 5px;\n  border-radius: 5px;\n  background: #0f0f0f;\n  position: absolute;\n  bottom: -25px;\n}\n.profile-page__container__profile-picture form[data-v-fc86de82] {\n  display: flex;\n  padding: 0 0 0 40px;\n  flex-direction: column;\n  justify-content: center;\n}\n.profile-page__container__profile-picture label[data-v-fc86de82] {\n  display: block;\n  max-width: 200px;\n  margin: 0 auto 15px;\n  text-align: center;\n  word-wrap: break-word;\n  color: #1a4756;\n  background: #c7d6e3;\n  padding: 10px 15px;\n  font-weight: 400;\n  font-family: \"Open Sans\", sans-serif;\n  cursor: pointer;\n  transition: all 0.3s ease;\n}\n.profile-page__container__profile-picture label[data-v-fc86de82]:hover {\n  background: #bccbdb;\n}\n.profile-page__container__profile-picture input[data-v-fc86de82] {\n  display: none;\n}\n.profile-page__container__profile-picture button[data-v-fc86de82] {\n  display: block;\n  max-width: 200px;\n  margin: 0 0 15px auto;\n  text-align: center;\n  word-wrap: break-word;\n  color: #1a4756;\n  background: #ffffff;\n  border: 1px solid #c7d6e3;\n  padding: 10px 15px;\n  font-weight: 400;\n  font-family: \"Open Sans\", sans-serif;\n  cursor: pointer;\n  transition: all 0.3s ease;\n}\n.profile-page__container__profile-picture button[data-v-fc86de82]:hover {\n  background: #bccbdb;\n}\n.profile-page__container__profile-picture__inner[data-v-fc86de82] {\n  border-radius: 50%;\n  width: 170px;\n  height: 170px;\n  overflow: hidden;\n  margin: auto;\n}\n.profile-page__container__profile-picture__inner img[data-v-fc86de82] {\n  width: 100%;\n  height: 100%;\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n.profile-page__container__profile-picture__outer[data-v-fc86de82] {\n  border-radius: 50%;\n  width: 200px;\n  height: 200px;\n  overflow: hidden;\n  background: #ffffff;\n  display: flex;\n  justify-content: center;\n  flex-direction: column;\n  box-shadow: -20px -18px 20px -12px #efefef, 17px 20px 20px -12px #d7d7d7;\n}\n.profile-page__container__details[data-v-fc86de82] {\n  font-family: \"Open Sans\", sans-serif;\n  max-width: 685px;\n  width: 100%;\n  margin: 50px auto auto auto;\n}\n.profile-page__container__details h3[data-v-fc86de82] {\n  font-weight: 600;\n}\n.profile-page__container__details #card-content[data-v-fc86de82] {\n  display: block;\n}\n.profile-page__container__details #card-content h2[data-v-fc86de82], .profile-page__container__details #card-content h4[data-v-fc86de82] {\n  margin: 0 0 5px 0;\n}\n.profile-page__container__details #card-content h4[data-v-fc86de82] {\n  display: inline-block;\n  width: 50%;\n  float: left;\n  line-height: 42px;\n  height: 42px;\n}\n.profile-page__container__details #card-content table[data-v-fc86de82], .profile-page__container__details #card-content tr[data-v-fc86de82], .profile-page__container__details #card-content td[data-v-fc86de82] {\n  display: block;\n  font-size: 16px;\n}\n.profile-page__container__details #card-content td[data-v-fc86de82] {\n  padding: 7px 10px 7px 10px;\n  border-top: 1px solid #e3e3e3;\n  line-height: 42px;\n}\n.profile-page__container__details #card-content td > address[data-v-fc86de82] {\n  line-height: initial;\n}\n.profile-page__container__details #card-content td[data-v-fc86de82]:empty {\n  display: none;\n}\n.profile-page__container__details #card-content .connection-id[data-v-fc86de82] {\n  cursor: pointer;\n  font-weight: 600;\n  position: relative;\n}\n.profile-page__container__details #card-content .connection-id .hidden-text[data-v-fc86de82] {\n  position: absolute;\n  top: -45px;\n  left: 50%;\n  transform: translateX(-50%);\n  padding: 10px;\n  background: #f0f0f0;\n  border: 1px solid #f5f5f5;\n  text-align: center;\n  font-weight: 400;\n  font-size: 14px;\n  opacity: 0;\n  border-radius: 4px;\n  transition: opacity 0.6s ease;\n  line-height: 14px;\n}\n.profile-page__container__details #card-content .connection-id:hover .hidden-text[data-v-fc86de82] {\n  opacity: 0.8;\n}\n.page-header[data-v-fc86de82] {\n  display: flex;\n  justify-content: space-between;\n  padding: 8px 20px;\n  background: #ffffff;\n  box-shadow: 0 0 20px -12px #000000;\n}\n.page-header h1[data-v-fc86de82] {\n  font-size: 24px;\n  font-weight: 500;\n  color: #2c3e4f;\n  margin: 0;\n}\n.page-header .buttons-container button[data-v-fc86de82] {\n  background: #394f65;\n  padding: 4px 16px;\n  border-radius: 5px;\n  outline: none !important;\n  cursor: pointer;\n  box-shadow: 0 0 6px -3px #2c3e4f;\n}\n.page-header .buttons-container button[data-v-fc86de82]:hover {\n  background: #2c3e4f;\n  box-shadow: 0 0 18px -10px #2c3e4f;\n}\n.page-header .buttons-container button svg[data-v-fc86de82] {\n  fill: #fff;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -706,47 +791,145 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "profile-page" },
-    [
-      _vm._m(0),
-      _vm._v(" "),
-      _c("alert-component", {
-        attrs: {
-          message: "This looks weird right now...",
-          subtitle:
-            "We currently built this to be able to upload a profile picture and test the functionality, styling will come soon",
-          variant: "warning",
-          dismissible: false,
-          "slide-in": false
-        }
-      }),
-      _vm._v(" "),
-      _c(
-        "form",
-        {
-          attrs: { action: "#" },
-          on: {
-            submit: function($event) {
-              $event.preventDefault()
-              return _vm.submitProfile.apply(null, arguments)
-            }
+  return _c("div", { staticClass: "profile-page" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "profile-page__container" },
+      [
+        _c("alert-component", {
+          attrs: {
+            message: "This looks weird right now...",
+            subtitle: "We are currently developing this section",
+            variant: "info",
+            dismissible: true,
+            "slide-in": true
           }
-        },
-        [
-          _c("input", {
-            ref: "profile_image",
-            attrs: { type: "file", placeholder: "Submit an Image" },
-            on: { change: _vm.profilePictureSelected }
-          }),
+        }),
+        _vm._v(" "),
+        _c("alert-component", {
+          staticClass: "dormant",
+          class: [{ show: _vm.savedProfilePicture }],
+          attrs: {
+            message: "Successfully saved!",
+            subtitle: "Your profile picture has been saved.",
+            variant: "success",
+            dismissible: true,
+            "slide-in": _vm.savedProfilePicture
+          }
+        }),
+        _vm._v(" "),
+        _c("div", { staticClass: "profile-page__container__profile-picture" }, [
+          _c(
+            "div",
+            { staticClass: "profile-page__container__profile-picture__outer" },
+            [
+              _c(
+                "div",
+                {
+                  staticClass: "profile-page__container__profile-picture__inner"
+                },
+                [
+                  _c("img", {
+                    ref: "profile_preview",
+                    attrs: {
+                      src: this.profilePicture,
+                      id: "profile_preview",
+                      alt: "User profile picture"
+                    }
+                  })
+                ]
+              )
+            ]
+          ),
           _vm._v(" "),
-          _c("button", { attrs: { type: "submit" } }, [_vm._v("Submit")])
-        ]
-      )
-    ],
-    1
-  )
+          _c(
+            "form",
+            {
+              attrs: { action: "#" },
+              on: {
+                submit: function($event) {
+                  $event.preventDefault()
+                  return _vm.submitProfile.apply(null, arguments)
+                }
+              }
+            },
+            [
+              _c("label", { attrs: { for: "profile-picture-input" } }, [
+                _vm._v(
+                  "\n                    Change profile picture\n                "
+                )
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                ref: "profile_image",
+                attrs: {
+                  id: "profile-picture-input",
+                  type: "file",
+                  placeholder: "Submit an Image"
+                },
+                on: { change: _vm.profilePictureSelected }
+              }),
+              _vm._v(" "),
+              _c("button", { attrs: { type: "submit" } }, [
+                _vm._v("Save Picture")
+              ])
+            ]
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "profile-page__container__details" }, [
+          _c("div", { attrs: { id: "card-content" } }, [
+            _c("h2", [_vm._v("Account Details")]),
+            _vm._v(" "),
+            _c("table", [
+              _c("tr", [
+                _c("td", [
+                  _c("h4", [_vm._v("Full Name")]),
+                  _vm._v(" "),
+                  _c("span", [_vm._v(_vm._s(_vm.username))])
+                ]),
+                _vm._v(" "),
+                _c("td", [
+                  _c("h4", [_vm._v("Email")]),
+                  _vm._v(" "),
+                  _c("span", [_vm._v(_vm._s(_vm.email))])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _c("td", [
+                  _c("h4", [_vm._v("Connection ID")]),
+                  _vm._v(" "),
+                  _c(
+                    "span",
+                    {
+                      staticClass: "connection-id",
+                      on: {
+                        mouseover: _vm.resetCopyText,
+                        click: _vm.copyConnectionId
+                      }
+                    },
+                    [
+                      _vm._v(
+                        _vm._s(_vm.connectionId) +
+                          "\n                                "
+                      ),
+                      _c("span", { staticClass: "hidden-text" }, [
+                        _vm._v(_vm._s(_vm.hiddenTextComputed))
+                      ])
+                    ]
+                  )
+                ])
+              ])
+            ])
+          ])
+        ])
+      ],
+      1
+    )
+  ])
 }
 var staticRenderFns = [
   function() {

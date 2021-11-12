@@ -1916,6 +1916,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 _this.$store.dispatch("ACT_ACCOUNT_EMAIL", response.data.email);
 
+                _this.$store.dispatch("ACT_ACCOUNT_CONNECTION_ID", response.data.connection_id);
+
                 _this.$store.dispatch("ACT_ACCOUNT_PICTURE", _this.pictureOrDefaultPicture(response.data.profile_picture));
 
                 _this.loaded = true;
@@ -1982,6 +1984,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             _this2.$store.dispatch("ACT_NEW_UNREAD_MESSAGE", true);
           }
         });
+        window.Echo["private"]('connections.' + this.$store.getters.getUserAccount.user_id).listen('NewConnectionRequestEvent', function () {
+          _this2.getConnectionRequests();
+        });
+        window.Echo["private"]('connections-accepted.' + this.$store.getters.getUserAccount.user_id).listen('ConnectionRequestAcceptedEvent', function () {
+          _this2.$store.dispatch("ACT_NEW_CONNECTION_REQUEST", true);
+        });
       }
     }
   },
@@ -2009,16 +2017,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 });
 
               case 2:
-                _context2.next = 4;
-                return axios.get("/data/connection-requests").then(function (response) {
-                  if (response.data.length > 0) {
-                    _this3.$store.dispatch("ACT_NEW_CONNECTION_REQUEST", true);
-
-                    _this3.$store.dispatch("ACT_NEW_CONNECTION_REQUESTS", response.data);
-                  }
-                });
-
-              case 4:
               case "end":
                 return _context2.stop();
             }
@@ -2026,47 +2024,72 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2);
       }))();
     },
-    testNotificationAnimations: function testNotificationAnimations() {
+    getConnectionRequests: function getConnectionRequests() {
       var _this4 = this;
 
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return axios.get("/data/connection-requests").then(function (response) {
+                  if (response.data.length > 0) {
+                    _this4.$store.dispatch("ACT_NEW_CONNECTION_REQUEST", true);
+
+                    _this4.$store.dispatch("ACT_NEW_CONNECTION_REQUESTS", response.data);
+                  }
+                });
+
+              case 2:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
+    },
+    testNotificationAnimations: function testNotificationAnimations() {
+      var _this5 = this;
+
       setTimeout(function () {
-        _this4.newUnreadMessage();
+        _this5.newUnreadMessage();
       }, 1000);
       setTimeout(function () {
-        _this4.newConnectionRequest();
+        _this5.newConnectionRequest();
       }, 2000);
       setTimeout(function () {
-        _this4.newSettingsNotification();
+        _this5.newSettingsNotification();
       }, 3000); // ==================================
 
       setTimeout(function () {
-        _this4.noNewUnreadMessage();
+        _this5.noNewUnreadMessage();
       }, 4000);
       setTimeout(function () {
-        _this4.noNewConnectionRequest();
+        _this5.noNewConnectionRequest();
       }, 5000);
       setTimeout(function () {
-        _this4.noNewSettingsNotification();
+        _this5.noNewSettingsNotification();
       }, 6000); // ==================================
 
       setTimeout(function () {
-        _this4.newUnreadMessage();
+        _this5.newUnreadMessage();
       }, 7000);
       setTimeout(function () {
-        _this4.newConnectionRequest();
+        _this5.newConnectionRequest();
       }, 8000);
       setTimeout(function () {
-        _this4.newSettingsNotification();
+        _this5.newSettingsNotification();
       }, 9000); // ==================================
 
       setTimeout(function () {
-        _this4.noNewUnreadMessage();
+        _this5.noNewUnreadMessage();
       }, 10000);
       setTimeout(function () {
-        _this4.noNewConnectionRequest();
+        _this5.noNewConnectionRequest();
       }, 11000);
       setTimeout(function () {
-        _this4.noNewSettingsNotification();
+        _this5.noNewSettingsNotification();
       }, 12000); // ==================================
     }
   }
@@ -2262,6 +2285,25 @@ var globalMixin = {
         console.log("logging-out");
       });
       window.location = "/login";
+    },
+    copyStringToClipboard: function copyStringToClipboard(str) {
+      // Create new element
+      var el = document.createElement('textarea'); // Set value (string to be copied)
+
+      el.value = str; // Set non-editable to avoid focus and move outside of view
+
+      el.setAttribute('readonly', '');
+      el.style = {
+        position: 'absolute',
+        left: '-9999px'
+      };
+      document.body.appendChild(el); // Select text inside element
+
+      el.select(); // Copy text to clipboard
+
+      document.execCommand('copy'); // Remove temporary element
+
+      document.body.removeChild(el);
     },
     newUnreadMessage: function newUnreadMessage() {
       this.$store.dispatch("ACT_NEW_UNREAD_MESSAGE", true);
@@ -2482,7 +2524,8 @@ var account = {
       user_id: undefined,
       threads: undefined,
       email: undefined,
-      profilePicture: undefined
+      profilePicture: undefined,
+      connectionId: undefined
     }
   },
   getters: {
@@ -2508,6 +2551,9 @@ var account = {
     },
     SET_ACCOUNT_PICTURE: function SET_ACCOUNT_PICTURE(state, payload) {
       state.userAccount.profilePicture = payload;
+    },
+    SET_ACCOUNT_CONNECTION_ID: function SET_ACCOUNT_CONNECTION_ID(state, payload) {
+      state.userAccount.connectionId = payload;
     }
   },
   actions: {
@@ -2528,6 +2574,9 @@ var account = {
     },
     ACT_ACCOUNT_PICTURE: function ACT_ACCOUNT_PICTURE(state, picture) {
       state.commit("SET_ACCOUNT_PICTURE", picture);
+    },
+    ACT_ACCOUNT_CONNECTION_ID: function ACT_ACCOUNT_CONNECTION_ID(state, number) {
+      state.commit("SET_ACCOUNT_CONNECTION_ID", number);
     }
   }
 };

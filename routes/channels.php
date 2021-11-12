@@ -21,3 +21,11 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 Broadcast::channel('messages.{id}', function ($user) {
     return (int) $user->id === Auth::user()->id;
 });
+
+Broadcast::channel('connections.{id}', function ($user) {
+    return (int) $user->id === Auth::user()->id;
+});
+
+Broadcast::channel('connections-accepted.{id}', function ($user) {
+    return (int) $user->id === Auth::user()->id;
+});
